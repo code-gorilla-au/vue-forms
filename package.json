@@ -5,7 +5,9 @@
   "description": "form authoring light weight framework",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "lint": "eslint . --ext .ts",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "repository": {
     "type": "git",
