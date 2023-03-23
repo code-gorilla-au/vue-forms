@@ -17,9 +17,6 @@
       "forceConsistentCasingInFileNames": true,
       "esModuleInterop": true,
       "paths": {
-        "@components": [
-          "packages/vue/src/components/*"
-        ]
       },
       "types": [
         "node",
@@ -27,6 +24,6 @@
         "vitest/globals",
       ]
     },
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules"],
   }
   

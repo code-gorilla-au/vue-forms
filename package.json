@@ -1,9 +1,10 @@
 {
   "private": true,
-  "name": "vue-forms",
-  "version": "0.0.1",
+  "workspaces": [
+    "packages/*",
+    "examples"
+  ],
   "description": "form authoring light weight framework",
-  "main": "index.js",
   "scripts": {
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint --fix . --ext .ts",
