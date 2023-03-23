@@ -9,7 +9,8 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint --fix . --ext .ts",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "dev": "vite --config ./examples/vite.config.ts --host"
   },
   "repository": {
     "type": "git",
@@ -38,5 +39,8 @@
     "typescript": "^5.0.2",
     "vitest": "^0.29.7"
   },
-  "packageManager": "yarn@3.5.0"
+  "packageManager": "yarn@3.5.0",
+  "dependencies": {
+    "vite": "^4.2.1"
+  }
 }
