@@ -1,17 +1,19 @@
 <script lang="ts">
-  import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive } from 'vue';
+import { VFormContext } from '../use/forms';
 
-  export default defineComponent({
-    name: 'VForm',
-    setup() {
-      const formCtx = reactive({})
+export default defineComponent({
+  name: 'VForm',
+  setup() {
+    const formCtx: VFormContext = reactive({
+      data: {},
+    });
 
-      return {
-        formCtx,
-      };
-    },
-  });
-
+    return {
+      formCtx,
+    };
+  },
+});
 </script>
 
 <template>
