@@ -4,7 +4,7 @@
   export default defineComponent({
     name: 'VForm',
     setup() {
-      const formCtx = reactive({});
+      const formCtx = reactive({})
 
       return {
         formCtx,

@@ -1,10 +1,6 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  plugins: [
-    'prettier',
-    '@typescript-eslint/eslint-plugin',
-    'eslint-plugin-tsdoc',
-  ],
+  plugins: ['@typescript-eslint/eslint-plugin', 'eslint-plugin-tsdoc'],
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
@@ -13,9 +9,16 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  rules: {
-    'prettier/prettier': ['error'],
-  },
-  ignorePatterns: ['dist.*'],
-  overrides: [],
+  rules: {},
+  ignorePatterns: ['dist'],
+  overrides: [
+    {
+      files: '*.vue',
+      extends: [
+        'plugin:vue/vue3-recommended',
+        'eslint:recommended',
+        '@vue/typescript/recommended',
+      ],
+    },
+  ],
 };
