@@ -5,4 +5,4 @@ export interface VFormData {
 export interface VFormContext {
   data: VFormData;
 }
-const KEY_V_FORM = Symbol('--v-form-context');
+export const KEY_V_FORM_CONTEXT = Symbol('--v-form-context');
