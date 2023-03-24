@@ -1,23 +1,41 @@
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
-import { VFormContext } from '../use/forms';
+import { defineComponent, reactive, readonly } from 'vue';
+import { createFormContext, VFormContext, VFormData } from '../use/forms';
 
 export default defineComponent({
   name: 'VForm',
-  setup() {
-    const formCtx: VFormContext = reactive({
-      data: {},
-    });
+  emits: {
+    /**
+     * form submit event
+     */
+    submit: null,
+  },
+  setup(_, { emit }) {
+    const formData: VFormData = reactive({});
+
+    const ctx: VFormContext = {
+      data: readonly(formData),
+      updateDataProperty(key, value) {
+        formData[key] = value;
+      },
+    };
+
+    createFormContext(ctx);
+
+    function emitSubmit() {
+      emit('submit', formData);
+    }
 
     return {
-      formCtx,
+      ctx,
+      emitSubmit,
     };
   },
 });
 </script>
 
 <template>
-  <form>
-    <slot :ctx="formCtx" />
+  <form @submit.prevent="emitSubmit">
+    <slot :ctx="ctx" />
   </form>
 </template>

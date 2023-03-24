@@ -1,21 +1,21 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import VForm from '@vue-forms/vue-forms/src/components/v-form.vue';
+import { VForm, VInput } from '@vue-forms/vue-forms/src/index';
 
 export default defineComponent({
   name: 'App',
-  components: {VForm},
+  components: { VForm, VInput },
 });
 </script>
 
 <template>
   <div>
     <h1>Hello</h1>
-    <VForm v-slot="{ctx}">
+    <VForm v-slot="{ ctx }">
       <p>context {{ ctx }}</p>
       <label>
         input
-        <input v-model="ctx">
+        <VInput name="gobbie" />
       </label>
     </VForm>
   </div>
