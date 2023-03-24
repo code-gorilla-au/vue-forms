@@ -20,5 +20,8 @@
     "bugs": {
         "url": "https://github.com/code-gorilla-au/vue-forms/issues"
     },
-    "homepage": "https://github.com/code-gorilla-au/vue-forms#readme"
+    "homepage": "https://github.com/code-gorilla-au/vue-forms#readme",
+    "peerDependencies": {
+        "vue": "^3.2.1"
+    }
 }
