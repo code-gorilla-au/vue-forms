@@ -15,7 +15,7 @@ export default defineComponent({
       <p>context {{ ctx }}</p>
       <label>
         input
-        <input v-model="ctx"/>
+        <input v-model="ctx">
       </label>
     </VForm>
   </div>
