@@ -22,12 +22,15 @@ export default defineComponent({
     'update:modelValue': null,
   },
   setup(props, { emit }) {
-    const ctx = useFormContext('v-input');
+    const ctx = useFormContext();
 
     function emitModelValue(event: Event) {
       const target = event.target as HTMLInputElement;
-      ctx.updateDataProperty(props.name, target.value);
-      if (props.modelValue) {
+
+      if (ctx) {
+        ctx.updateDataProperty(props.name, target.value);
+      }
+      if (props?.modelValue) {
         emit('update:modelValue', target.value);
       }
     }

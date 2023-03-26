@@ -2,36 +2,42 @@
 import { defineComponent } from 'vue';
 import { VForm, VInput } from '@vue-forms/vue-forms/src/index';
 
+interface userForm {
+  firstName: string;
+}
+
 export default defineComponent({
   name: 'App',
   components: { VForm, VInput },
+  setup() {
+    async function handleSubmit(formData: userForm) {
+      console.log('foo', formData);
+    }
+
+    return {
+      handleSubmit,
+    };
+  },
 });
 </script>
 
 <template>
   <div>
     <h1>Hello</h1>
-    <VForm v-slot="{ ctx }">
+    <VForm v-slot="{ ctx }" class="test-form" @submit="handleSubmit">
       <p>context {{ ctx }}</p>
       <label>
         input
-        <VInput name="gobbie" />
+        <VInput name="firstName" />
       </label>
+      <button>submit form</button>
     </VForm>
   </div>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.test-form {
+  display: flex;
+  flex-direction: column;
 }
 </style>
