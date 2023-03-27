@@ -1,9 +1,4 @@
-import {
-  computed,
-  reactive,
-  unref,
-  ComponentPublicInstance,
-} from 'vue';
+import { computed, reactive, unref, ComponentPublicInstance } from 'vue';
 import { MaybeElementRef, VueInstance } from './common-types';
 
 export interface UseInputOpts {
