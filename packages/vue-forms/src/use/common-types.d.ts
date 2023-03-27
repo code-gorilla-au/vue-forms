@@ -7,6 +7,7 @@ export type MaybeElementRef<T extends MaybeElement = MaybeElement> =
 
 export type MaybeElement =
   | HTMLElement
+  | HTMLInputElement
   | SVGElement
   | ComponentPublicInstance
   | undefined

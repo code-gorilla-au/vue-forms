@@ -18,7 +18,8 @@ export interface VFormNodes {
   [key: string]: VFormNode;
 }
 
-export interface VFormContext {
+export interface VFormContextApi {
+  readonly nodes: VFormNodes;
   readonly data: VFormData;
   /**
    * update the data property.
@@ -26,13 +27,13 @@ export interface VFormContext {
    * @param value value of the data property to update
    */
   // eslint-disable-next-line no-unused-vars
-  updateDataProperty(key: string, value: string): void;
-  registerNode(id: string): void;
+  updateDataProperty(key: string, value: string | number): void;
+  registerNode(id: string, node: VFormNode): void;
 }
 
-function useFormApi(initFormData = {}) {
+function useFormApi(initFormData = {}): VFormContextApi {
   if (typeof initFormData !== 'object') {
-    throw new Error('initFormData is valid');
+    throw new Error('initFormData is not valid');
   }
 
   const formNodes: VFormNodes = reactive({});
@@ -50,7 +51,7 @@ function useFormApi(initFormData = {}) {
       formData[id] = '';
       formNodes[id] = node;
     },
-    updateDataProperty(key: string, value: string) {
+    updateDataProperty(key: string, value: string | number) {
       formData[key] = value;
     },
   };
@@ -62,10 +63,12 @@ const KEY_V_FORM_CONTEXT = Symbol('--v-form-context');
  *
  * @param ctx provide form context to child inputs
  */
-export function provideFormContext(ctx: VFormContext): void {
-  provide(KEY_V_FORM_CONTEXT, ctx);
+export function createFormContext(initFormData: object = {}) {
+  const api = useFormApi(initFormData);
+  provide(KEY_V_FORM_CONTEXT, api);
+  return api;
 }
 
-export function useFormContext(): VFormContext | undefined {
+export function useFormContext(): VFormContextApi | undefined {
   return inject(KEY_V_FORM_CONTEXT);
 }

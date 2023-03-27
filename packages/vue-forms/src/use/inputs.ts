@@ -1,37 +1,103 @@
-import { computed, reactive, unref, ComponentPublicInstance, watch } from 'vue';
-import { MaybeElementRef, VueInstance } from './common-types';
+import { computed, onMounted, reactive, readonly, Ref, watch } from 'vue';
+import { useFormContext } from './forms';
+import { MaybeElement } from './common-types';
+import { resoleUnref, unrefHasElement } from './refs';
 
 export interface UseInputOpts {
-  customMessage: boolean;
+  initModelValue?: string | number;
+  customValidation?: boolean;
 }
 
 export function useInputs(
-  inputRef: MaybeElementRef<HTMLElement | ComponentPublicInstance>,
+  inputRef: Ref<MaybeElement>,
+  opts: UseInputOpts = {},
 ) {
-  const inputState = reactive({
+  const formContext = useFormContext();
+
+  const state = reactive({
+    id: '',
+    name: '',
     required: false,
     disabled: false,
     focused: false,
     dirty: false,
     valid: true,
     validationMessage: '',
-    value: '',
+    value: opts?.initModelValue || '',
   });
 
-  const hasInput = computed(() => {
-    const rawEl = unref(inputRef);
-    const el = (rawEl as VueInstance)?.$el ?? rawEl;
-    return el !== undefined;
+  state.dirty = (opts?.initModelValue && opts.initModelValue !== '') as boolean;
+
+  const hasInput = computed(() => unrefHasElement(inputRef));
+
+  onMounted(() => {
+    const rawEl = resoleUnref(inputRef);
+    if (!rawEl) {
+      return;
+    }
+    const el = rawEl as HTMLInputElement;
+    state.id = el.id;
+    state.name = el.name;
+    if (formContext) {
+      formContext.updateDataProperty(state.name, state.value);
+    }
   });
+
+  watch(
+    () => {
+      return state.value;
+    },
+    (newValue) => {
+      if (formContext) {
+        formContext.updateDataProperty(state.name, newValue);
+      }
+    },
+  );
+
+  function onFocus() {
+    state.focused = true;
+    state.dirty = true;
+    state.valid = true;
+    state.validationMessage = '';
+  }
+
+  function onBlur(event: Event) {
+    const target = event.target as HTMLInputElement;
+
+    state.focused = false;
+    state.dirty = target?.value !== '';
+    state.valid = target?.checkValidity();
+  }
+
+  function onInvalid(event: Event) {
+    const target = event.target as HTMLInputElement;
+    state.validationMessage = target.validationMessage;
+  }
+
+  function onInput(event: Event) {
+    const target = event.target as HTMLInputElement;
+    state.value = target.value;
+  }
+
+  function onChange(event: Event) {
+    onInput(event);
+  }
+
+  function focusInputRef() {
+    const el = resoleUnref(inputRef);
+    if (el) {
+      (el as HTMLElement).focus();
+    }
+  }
 
   return {
-    required: inputState.required,
-    disabled: inputState.disabled,
-    dirty: inputState.dirty,
-    focused: inputState.focused,
-    valid: inputState.valid,
-    validationMessage: inputState.validationMessage,
-    value: inputState.value,
+    state: readonly(state),
     hasInput,
+    onInput,
+    onChange,
+    onBlur,
+    onFocus,
+    onInvalid,
+    focusInputRef,
   };
 }

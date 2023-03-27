@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import { useFormContext } from '../use/forms';
 import { useInputs } from '../use/inputs';
 
@@ -23,24 +23,27 @@ export default defineComponent({
     'update:modelValue': null,
   },
   setup(props, { emit }) {
-    const inputRef: Ref<HTMLElement | null> = ref(null);
+    const inputRef = ref(null);
     const formApi = useFormContext();
-    const inputs = useInputs(inputRef);
+    const inputs = useInputs(inputRef, { initModelValue: props.modelValue });
 
-    function emitModelValue(event: Event) {
-      const target = event.target as HTMLInputElement;
-
-      if (formApi) {
-        formApi.updateDataProperty(props.name, target.value);
-      }
-      if (props?.modelValue) {
-        emit('update:modelValue', target.value);
-      }
-    }
+    watch(
+      () => {
+        return inputs.state.value;
+      },
+      (newValue) => {
+        if (formApi) {
+          formApi.updateDataProperty(props.name, newValue as string);
+        }
+        if (props?.modelValue) {
+          emit('update:modelValue', newValue);
+        }
+      },
+    );
 
     return {
-      emitModelValue,
       inputRef,
+      inputs,
     };
   },
 });
@@ -50,7 +53,11 @@ export default defineComponent({
   <input
     ref="inputRef"
     :name="name"
-    :value="modelValue"
-    @input="emitModelValue"
+    :value="inputs.state.value"
+    @input="inputs.onInput"
+    @blur="inputs.onBlur"
+    @focus="inputs.onFocus"
+    @invalid="inputs.onInvalid"
   />
+  <p>validation {{ inputs.state.validationMessage }}</p>
 </template>

@@ -24,11 +24,13 @@ export default defineComponent({
 <template>
   <div>
     <h1>Hello</h1>
-    <VForm v-slot="{ ctx }" class="test-form" @submit="handleSubmit">
-      <p>context {{ ctx }}</p>
+    <VForm v-slot="{ formData }" class="test-form" @submit="handleSubmit">
+      <code>
+        {{ formData }}
+      </code>
       <label>
         input
-        <VInput name="firstName" />
+        <VInput name="firstName" modelValue="fast" />
       </label>
       <button>submit form</button>
     </VForm>
@@ -39,5 +41,12 @@ export default defineComponent({
 .test-form {
   display: flex;
   flex-direction: column;
+  width: 400px;
+}
+code {
+  background-color: black;
+  display: block;
+  padding: 1rem;
+  margin: 1rem 0rem;
 }
 </style>
