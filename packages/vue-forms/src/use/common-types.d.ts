@@ -1,3 +1,15 @@
-import { Ref } from 'vue';
+import { Ref, ComponentPublicInstance } from 'vue';
 
-export type MaybeRef<T> = Ref<T | null> | T;
+export type MaybeRef<T> = Ref<T> | T;
+
+export type MaybeElementRef<T extends MaybeElement = MaybeElement> =
+  MaybeRef<T>;
+
+export type MaybeElement =
+  | HTMLElement
+  | SVGElement
+  | ComponentPublicInstance
+  | undefined
+  | null;
+
+export type VueInstance = ComponentPublicInstance;

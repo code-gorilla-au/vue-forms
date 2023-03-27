@@ -1,15 +1,19 @@
-import { computed, reactive, unref } from 'vue';
-import { MaybeRef } from './common-types';
+import {
+  computed,
+  reactive,
+  unref,
+  ComponentPublicInstance,
+} from 'vue';
+import { MaybeElementRef, VueInstance } from './common-types';
 
 export interface UseInputOpts {
   customMessage: boolean;
 }
 
 export function useInputs(
-  inputRef: MaybeRef<HTMLInputElement>,
+  inputRef: MaybeElementRef<HTMLElement | ComponentPublicInstance>,
   opts: UseInputOpts,
 ) {
-
   const inputState = reactive({
     focused: false,
     dirty: false,
@@ -19,6 +23,13 @@ export function useInputs(
 
   const hasInput = computed(() => {
     const rawEl = unref(inputRef);
-    const el = rawEl?.$el ?? rawEl;
+    const el = (rawEl as VueInstance)?.$el ?? rawEl;
+    return el !== undefined;
   });
+
+  return {
+    dirty: inputState.dirty,
+    focused: inputState.focused,
+    valid: inputState.valid,
+  };
 }
