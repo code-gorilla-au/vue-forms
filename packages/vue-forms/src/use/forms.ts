@@ -4,6 +4,20 @@ export interface VFormData {
   [key: string]: string | number;
 }
 
+export interface VFormNode {
+  required: boolean;
+  disabled: boolean;
+  focused: boolean;
+  dirty: boolean;
+  valid: boolean;
+  validationMessage: string;
+  value: string;
+}
+
+export interface VFormNodes {
+  [key: string]: VFormNode;
+}
+
 export interface VFormContext {
   readonly data: VFormData;
   /**
@@ -21,7 +35,7 @@ function useFormApi(initFormData = {}) {
     throw new Error('initFormData is valid');
   }
 
-  const formNodes = reactive({});
+  const formNodes: VFormNodes = reactive({});
 
   const initClone = JSON.parse(JSON.stringify(initFormData));
   const formData = reactive(initClone);
@@ -29,11 +43,12 @@ function useFormApi(initFormData = {}) {
   return {
     nodes: readonly(formNodes),
     data: readonly(formData),
-    registerNode(id: string): void {
+    registerNode(id: string, node: VFormNode): void {
       if (formNodes[id]) {
         throw Error(`${id} already exists`);
       }
       formData[id] = '';
+      formNodes[id] = node;
     },
     updateDataProperty(key: string, value: string) {
       formData[key] = value;
