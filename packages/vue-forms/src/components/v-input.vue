@@ -1,6 +1,7 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref, Ref } from 'vue';
 import { useFormContext } from '../use/forms';
+import { useInputs } from '../use/inputs';
 
 export default defineComponent({
   name: 'VInput',
@@ -22,13 +23,15 @@ export default defineComponent({
     'update:modelValue': null,
   },
   setup(props, { emit }) {
-    const ctx = useFormContext();
+    const inputRef: Ref<HTMLElement | null> = ref(null);
+    const formApi = useFormContext();
+    const inputs = useInputs(inputRef);
 
     function emitModelValue(event: Event) {
       const target = event.target as HTMLInputElement;
 
-      if (ctx) {
-        ctx.updateDataProperty(props.name, target.value);
+      if (formApi) {
+        formApi.updateDataProperty(props.name, target.value);
       }
       if (props?.modelValue) {
         emit('update:modelValue', target.value);
@@ -37,11 +40,17 @@ export default defineComponent({
 
     return {
       emitModelValue,
+      inputRef,
     };
   },
 });
 </script>
 
 <template>
-  <input :name="name" :value="modelValue" @input="emitModelValue" />
+  <input
+    ref="inputRef"
+    :name="name"
+    :value="modelValue"
+    @input="emitModelValue"
+  />
 </template>
