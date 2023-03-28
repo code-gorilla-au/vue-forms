@@ -1,7 +1,6 @@
 import { onMounted, reactive, readonly, Ref, watch } from 'vue';
 import { useFormContext } from '@use/forms';
-import { MaybeElement } from '@use/common-types';
-import { resoleUnref } from '@use/refs';
+import { resoleUnref, MaybeElement } from '@use/refs';
 
 export interface UseInputOpts {
   initModelValue?: string | number;

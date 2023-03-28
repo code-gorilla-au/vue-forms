@@ -22,6 +22,7 @@
     },
     "homepage": "https://github.com/code-gorilla-au/vue-forms#readme",
     "peerDependencies": {
+        "tailwindcss": "*",
         "vue": "^3.2.1"
     }
 }

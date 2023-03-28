@@ -1,6 +1,5 @@
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
-import { useFormContext } from '../use/forms';
 import { useInputs } from '../use/inputs';
 
 export default defineComponent({
@@ -24,7 +23,6 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const inputRef = ref(null);
-    const formApi = useFormContext();
     const inputs = useInputs(inputRef, { initModelValue: props.modelValue });
 
     watch(
@@ -32,9 +30,6 @@ export default defineComponent({
         return inputs.state.value;
       },
       (newValue) => {
-        if (formApi) {
-          formApi.updateDataProperty(props.name, newValue as string);
-        }
         if (props?.modelValue) {
           emit('update:modelValue', newValue);
         }
@@ -50,14 +45,17 @@ export default defineComponent({
 </script>
 
 <template>
-  <input
-    ref="inputRef"
-    :name="name"
-    :value="inputs.state.value"
-    @input="inputs.onInput"
-    @blur="inputs.onBlur"
-    @focus="inputs.onFocus"
-    @invalid="inputs.onInvalid"
-  />
-  <p>validation {{ inputs.state.validationMessage }}</p>
+  <div class="">
+    <input
+      ref="inputRef"
+      v-bind="$attrs"
+      :name="name"
+      :value="inputs.state.value"
+      @input="inputs.onInput"
+      @blur="inputs.onBlur"
+      @focus="inputs.onFocus"
+      @invalid="inputs.onInvalid"
+    />
+    <span> {{ inputs.state.validationMessage }}</span>
+  </div>
 </template>

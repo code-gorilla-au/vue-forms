@@ -28,9 +28,9 @@ export default defineComponent({
       <code>
         {{ formData }}
       </code>
-      <label>
+      <label class="input-label">
         input
-        <VInput name="firstName" modelValue="fast" />
+        <VInput type="number" name="firstName" />
       </label>
       <button>submit form</button>
     </VForm>
@@ -42,6 +42,10 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   width: 400px;
+}
+.input-label {
+  display: flex;
+  flex-direction: column;
 }
 code {
   background-color: black;
