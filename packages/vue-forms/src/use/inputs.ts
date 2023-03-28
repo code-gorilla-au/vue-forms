@@ -10,14 +10,24 @@ export interface UseInputOpts {
 
 /**
  * Use inputs composable governs how we react to input events and validations.
+ * use inputs state is readonly unless you wish to override it's validation.
  *
  * @example
  * ```javascript
- * // standard use
- * const inputs  = useInputs(inputRef)
+ * // general use
+ * const inputs = useInputs(inputRef);
+ *  `<input ref="inputRef" :value="inputs.state.value" @input="inputs.onInput" @input="inputs.onChange" @blur="inputs.onBlur" @focus="inputs.onFocus" @invalid="inputs.onInvalid" />`
  *
- * `<input @input=inputs.onInput= />`
  *
+ * ```
+ *
+ * ```javascript
+ * // Custom validation, state is no longer read only and limited api provided.
+ * // Checking if the input is valid, and it's validation message can be updated by changing the state.
+ * const {state} = useInputs(inputRef, { customValidation: true });
+ * state.valid = false;
+ * state.validationMessage = 'why not work?';
+ *  `<input ref="inputRef" :value="inputs.state.value" @input="inputs.onInput" @input="inputs.onChange"  />`
  * ```
  */
 export function useInputs(
@@ -132,12 +142,14 @@ export function useInputs(
   if (opts.customValidation) {
     return {
       state,
+      onInput,
+      onChange,
       focusInputRef,
     };
   }
 
   return {
-    state: opts.customValidation ? state : readonly(state),
+    state: readonly(state),
     onInput,
     onChange,
     onBlur,

@@ -51,6 +51,7 @@ export default defineComponent({
     :name="name"
     :value="inputs.state.value"
     @input="inputs.onInput"
+    @change="inputs.onChange"
     @blur="inputs.onBlur"
     @focus="inputs.onFocus"
     @invalid="inputs.onInvalid"

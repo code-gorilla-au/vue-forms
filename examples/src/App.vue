@@ -66,7 +66,7 @@ export default defineComponent({
       </label>
       <button
         :disabled="!formValid"
-        class="rounded-lg bg-slate-400 text-black font-bold p-3"
+        class="rounded-lg bg-green-400 disabled:bg-slate-500 text-black font-bold p-3"
       >
         submit form
       </button>
