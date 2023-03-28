@@ -28,9 +28,17 @@ export default defineComponent({
       <code>
         {{ formData }}
       </code>
-      <label class="input-label">
+      <label for="firstNameId" class="flex flex-col">
         input
-        <VInput type="number" name="firstName" />
+        <VInput
+          #default="{ validationMessage }"
+          id="firstNameId"
+          class="text-black"
+          type="number"
+          name="firstName"
+        >
+          <p class="text-xs">{{ validationMessage }}</p>
+        </VInput>
       </label>
       <button class="rounded-lg bg-slate-400 text-black font-bold p-3">
         submit form
@@ -44,10 +52,6 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   width: 400px;
-}
-.input-label {
-  display: flex;
-  flex-direction: column;
 }
 code {
   background-color: black;

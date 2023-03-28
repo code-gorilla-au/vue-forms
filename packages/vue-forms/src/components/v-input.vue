@@ -45,17 +45,15 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="">
-    <input
-      ref="inputRef"
-      v-bind="$attrs"
-      :name="name"
-      :value="inputs.state.value"
-      @input="inputs.onInput"
-      @blur="inputs.onBlur"
-      @focus="inputs.onFocus"
-      @invalid="inputs.onInvalid"
-    />
-    <span> {{ inputs.state.validationMessage }}</span>
-  </div>
+  <input
+    ref="inputRef"
+    v-bind="$attrs"
+    :name="name"
+    :value="inputs.state.value"
+    @input="inputs.onInput"
+    @blur="inputs.onBlur"
+    @focus="inputs.onFocus"
+    @invalid="inputs.onInvalid"
+  />
+  <slot :validationMessage="inputs.state.validationMessage" />
 </template>
