@@ -63,7 +63,6 @@ export function useInputs(
   }
 
   function onFocus() {
-
     state.focused = true;
     state.dirty = true;
   }
