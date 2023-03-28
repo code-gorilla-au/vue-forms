@@ -22,7 +22,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div>
+  <div class="h-full w-full flex flex-col items-center max-w-screen-lg mx-auto">
     <h1>Hello</h1>
     <VForm v-slot="{ formData }" class="test-form" @submit="handleSubmit">
       <code>
@@ -32,7 +32,9 @@ export default defineComponent({
         input
         <VInput type="number" name="firstName" />
       </label>
-      <button>submit form</button>
+      <button class="rounded-lg bg-slate-400 text-black font-bold p-3">
+        submit form
+      </button>
     </VForm>
   </div>
 </template>
