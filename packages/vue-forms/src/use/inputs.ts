@@ -8,10 +8,23 @@ export interface UseInputOpts {
   eagerValidation?: boolean;
 }
 
+/**
+ * Use inputs composable governs how we react to input events and validations.
+ *
+ * @example
+ * ```javascript
+ * // standard use
+ * const inputs  = useInputs(inputRef)
+ *
+ * `<input @input=inputs.onInput= />`
+ *
+ * ```
+ */
 export function useInputs(
   inputRef: Ref<MaybeElement>,
   opts: UseInputOpts = {
     initModelValue: undefined,
+    customValidation: false,
     eagerValidation: false,
   },
 ) {
@@ -116,8 +129,15 @@ export function useInputs(
     return inputRef.value;
   }, initUseInputs);
 
+  if (opts.customValidation) {
+    return {
+      state,
+      focusInputRef,
+    };
+  }
+
   return {
-    state: readonly(state),
+    state: opts.customValidation ? state : readonly(state),
     onInput,
     onChange,
     onBlur,

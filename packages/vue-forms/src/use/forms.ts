@@ -43,6 +43,13 @@ export interface VFormContextApi {
   removeValidation(field: string): void;
 }
 
+function evaluateNodeValidity(node: VFormNode) {
+  if (node.required && node.value.trim().length > 0) {
+    return true;
+  }
+  return node.valid;
+}
+
 function useFormApi(initFormData = {}): VFormContextApi {
   if (typeof initFormData !== 'object') {
     throw new Error('initFormData is not valid');
@@ -53,12 +60,7 @@ function useFormApi(initFormData = {}): VFormContextApi {
   const formData = reactive(JSON.parse(JSON.stringify(initFormData)));
 
   const formValid = computed(() => {
-    return Object.values(formNodes).every((node) => {
-      if (node.required && node.value.trim().length > 0) {
-        return true;
-      }
-      return node.valid;
-    });
+    return Object.values(formNodes).every(evaluateNodeValidity);
   });
 
   return {
