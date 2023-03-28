@@ -1,6 +1,6 @@
 <script lang="ts">
-import { defineComponent, reactive, readonly } from 'vue';
-import { createFormContext } from '../use/forms';
+import { defineComponent, PropType } from 'vue';
+import { createFormContext } from '@use/forms';
 
 export default defineComponent({
   name: 'VForm',
@@ -10,8 +10,17 @@ export default defineComponent({
      */
     submit: null,
   },
-  setup(_, { emit }) {
-    const api = createFormContext({});
+  props: {
+    initFormData: {
+      type: Object as PropType<object>,
+      required: false,
+      default: () => {
+        return {};
+      },
+    },
+  },
+  setup(props, { emit }) {
+    const api = createFormContext(props.initFormData);
 
     function emitSubmit() {
       emit('submit', { ...api.data });
