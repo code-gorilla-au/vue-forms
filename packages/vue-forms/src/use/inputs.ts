@@ -1,4 +1,4 @@
-import { reactive, readonly, Ref, watch } from 'vue';
+import { onMounted, reactive, readonly, Ref, watch } from 'vue';
 import { useFormContext } from '@use/forms';
 import { resoleUnref, MaybeElement } from '@use/refs';
 
@@ -60,6 +60,7 @@ export function useInputs(
       return;
     }
     const el = newInputRef as HTMLInputElement;
+
     state.id = el.id;
     state.name = el.name;
     state.readonly = el.readOnly;
@@ -135,9 +136,9 @@ export function useInputs(
     },
   );
 
-  watch(() => {
-    return inputRef.value;
-  }, initUseInputs);
+  onMounted(() => {
+    initUseInputs(inputRef.value);
+  });
 
   if (opts.customValidation) {
     return {

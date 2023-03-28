@@ -48,7 +48,6 @@ export default defineComponent({
           id="firstNameId"
           class="text-black"
           name="firstName"
-          required
         >
           <p class="text-xs">{{ validationMessage }}</p>
         </VInput>
