@@ -1,4 +1,4 @@
-import { onMounted, reactive, readonly, Ref, watch } from 'vue';
+import { reactive, readonly, Ref, watch } from 'vue';
 import { useFormContext, VFormNode } from '@use/forms';
 import { resoleUnref, MaybeElement } from '@use/refs';
 
@@ -21,6 +21,7 @@ export function useInputs(
     id: '',
     name: '',
     required: false,
+    readonly: false,
     disabled: false,
     focused: false,
     dirty: false,
@@ -29,24 +30,24 @@ export function useInputs(
     value: opts?.initModelValue || '',
   });
 
-  state.dirty = (opts?.initModelValue && opts.initModelValue !== '') as boolean;
+  state.dirty = state.value !== '';
 
-  function initUseInputs() {
-    const rawEl = resoleUnref(inputRef);
-    if (!rawEl) {
+  function initUseInputs(newInputRef: MaybeElement) {
+    if (!newInputRef) {
       return;
     }
-    const el = rawEl as HTMLInputElement;
+    const el = newInputRef as HTMLInputElement;
     state.id = el.id;
     state.name = el.name;
+    state.readonly = el.readOnly;
+    state.required = el.required;
+    state.valid = state.required && state.value !== '';
 
     if (formContext) {
       formContext.registerNode(state.name, state);
       formContext.updateData(state.name, state.value);
     }
   }
-
-  onMounted(initUseInputs);
 
   function onFocus() {
     state.focused = true;
@@ -75,6 +76,9 @@ export function useInputs(
   function onInput(event: Event) {
     const target = event.target as HTMLInputElement;
     state.value = target.value;
+    if (formContext) {
+      formContext.updateData(state.name, target.value);
+    }
   }
 
   function onChange(event: Event) {
@@ -100,6 +104,10 @@ export function useInputs(
       formContext.removeValidation(state.name);
     },
   );
+
+  watch(() => {
+    return inputRef.value;
+  }, initUseInputs);
 
   return {
     state: readonly(state),

@@ -25,7 +25,7 @@ export default defineComponent({
   <div class="h-full w-full flex flex-col items-center max-w-screen-lg mx-auto">
     <h1>Hello</h1>
     <VForm
-      v-slot="{ formData, validations }"
+      v-slot="{ formData, validations, formValid }"
       class="test-form"
       @submit="handleSubmit"
     >
@@ -37,6 +37,10 @@ export default defineComponent({
         validations:
         {{ validations }}
       </code>
+      <code>
+        formValid:
+        {{ formValid }}
+      </code>
       <label for="firstNameId" class="flex flex-col">
         First name
         <VInput
@@ -44,7 +48,7 @@ export default defineComponent({
           id="firstNameId"
           class="text-black"
           name="firstName"
-          type="number"
+          required
         >
           <p class="text-xs">{{ validationMessage }}</p>
         </VInput>

@@ -29,6 +29,7 @@ export default defineComponent({
     return {
       formData: api.data,
       validations: api.validations,
+      formValid: api.formValid,
       emitSubmit,
     };
   },
@@ -37,6 +38,10 @@ export default defineComponent({
 
 <template>
   <form @submit.stop.prevent="emitSubmit">
-    <slot :formData="formData" :validations="validations" />
+    <slot
+      :formData="formData"
+      :validations="validations"
+      :formValid="formValid"
+    />
   </form>
 </template>

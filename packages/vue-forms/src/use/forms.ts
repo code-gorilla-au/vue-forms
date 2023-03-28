@@ -1,4 +1,11 @@
-import { inject, provide, reactive, readonly } from 'vue';
+import {
+  inject,
+  provide,
+  reactive,
+  readonly,
+  computed,
+  ComputedRef,
+} from 'vue';
 
 export interface VFormData {
   [key: string]: string | number;
@@ -12,6 +19,7 @@ export interface VFormNode {
   id: string;
   name: string;
   required: boolean;
+  readonly: boolean;
   disabled: boolean;
   focused: boolean;
   dirty: boolean;
@@ -28,6 +36,7 @@ export interface VFormContextApi {
   readonly nodes: VFormNodes;
   readonly data: VFormData;
   readonly validations: VFormValidations;
+  readonly formValid: ComputedRef<boolean>;
   registerNode(id: string, node: VFormNode): void;
   updateData(field: string, value: string): void;
   addValidation(field: string, message: string): void;
@@ -43,10 +52,21 @@ function useFormApi(initFormData = {}): VFormContextApi {
   const formValidations = reactive<VFormValidations>({});
   const formData = reactive(JSON.parse(JSON.stringify(initFormData)));
 
+  const formValid = computed(() => {
+    return Object.values(formNodes).every((node) => {
+      if (node.required && node.value.trim().length > 0) {
+        return true;
+      }
+      return node.valid;
+    });
+  });
+
   return {
     nodes: readonly(formNodes),
     data: readonly(formData),
+    formValid,
     validations: readonly(formValidations),
+
     registerNode(id: string, node: VFormNode): void {
       if (formNodes[id]) {
         throw Error(`${id} already exists`);
