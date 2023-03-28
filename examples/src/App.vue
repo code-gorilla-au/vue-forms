@@ -64,7 +64,10 @@ export default defineComponent({
           <p class="text-xs">{{ validationMessage }}</p>
         </VInput>
       </label>
-      <button class="rounded-lg bg-slate-400 text-black font-bold p-3">
+      <button
+        :disabled="!formValid"
+        class="rounded-lg bg-slate-400 text-black font-bold p-3"
+      >
         submit form
       </button>
     </VForm>
