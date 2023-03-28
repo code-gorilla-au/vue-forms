@@ -1,5 +1,5 @@
 import { reactive, readonly, Ref, watch } from 'vue';
-import { useFormContext, VFormNode } from '@use/forms';
+import { useFormContext } from '@use/forms';
 import { resoleUnref, MaybeElement } from '@use/refs';
 
 export interface UseInputOpts {
@@ -17,7 +17,7 @@ export function useInputs(
 ) {
   const formContext = useFormContext();
 
-  const state = reactive<VFormNode>({
+  const state = reactive({
     id: '',
     name: '',
     required: false,
