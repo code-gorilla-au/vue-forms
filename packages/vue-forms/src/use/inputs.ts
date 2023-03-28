@@ -61,6 +61,9 @@ export function useInputs(
     }
     const el = newInputRef as HTMLInputElement;
 
+    console.log('required', state.required);
+    console.log('value', state.value);
+
     state.id = el.id;
     state.name = el.name;
     state.readonly = el.readOnly;

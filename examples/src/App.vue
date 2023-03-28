@@ -41,6 +41,7 @@ export default defineComponent({
         formValid:
         {{ formValid }}
       </code>
+
       <label for="firstNameId" class="flex flex-col">
         First name
         <VInput
@@ -64,8 +65,9 @@ export default defineComponent({
         </VInput>
       </label>
       <button
+        type="submit"
         :disabled="!formValid"
-        class="rounded-lg bg-green-400 disabled:bg-slate-500 text-black font-bold p-3"
+        class="rounded-lg bg-green-400 disabled:bg-slate-400 text-black font-bold p-3"
       >
         submit form
       </button>
