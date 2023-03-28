@@ -5,11 +5,15 @@ import { resoleUnref, MaybeElement } from '@use/refs';
 export interface UseInputOpts {
   initModelValue?: string | number;
   customValidation?: boolean;
+  eagerValidation?: boolean;
 }
 
 export function useInputs(
   inputRef: Ref<MaybeElement>,
-  opts: UseInputOpts = {},
+  opts: UseInputOpts = {
+    initModelValue: undefined,
+    eagerValidation: false,
+  },
 ) {
   const formContext = useFormContext();
 

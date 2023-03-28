@@ -5,6 +5,8 @@ export interface VFormData {
 }
 
 export interface VFormNode {
+  id: string;
+  name: string;
   required: boolean;
   disabled: boolean;
   focused: boolean;
