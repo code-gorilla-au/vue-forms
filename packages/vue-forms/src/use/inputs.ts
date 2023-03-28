@@ -1,7 +1,7 @@
-import { computed, onMounted, reactive, readonly, Ref, watch } from 'vue';
-import { useFormContext } from './forms';
-import { MaybeElement } from './common-types';
-import { resoleUnref, unrefHasElement } from './refs';
+import { onMounted, reactive, readonly, Ref, watch } from 'vue';
+import { useFormContext } from '@use/forms';
+import { MaybeElement } from '@use/common-types';
+import { resoleUnref } from '@use/refs';
 
 export interface UseInputOpts {
   initModelValue?: string | number;
@@ -28,9 +28,7 @@ export function useInputs(
 
   state.dirty = (opts?.initModelValue && opts.initModelValue !== '') as boolean;
 
-  const hasInput = computed(() => unrefHasElement(inputRef));
-
-  onMounted(() => {
+  function initUseInputs() {
     const rawEl = resoleUnref(inputRef);
     if (!rawEl) {
       return;
@@ -41,7 +39,9 @@ export function useInputs(
     if (formContext) {
       formContext.updateDataProperty(state.name, state.value);
     }
-  });
+  }
+
+  onMounted(initUseInputs);
 
   watch(
     () => {
@@ -92,7 +92,6 @@ export function useInputs(
 
   return {
     state: readonly(state),
-    hasInput,
     onInput,
     onChange,
     onBlur,
