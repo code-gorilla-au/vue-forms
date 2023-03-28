@@ -63,9 +63,9 @@ export function useInputs(
   }
 
   function onFocus() {
+
     state.focused = true;
     state.dirty = true;
-    state.validationMessage = '';
   }
 
   function onBlur(event: Event) {
@@ -121,6 +121,7 @@ export function useInputs(
         return;
       }
 
+      state.validationMessage = '';
       formContext.removeValidation(state.name);
     },
   );
