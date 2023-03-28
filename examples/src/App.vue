@@ -24,18 +24,38 @@ export default defineComponent({
 <template>
   <div class="h-full w-full flex flex-col items-center max-w-screen-lg mx-auto">
     <h1>Hello</h1>
-    <VForm v-slot="{ formData }" class="test-form" @submit="handleSubmit">
+    <VForm
+      v-slot="{ formData, validations }"
+      class="test-form"
+      @submit="handleSubmit"
+    >
       <code>
+        form:
         {{ formData }}
       </code>
+      <code>
+        validations:
+        {{ validations }}
+      </code>
       <label for="firstNameId" class="flex flex-col">
-        input
+        First name
         <VInput
           #default="{ validationMessage }"
           id="firstNameId"
           class="text-black"
-          type="number"
           name="firstName"
+          type="number"
+        >
+          <p class="text-xs">{{ validationMessage }}</p>
+        </VInput>
+      </label>
+      <label for="lastNameId" class="flex flex-col">
+        Last name
+        <VInput
+          #default="{ validationMessage }"
+          id="lastNameId"
+          class="text-black"
+          name="lastName"
         >
           <p class="text-xs">{{ validationMessage }}</p>
         </VInput>

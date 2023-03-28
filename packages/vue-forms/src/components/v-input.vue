@@ -10,7 +10,7 @@ export default defineComponent({
       required: true,
     },
     modelValue: {
-      type: [String, Number],
+      type: [String],
       required: false,
       default: undefined,
     },

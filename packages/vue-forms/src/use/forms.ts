@@ -4,6 +4,10 @@ export interface VFormData {
   [key: string]: string | number;
 }
 
+export interface VFormValidations {
+  [key: string]: string | undefined;
+}
+
 export interface VFormNode {
   id: string;
   name: string;
@@ -23,14 +27,11 @@ export interface VFormNodes {
 export interface VFormContextApi {
   readonly nodes: VFormNodes;
   readonly data: VFormData;
-  /**
-   * update the data property.
-   * @param key name of the data property to update
-   * @param value value of the data property to update
-   */
-  // eslint-disable-next-line no-unused-vars
-  updateDataProperty(key: string, value: string | number): void;
+  readonly validations: VFormValidations;
   registerNode(id: string, node: VFormNode): void;
+  updateData(field: string, value: string): void;
+  addValidation(field: string, message: string): void;
+  removeValidation(field: string): void;
 }
 
 function useFormApi(initFormData = {}): VFormContextApi {
@@ -38,14 +39,14 @@ function useFormApi(initFormData = {}): VFormContextApi {
     throw new Error('initFormData is not valid');
   }
 
-  const formNodes: VFormNodes = reactive({});
-
-  const initClone = JSON.parse(JSON.stringify(initFormData));
-  const formData = reactive(initClone);
+  const formNodes = reactive<VFormNodes>({});
+  const formValidations = reactive<VFormValidations>({});
+  const formData = reactive(JSON.parse(JSON.stringify(initFormData)));
 
   return {
     nodes: readonly(formNodes),
     data: readonly(formData),
+    validations: readonly(formValidations),
     registerNode(id: string, node: VFormNode): void {
       if (formNodes[id]) {
         throw Error(`${id} already exists`);
@@ -53,8 +54,14 @@ function useFormApi(initFormData = {}): VFormContextApi {
       formData[id] = '';
       formNodes[id] = node;
     },
-    updateDataProperty(key: string, value: string | number) {
-      formData[key] = value;
+    updateData(field: string, value: string) {
+      formData[field] = value;
+    },
+    addValidation(field: string, message: string) {
+      formValidations[field] = message;
+    },
+    removeValidation(field: string) {
+      formValidations[field] = undefined;
     },
   };
 }
@@ -72,5 +79,5 @@ export function createFormContext(initFormData: object = {}) {
 }
 
 export function useFormContext(): VFormContextApi | undefined {
-  return inject(KEY_V_FORM_CONTEXT);
+  return inject(KEY_V_FORM_CONTEXT, undefined);
 }
