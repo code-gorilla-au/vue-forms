@@ -60,7 +60,7 @@ export function useInputs(
 
     state.focused = false;
     state.dirty = target?.value !== '';
-    state.valid = target?.checkValidity();
+    state.valid = target.checkValidity();
   }
 
   function onInvalid(event: Event) {
@@ -75,8 +75,16 @@ export function useInputs(
   function onInput(event: Event) {
     const target = event.target as HTMLInputElement;
     state.value = target.value;
-    if (formContext) {
-      formContext.updateData(state.name, target.value);
+    state.valid = target?.checkValidity();
+
+    if (!formContext) {
+      return;
+    }
+
+    formContext.updateData(state.name, target.value);
+
+    if (opts.eagerValidation) {
+      formContext.addValidation(state.name, target.validationMessage);
     }
   }
 
