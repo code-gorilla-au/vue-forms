@@ -77,7 +77,7 @@ export default defineComponent({
           <p class="text-xs">{{ validationMessage }}</p>
         </VInput>
       </label>
-      <label for="checkboxId" class="relative">
+      <label for="checkboxId" class="relative mb-2">
         <div class="flex items-center">
           <VInput
             #default="{ validationMessage }"
