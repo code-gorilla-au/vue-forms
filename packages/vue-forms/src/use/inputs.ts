@@ -1,4 +1,4 @@
-import { reactive, readonly, Ref, watch } from 'vue';
+import { onMounted, onUpdated, reactive, readonly, Ref, watch } from 'vue';
 import { useFormContext } from '@use/forms';
 import { resoleUnref, MaybeElement } from '@use/refs';
 
@@ -55,14 +55,11 @@ export function useInputs(
 
   state.dirty = state.value !== '';
 
-  function initUseInputs(newInputRef: MaybeElement) {
+  function syncInputRef(newInputRef: MaybeElement) {
     if (!newInputRef) {
       return;
     }
     const el = newInputRef as HTMLInputElement;
-
-    console.log('required', state.required);
-    console.log('value', state.value);
 
     state.id = el.id;
     state.name = el.name;
@@ -71,6 +68,8 @@ export function useInputs(
 
     if (state.required) {
       state.valid = state.value !== '';
+    } else {
+      state.valid = true;
     }
 
     if (formContext) {
@@ -130,6 +129,14 @@ export function useInputs(
       (el as HTMLElement).focus();
     }
   }
+
+  onMounted(() => {
+    syncInputRef(inputRef.value);
+  });
+
+  onUpdated(() => {
+    syncInputRef(inputRef.value);
+  });
 
   watch(
     () => {
