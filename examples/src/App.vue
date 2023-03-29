@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { VForm, VInput } from '@vue-forms/vue-forms/src/index';
+import BasicForm from './examples/basic-form.vue';
 
 interface userForm {
   firstName: string;
@@ -8,7 +8,7 @@ interface userForm {
 
 export default defineComponent({
   name: 'App',
-  components: { VForm, VInput },
+  components: { BasicForm },
   setup() {
     async function handleSubmit(formData: userForm) {
       console.log('foo', formData);
@@ -23,55 +23,8 @@ export default defineComponent({
 
 <template>
   <div class="h-full w-full flex flex-col items-center max-w-screen-lg mx-auto">
-    <h1>Hello</h1>
-    <VForm
-      v-slot="{ formData, validations, formValid }"
-      class="test-form"
-      @submit="handleSubmit"
-    >
-      <code>
-        form:
-        {{ formData }}
-      </code>
-      <code>
-        validations:
-        {{ validations }}
-      </code>
-      <code>
-        formValid:
-        {{ formValid }}
-      </code>
-
-      <label for="firstNameId" class="flex flex-col">
-        First name
-        <VInput
-          #default="{ validationMessage }"
-          id="firstNameId"
-          class="text-black"
-          name="firstName"
-        >
-          <p class="text-xs">{{ validationMessage }}</p>
-        </VInput>
-      </label>
-      <label for="lastNameId" class="flex flex-col">
-        Last name
-        <VInput
-          #default="{ validationMessage }"
-          id="lastNameId"
-          class="text-black"
-          name="lastName"
-        >
-          <p class="text-xs">{{ validationMessage }}</p>
-        </VInput>
-      </label>
-      <button
-        type="submit"
-        :disabled="!formValid"
-        class="rounded-lg bg-green-400 disabled:bg-slate-400 text-black font-bold p-3"
-      >
-        submit form
-      </button>
-    </VForm>
+    <h1 class="text-xl my-6">Examples</h1>
+    <BasicForm />
   </div>
 </template>
 
