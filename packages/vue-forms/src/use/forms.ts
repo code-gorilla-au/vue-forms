@@ -38,6 +38,7 @@ export interface VFormContextApi {
   readonly validations: VFormValidations;
   readonly formValid: ComputedRef<boolean>;
   registerNode(id: string, node: VFormNode): void;
+  getNode(id: string): VFormNode;
   updateData(field: string, value: string): void;
   addValidation(field: string, message: string): void;
   removeValidation(field: string): void;
@@ -75,6 +76,9 @@ function useFormApi(initFormData = {}): VFormContextApi {
       }
       formData[id] = '';
       formNodes[id] = node;
+    },
+    getNode(id: string): VFormNode {
+      return formNodes[id];
     },
     updateData(field: string, value: string) {
       formData[field] = value;

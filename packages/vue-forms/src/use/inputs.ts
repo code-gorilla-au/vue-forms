@@ -1,4 +1,4 @@
-import { onMounted, reactive, readonly, Ref, watch } from 'vue';
+import { reactive, readonly, Ref, watch } from 'vue';
 import { useFormContext } from '@use/forms';
 import { resoleUnref, MaybeElement } from '@use/refs';
 
@@ -68,10 +68,16 @@ export function useInputs(
     state.name = el.name;
     state.readonly = el.readOnly;
     state.required = el.required;
-    state.valid = state.required && state.value !== '';
+
+    if (state.required) {
+      state.valid = state.value !== '';
+    }
 
     if (formContext) {
-      formContext.registerNode(state.name, state);
+      if (!formContext.getNode(state.name)) {
+        formContext.registerNode(state.name, state);
+      }
+
       formContext.updateData(state.name, state.value);
     }
   }
@@ -138,10 +144,6 @@ export function useInputs(
       formContext.removeValidation(state.name);
     },
   );
-
-  onMounted(() => {
-    initUseInputs(inputRef.value);
-  });
 
   if (opts.customValidation) {
     return {
