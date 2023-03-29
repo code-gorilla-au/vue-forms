@@ -8,6 +8,15 @@ export interface UseInputOpts {
   eagerValidation?: boolean;
 }
 
+function checkValidity(required: boolean, validState: ValidityState) {
+  if (required) {
+    return (
+      validState.valid && !validState.typeMismatch && !validState.valueMissing
+    );
+  }
+  return validState.valid && !validState.typeMismatch;
+}
+
 /**
  * Use inputs composable governs how we react to input events and validations.
  * use inputs state is readonly unless you wish to override it's validation.
@@ -65,12 +74,7 @@ export function useInputs(
     state.name = el.name;
     state.readonly = el.readOnly;
     state.required = el.required;
-
-    if (state.required) {
-      state.valid = state.value !== '';
-    } else {
-      state.valid = true;
-    }
+    state.valid = checkValidity(state.required, el.validity);
 
     if (formContext) {
       if (!formContext.getNode(state.name)) {
@@ -96,6 +100,7 @@ export function useInputs(
 
   function onInvalid(event: Event) {
     const target = event.target as HTMLInputElement;
+    state.valid = false;
     state.validationMessage = target.validationMessage;
 
     if (formContext) {
@@ -106,7 +111,7 @@ export function useInputs(
   function onInput(event: Event) {
     const target = event.target as HTMLInputElement;
     state.value = target.value;
-    state.valid = target?.checkValidity();
+    state.valid = checkValidity(state.required, target.validity);
 
     if (!formContext) {
       return;
@@ -115,7 +120,7 @@ export function useInputs(
     formContext.updateData(state.name, target.value);
 
     if (opts.eagerValidation) {
-      formContext.addValidation(state.name, target.validationMessage);
+      target.checkValidity();
     }
   }
 

@@ -24,7 +24,7 @@ export default defineComponent({
 <template>
   <div class="h-full w-full flex flex-col items-center max-w-screen-lg mx-auto">
     <h1 class="text-xl my-6">Examples</h1>
-    <BasicForm />
+    <BasicForm @formData="handleSubmit" />
   </div>
 </template>
 

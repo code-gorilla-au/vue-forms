@@ -45,9 +45,6 @@ export interface VFormContextApi {
 }
 
 function evaluateNodeValidity(node: VFormNode) {
-  if (node.required && node.value.trim().length > 0) {
-    return true;
-  }
   return node.valid;
 }
 

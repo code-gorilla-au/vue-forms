@@ -46,6 +46,7 @@ export default defineComponent({
           id="firstNameId"
           class="text-black"
           name="firstName"
+          placeholder="required"
           required
         >
           <p class="text-xs">{{ validationMessage }}</p>
@@ -58,6 +59,20 @@ export default defineComponent({
           id="lastNameId"
           class="text-black"
           name="lastName"
+        >
+          <p class="text-xs">{{ validationMessage }}</p>
+        </VInput>
+      </label>
+      <label for="emailId" class="flex flex-col">
+        Email
+        <VInput
+          #default="{ validationMessage }"
+          id="emailId"
+          class="text-black"
+          name="email"
+          type="email"
+          placeholder="required"
+          required
         >
           <p class="text-xs">{{ validationMessage }}</p>
         </VInput>
