@@ -25,7 +25,7 @@ export interface VFormNode {
   dirty: boolean;
   valid: boolean;
   validationMessage: string;
-  value: string;
+  value: string | boolean | object;
 }
 
 export interface VFormNodes {
@@ -39,7 +39,7 @@ export interface VFormContextApi {
   readonly formValid: ComputedRef<boolean>;
   registerNode(id: string, node: VFormNode): void;
   getNode(id: string): VFormNode;
-  updateData(field: string, value: string): void;
+  updateData(field: string, value: string | boolean | object): void;
   addValidation(field: string, message: string): void;
   removeValidation(field: string): void;
 }

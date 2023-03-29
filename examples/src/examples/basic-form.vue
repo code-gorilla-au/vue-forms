@@ -39,7 +39,7 @@ export default defineComponent({
       class="test-form"
       @submit="handleSubmit"
     >
-      <label for="firstNameId" class="flex flex-col">
+      <label for="firstNameId" class="flex flex-col mb-2">
         First name
         <VInput
           #default="{ validationMessage }"
@@ -52,7 +52,7 @@ export default defineComponent({
           <p class="text-xs">{{ validationMessage }}</p>
         </VInput>
       </label>
-      <label for="lastNameId" class="flex flex-col">
+      <label for="lastNameId" class="flex flex-col mb-2">
         Last name
         <VInput
           #default="{ validationMessage }"
@@ -63,7 +63,7 @@ export default defineComponent({
           <p class="text-xs">{{ validationMessage }}</p>
         </VInput>
       </label>
-      <label for="emailId" class="flex flex-col">
+      <label for="emailId" class="flex flex-col mb-2">
         Email
         <VInput
           #default="{ validationMessage }"
@@ -76,6 +76,21 @@ export default defineComponent({
         >
           <p class="text-xs">{{ validationMessage }}</p>
         </VInput>
+      </label>
+      <label for="checkboxId" class="relative">
+        <div class="flex items-center">
+          <VInput
+            #default="{ validationMessage }"
+            id="checkboxId"
+            class="text-black"
+            name="checkbox"
+            type="checkbox"
+            required
+          >
+            <span class="absolute mt-8 text-xs">{{ validationMessage }}</span>
+          </VInput>
+          <p class="ml-4 text-sm">Working with checkbox</p>
+        </div>
       </label>
       <button
         type="submit"

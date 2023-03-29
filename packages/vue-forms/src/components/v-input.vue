@@ -20,6 +20,10 @@ export default defineComponent({
      * update model value
      */
     'update:modelValue': null,
+    /**
+     * input validation message
+     */
+    'update:validationMessage': null,
   },
   setup(props, { emit }) {
     const inputRef = ref(null);
@@ -33,6 +37,15 @@ export default defineComponent({
         if (props?.modelValue) {
           emit('update:modelValue', newValue);
         }
+      },
+    );
+
+    watch(
+      () => {
+        return inputs.state.validationMessage;
+      },
+      (newMsg) => {
+        emit('update:validationMessage', newMsg);
       },
     );
 

@@ -1,5 +1,5 @@
 import { onMounted, onUpdated, reactive, readonly, Ref, watch } from 'vue';
-import { useFormContext } from '@use/forms';
+import { useFormContext, VFormNode } from '@use/forms';
 import { resoleUnref, MaybeElement } from '@use/refs';
 
 export interface UseInputOpts {
@@ -49,7 +49,7 @@ export function useInputs(
 ) {
   const formContext = useFormContext();
 
-  const state = reactive({
+  const state = reactive<VFormNode>({
     id: '',
     name: '',
     required: false,
@@ -110,7 +110,13 @@ export function useInputs(
 
   function onInput(event: Event) {
     const target = event.target as HTMLInputElement;
-    state.value = target.value;
+
+    if (target.type === 'checkbox') {
+      state.value = target.checked;
+    } else {
+      state.value = target.value;
+    }
+
     state.valid = checkValidity(state.required, target.validity);
 
     if (!formContext) {
