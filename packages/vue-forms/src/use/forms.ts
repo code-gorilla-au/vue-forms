@@ -71,7 +71,7 @@ function useFormApi(initFormData = {}): VFormContextApi {
       if (formNodes[id]) {
         throw Error(`${id} already exists`);
       }
-      formData[id] = '';
+      formData[node.name] = '';
       formNodes[id] = node;
     },
     getNode(id: string): VFormNode {

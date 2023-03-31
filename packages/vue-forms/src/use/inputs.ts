@@ -78,7 +78,7 @@ export function useInputs(
 
     if (formContext) {
       if (!formContext.getNode(state.name)) {
-        formContext.registerNode(state.name, state);
+        formContext.registerNode(state.id, state);
       }
 
       formContext.updateData(state.name, state.value);
@@ -142,10 +142,6 @@ export function useInputs(
   }
 
   onMounted(() => {
-    syncInputRef(inputRef.value);
-  });
-
-  onUpdated(() => {
     syncInputRef(inputRef.value);
   });
 

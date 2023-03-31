@@ -52,60 +52,63 @@ export default defineComponent({
 </script>
 
 <template>
-  <VForm
-    v-slot="{ formData, validations, formValid }"
-    class="test-form"
-    @submit="handleSubmit"
-  >
-    <label for="firstNameId" class="flex flex-col mb-2">
-      First name
-      <VInput
-        #default="{ validationMessage }"
-        id="firstNameId"
-        class="text-black"
-        name="firstName"
-        placeholder="required"
-        required
-      >
-        <p class="text-xs">{{ validationMessage }}</p>
-      </VInput>
-    </label>
-    <label
-      v-for="item in schema.list"
-      :key="item.id"
-      class="flex flex-col mb-2"
+  <div>
+    <VForm
+      v-slot="{ formData, validations, formValid }"
+      class="test-form"
+      @submit="handleSubmit"
     >
-      {{ item.name }}
-      <VInput
-        #default="{ validationMessage }"
-        :id="item.id"
-        class="text-black"
-        :name="item.name"
-        placeholder="required"
-        required
+      <label for="firstNameId" class="flex flex-col mb-2">
+        First name
+        <VInput
+          #default="{ validationMessage }"
+          id="firstNameId"
+          class="text-black"
+          name="firstName"
+          placeholder="required"
+          required
+        >
+          <p class="text-xs">{{ validationMessage }}</p>
+        </VInput>
+      </label>
+      <label
+        v-for="item in schema.list"
+        :key="item.id"
+        class="flex flex-col mb-2"
       >
-        <p class="text-xs">{{ validationMessage }}</p>
-      </VInput>
-    </label>
+        {{ item.name }}
+        <VInput
+          #default="{ validationMessage }"
+          :id="item.id"
+          class="text-black"
+          :name="item.name"
+          placeholder="required"
+          required
+        >
+          <p class="text-xs">{{ validationMessage }}</p>
+        </VInput>
+      </label>
+
+      <button
+        type="submit"
+        :disabled="!formValid"
+        class="rounded-lg bg-green-400 disabled:bg-slate-400 text-black font-bold p-3 my-4"
+      >
+        submit form
+      </button>
+      <pre>
+        <code>
+          {{ formatCodeBlock({formData, validations, formValid}) }}
+        </code>
+      </pre>
+    </VForm>
     <button
       @click.prevent="addRow"
       class="w-44 mx-auto rounded-lg my-2 bg-slate-400"
     >
       add row
     </button>
-    <button
-      type="submit"
-      :disabled="!formValid"
-      class="rounded-lg bg-green-400 disabled:bg-slate-400 text-black font-bold p-3 my-4"
-    >
-      submit form
-    </button>
-    <pre>
-        <code>
-          {{ formatCodeBlock({formData, validations, formValid}) }}
-        </code>
-      </pre>
-  </VForm>
+  </div>
 </template>
 
 <style scoped>
