@@ -91,6 +91,19 @@ export default defineComponent({
         <p class="ml-4 text-sm">Working with checkbox</p>
       </div>
     </label>
+    <label>
+      radio
+      <VInput
+        #default="{ validationMessage }"
+        type="radio"
+        id="radioId"
+        name="radio"
+        modelValue="this is a radio"
+        class="text-black"
+      >
+        <span class="absolute mt-8 text-xs">{{ validationMessage }}</span>
+      </VInput>
+    </label>
     <button
       type="submit"
       :disabled="!formValid"

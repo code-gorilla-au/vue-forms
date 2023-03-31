@@ -18,6 +18,7 @@ export interface VFormValidations {
 export interface VFormNode {
   id: string;
   name: string;
+  type: string;
   required: boolean;
   readonly: boolean;
   disabled: boolean;

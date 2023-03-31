@@ -53,6 +53,7 @@ export function useInputs(
   const state = reactive<VFormNode>({
     id: '',
     name: '',
+    type: '',
     required: false,
     readonly: false,
     disabled: false,
@@ -60,7 +61,7 @@ export function useInputs(
     dirty: false,
     valid: true,
     validationMessage: '',
-    value: opts?.initModelValue || '',
+    value: '',
   });
 
   state.dirty = state.value !== '';
@@ -69,20 +70,29 @@ export function useInputs(
     if (!newInputRef) {
       return;
     }
+
     const el = newInputRef as HTMLInputElement;
+
+    if (el.type !== 'radio' && opts.initModelValue) {
+      state.value = opts.initModelValue;
+    }
+
     state.id = uuid();
+    state.type = el.type;
     state.name = el.name;
     state.readonly = el.readOnly;
     state.required = el.required;
     state.valid = checkValidity(state.required, el.validity);
 
-    if (formContext) {
-      if (!formContext.getNode(state.name)) {
-        formContext.registerNode(state.id, state);
-      }
-
-      formContext.updateData(state.id);
+    if (!formContext) {
+      return;
     }
+
+    if (!formContext.getNode(state.name)) {
+      formContext.registerNode(state.id, state);
+    }
+
+    formContext.updateData(state.id);
   }
 
   function onFocus() {
@@ -111,8 +121,13 @@ export function useInputs(
   function onInput(event: Event) {
     const target = event.target as HTMLInputElement;
 
+    console.log(target);
     if (target.type === 'checkbox') {
       state.value = target.checked;
+    } else if (target.type === 'radio') {
+      if (target.checked) {
+        state.value = target.value;
+      }
     } else {
       state.value = target.value;
     }
