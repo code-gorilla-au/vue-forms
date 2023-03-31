@@ -32,15 +32,43 @@ export interface VFormNodes {
   [key: string]: VFormNode;
 }
 
+/**
+ * checks if node has a valid name, otherwise returns an id
+ */
+function resolveFieldName(node: VFormNode) {
+  return node.name === '' ? node.id : node.name;
+}
+
 export interface VFormContextApi {
   readonly nodes: VFormNodes;
   readonly data: VFormData;
   readonly validations: VFormValidations;
   readonly formValid: ComputedRef<boolean>;
+  /**
+   * register an input node with the form context
+   * @param id unique id
+   * @param node form node
+   */
   registerNode(id: string, node: VFormNode): void;
+  /**
+   * get input node by id
+   * @param id unique id
+   */
   getNode(id: string): VFormNode;
+  /**
+   * update form data with the new values from the node
+   * @param id unique id
+   */
   updateData(id: string): void;
+  /**
+   * add validation message from the node
+   * @param id unique id
+   */
   addValidation(id: string): void;
+  /**
+   * remove validation message
+   * @param id unique id
+   */
   removeValidation(id: string): void;
 }
 
@@ -55,10 +83,6 @@ function useFormApi(initFormData = {}): VFormContextApi {
 
   function getNode(id: string): VFormNode {
     return formNodes[id];
-  }
-
-  function resolveFieldName(node: VFormNode) {
-    return node.name === '' ? node.id : node.name;
   }
 
   const formNodes = reactive<VFormNodes>({});
