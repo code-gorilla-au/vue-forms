@@ -39,9 +39,9 @@ export interface VFormContextApi {
   readonly formValid: ComputedRef<boolean>;
   registerNode(id: string, node: VFormNode): void;
   getNode(id: string): VFormNode;
-  updateData(field: string, value: string | boolean | object): void;
-  addValidation(field: string, message: string): void;
-  removeValidation(field: string): void;
+  updateData(id: string): void;
+  addValidation(id: string): void;
+  removeValidation(id: string): void;
 }
 
 function evaluateNodeValidity(node: VFormNode) {
@@ -51,6 +51,14 @@ function evaluateNodeValidity(node: VFormNode) {
 function useFormApi(initFormData = {}): VFormContextApi {
   if (typeof initFormData !== 'object') {
     throw new Error('initFormData is not valid');
+  }
+
+  function getNode(id: string): VFormNode {
+    return formNodes[id];
+  }
+
+  function resolveFieldName(node: VFormNode) {
+    return node.name === '' ? node.id : node.name;
   }
 
   const formNodes = reactive<VFormNodes>({});
@@ -71,20 +79,30 @@ function useFormApi(initFormData = {}): VFormContextApi {
       if (formNodes[id]) {
         throw Error(`${id} already exists`);
       }
-      formData[node.name] = '';
       formNodes[id] = node;
+
+      const fieldName = resolveFieldName(node);
+      formData[fieldName] = '';
     },
-    getNode(id: string): VFormNode {
-      return formNodes[id];
+    getNode: getNode,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    updateData(id: string) {
+      const node = getNode(id);
+      if (!node) {
+        throw Error(`${id} input not registered`);
+      }
+      const fieldName = resolveFieldName(node);
+      formData[fieldName] = node.value;
     },
-    updateData(field: string, value: string) {
-      formData[field] = value;
+    addValidation(id: string) {
+      const node = getNode(id);
+      const fieldName = resolveFieldName(node);
+      formValidations[fieldName] = node.validationMessage;
     },
-    addValidation(field: string, message: string) {
-      formValidations[field] = message;
-    },
-    removeValidation(field: string) {
-      formValidations[field] = undefined;
+    removeValidation(id: string) {
+      const node = getNode(id);
+      const fieldName = resolveFieldName(node);
+      formValidations[fieldName] = undefined;
     },
   };
 }

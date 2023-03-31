@@ -103,6 +103,13 @@ export default defineComponent({
       </label>
 
       <button
+        @click.prevent="addRow"
+        class="w-44 mx-auto rounded-lg my-2 bg-slate-400"
+      >
+        add row
+      </button>
+
+      <button
         type="submit"
         :disabled="!formValid"
         class="rounded-lg bg-green-400 disabled:bg-slate-400 text-black font-bold p-3 my-4"
@@ -115,12 +122,6 @@ export default defineComponent({
         </code>
       </pre>
     </VForm>
-    <button
-      @click.prevent="addRow"
-      class="w-44 mx-auto rounded-lg my-2 bg-slate-400"
-    >
-      add row
-    </button>
   </div>
 </template>
 

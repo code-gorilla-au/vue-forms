@@ -81,7 +81,7 @@ export function useInputs(
         formContext.registerNode(state.id, state);
       }
 
-      formContext.updateData(state.name, state.value);
+      formContext.updateData(state.id);
     }
   }
 
@@ -104,7 +104,7 @@ export function useInputs(
     state.validationMessage = target.validationMessage;
 
     if (formContext) {
-      formContext.addValidation(state.name, state.validationMessage);
+      formContext.addValidation(state.id);
     }
   }
 
@@ -123,7 +123,7 @@ export function useInputs(
       return;
     }
 
-    formContext.updateData(state.name, target.value);
+    formContext.updateData(state.id);
 
     if (opts.eagerValidation) {
       target.checkValidity();
@@ -155,7 +155,7 @@ export function useInputs(
       }
 
       state.validationMessage = '';
-      formContext.removeValidation(state.name);
+      formContext.removeValidation(state.id);
     },
   );
 
