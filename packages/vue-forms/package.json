@@ -27,5 +27,11 @@
     "peerDependencies": {
         "tailwindcss": "^3.0.0",
         "vue": "^3.2.1"
+    },
+    "dependencies": {
+        "uuid": "^9.0.0"
+    },
+    "devDependencies": {
+        "@types/uuid": "^9"
     }
 }

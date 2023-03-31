@@ -1,6 +1,5 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import BasicForm from './examples/basic-form.vue';
 
 interface userForm {
   firstName: string;
@@ -8,7 +7,7 @@ interface userForm {
 
 export default defineComponent({
   name: 'App',
-  components: { BasicForm },
+  components: {},
   setup() {
     async function handleSubmit(formData: userForm) {
       console.log('foo', formData);
@@ -23,8 +22,13 @@ export default defineComponent({
 
 <template>
   <div class="h-full w-full flex flex-col items-center max-w-screen-lg mx-auto">
-    <h1 class="text-xl my-6">Examples</h1>
-    <BasicForm @formData="handleSubmit" />
+    <div>
+      <nav>
+        <router-link to="/"> home</router-link>
+        <router-link to="/dynamic"> dynamic</router-link>
+      </nav>
+    </div>
+    <RouterView />
   </div>
 </template>
 

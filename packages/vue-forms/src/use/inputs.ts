@@ -1,6 +1,7 @@
 import { onMounted, onUpdated, reactive, readonly, Ref, watch } from 'vue';
 import { useFormContext, VFormNode } from '@use/forms';
 import { resoleUnref, MaybeElement } from '@use/refs';
+import { v4 as uuid } from 'uuid';
 
 export interface UseInputOpts {
   initModelValue?: string;
@@ -69,8 +70,7 @@ export function useInputs(
       return;
     }
     const el = newInputRef as HTMLInputElement;
-
-    state.id = el.id;
+    state.id = uuid();
     state.name = el.name;
     state.readonly = el.readOnly;
     state.required = el.required;

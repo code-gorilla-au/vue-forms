@@ -1,13 +1,14 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, reactive } from 'vue';
 import { VForm, VInput } from '@vue-forms/vue-forms/src/index';
+import { v4 as uuid } from 'uuid';
 
 interface userForm {
   firstName: string;
 }
 
 export default defineComponent({
-  name: 'BasicForm',
+  name: 'DynamicForm',
   components: { VForm, VInput },
   emits: {
     /**
@@ -16,6 +17,15 @@ export default defineComponent({
     formData: null,
   },
   setup(_, { emit }) {
+    const schema = reactive({
+      list: [
+        {
+          id: '1',
+          name: 'one',
+        },
+      ],
+    });
+
     async function handleSubmit(formData: userForm) {
       emit('formData', formData);
     }
@@ -24,9 +34,18 @@ export default defineComponent({
       return JSON.stringify(obj, null, 2);
     }
 
+    function addRow() {
+      schema.list.push({
+        id: uuid(),
+        name: '',
+      });
+    }
+
     return {
+      schema,
       handleSubmit,
       formatCodeBlock,
+      addRow,
     };
   },
 });
@@ -51,46 +70,29 @@ export default defineComponent({
         <p class="text-xs">{{ validationMessage }}</p>
       </VInput>
     </label>
-    <label for="lastNameId" class="flex flex-col mb-2">
-      Last name
+    <label
+      v-for="item in schema.list"
+      :key="item.id"
+      class="flex flex-col mb-2"
+    >
+      {{ item.name }}
       <VInput
         #default="{ validationMessage }"
-        id="lastNameId"
+        :id="item.id"
         class="text-black"
-        name="lastName"
-      >
-        <p class="text-xs">{{ validationMessage }}</p>
-      </VInput>
-    </label>
-    <label for="emailId" class="flex flex-col mb-2">
-      Email
-      <VInput
-        #default="{ validationMessage }"
-        id="emailId"
-        class="text-black"
-        name="email"
-        type="email"
+        :name="item.name"
         placeholder="required"
         required
       >
         <p class="text-xs">{{ validationMessage }}</p>
       </VInput>
     </label>
-    <label for="checkboxId" class="relative mb-2">
-      <div class="flex items-center">
-        <VInput
-          #default="{ validationMessage }"
-          id="checkboxId"
-          class="text-black"
-          name="checkbox"
-          type="checkbox"
-          required
-        >
-          <span class="absolute mt-8 text-xs">{{ validationMessage }}</span>
-        </VInput>
-        <p class="ml-4 text-sm">Working with checkbox</p>
-      </div>
-    </label>
+    <button
+      @click.prevent="addRow"
+      class="w-44 mx-auto rounded-lg my-2 bg-slate-400"
+    >
+      add row
+    </button>
     <button
       type="submit"
       :disabled="!formValid"
