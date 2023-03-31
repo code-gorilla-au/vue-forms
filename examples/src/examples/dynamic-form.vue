@@ -22,6 +22,17 @@ export default defineComponent({
         {
           id: '1',
           name: 'one',
+          value: '1',
+        },
+        {
+          id: '2',
+          name: 'two',
+          value: '1',
+        },
+        {
+          id: '3',
+          name: 'three',
+          value: '1',
         },
       ],
     });
@@ -38,6 +49,7 @@ export default defineComponent({
       schema.list.push({
         id: uuid(),
         name: '',
+        value: '',
       });
     }
 
@@ -54,7 +66,7 @@ export default defineComponent({
 <template>
   <div>
     <VForm
-      v-slot="{ formData, validations, formValid }"
+      v-slot="{ formData, formValid }"
       class="test-form"
       @submit="handleSubmit"
     >
@@ -83,6 +95,7 @@ export default defineComponent({
           class="text-black"
           :name="item.name"
           placeholder="required"
+          v-model="item.value"
           required
         >
           <p class="text-xs">{{ validationMessage }}</p>
@@ -98,7 +111,7 @@ export default defineComponent({
       </button>
       <pre>
         <code>
-          {{ formatCodeBlock({formData, validations, formValid}) }}
+          {{ formatCodeBlock({schema, formData}) }}
         </code>
       </pre>
     </VForm>
