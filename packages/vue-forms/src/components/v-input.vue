@@ -34,9 +34,7 @@ export default defineComponent({
         return inputs.state.value;
       },
       (newValue) => {
-        if (props?.modelValue) {
-          emit('update:modelValue', newValue);
-        }
+        emit('update:modelValue', newValue);
       },
     );
 
