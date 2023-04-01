@@ -22,12 +22,12 @@ export default defineComponent({
 
 <template>
   <div class="h-full w-full flex flex-col items-center max-w-screen-lg mx-auto">
-    <div>
-      <nav>
-        <router-link to="/"> home</router-link>
-        <router-link to="/dynamic"> dynamic</router-link>
-      </nav>
-    </div>
+    <nav class="w-full my-6 flex justify-center">
+      <router-link class="px-4" to="/"> home</router-link>
+      |
+      <router-link class="px-4" to="/dynamic"> dynamic</router-link>
+    </nav>
+
     <RouterView />
   </div>
 </template>
