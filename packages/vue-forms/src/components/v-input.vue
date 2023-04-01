@@ -1,18 +1,40 @@
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
 import { useInputs } from '@use/inputs';
+import { computed } from 'vue';
 
 export default defineComponent({
   name: 'VInput',
   props: {
+    /**
+     * type of input
+     */
+    type: {
+      type: String,
+      required: false,
+      default: 'text',
+    },
+    /**
+     * name of the input
+     */
     name: {
       type: String,
       required: true,
     },
+    /**
+     * model value
+     */
     modelValue: {
-      type: [String],
+      type: String,
       required: false,
       default: undefined,
+    },
+    /**
+     * value used for input type 'radio'
+     */
+    value: {
+      type: String,
+      required: false,
     },
   },
   emits: {
@@ -26,8 +48,15 @@ export default defineComponent({
     'update:validationMessage': null,
   },
   setup(props, { emit }) {
-    const inputRef = ref(null);
+    const inputRef = ref<HTMLInputElement | null>(null);
     const inputs = useInputs(inputRef, { initModelValue: props.modelValue });
+
+    const resolveValue = computed(() => {
+      if (!inputRef.value || inputRef.value?.type !== 'radio') {
+        return inputs.state.value;
+      }
+      return props.value;
+    });
 
     watch(
       () => {
@@ -50,6 +79,7 @@ export default defineComponent({
     return {
       inputRef,
       inputs,
+      resolveValue,
     };
   },
 });
@@ -59,8 +89,9 @@ export default defineComponent({
   <input
     ref="inputRef"
     v-bind="$attrs"
+    :type="type"
     :name="name"
-    :value="inputs.state.value"
+    :value="resolveValue"
     @input="inputs.onInput"
     @change="inputs.onChange"
     @blur="inputs.onBlur"

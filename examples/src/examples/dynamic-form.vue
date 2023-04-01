@@ -18,6 +18,7 @@ export default defineComponent({
   },
   setup(_, { emit }) {
     const schema = reactive({
+      radio: '',
       list: [
         {
           id: '1',
@@ -99,6 +100,21 @@ export default defineComponent({
           required
         >
           <p class="text-xs">{{ validationMessage }}</p>
+        </VInput>
+      </label>
+
+      <label>
+        radio
+        <VInput
+          #default="{ validationMessage }"
+          type="radio"
+          id="radioId"
+          name="radio"
+          value="this is a radio"
+          v-model="schema.radio"
+          class="text-black"
+        >
+          <span class="absolute mt-8 text-xs">{{ validationMessage }}</span>
         </VInput>
       </label>
 

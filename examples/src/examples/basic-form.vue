@@ -98,7 +98,7 @@ export default defineComponent({
         type="radio"
         id="radioId"
         name="radio"
-        modelValue="this is a radio"
+        value="this is a radio"
         class="text-black"
       >
         <span class="absolute mt-8 text-xs">{{ validationMessage }}</span>
