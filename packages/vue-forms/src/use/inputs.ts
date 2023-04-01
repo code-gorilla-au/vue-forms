@@ -18,6 +18,21 @@ function checkValidity(required: boolean, validState: ValidityState) {
   return validState.valid && !validState.typeMismatch;
 }
 
+function resolveInputValue(node: HTMLInputElement) {
+  if (node.type === 'checkbox') {
+    return node.checked;
+  }
+
+  if (node.type === 'radio') {
+    if (!node.checked) {
+      return '';
+    }
+    return node.value;
+  }
+
+  return node.value;
+}
+
 /**
  * Use inputs composable governs how we react to input events and validations.
  * use inputs state is readonly unless you wish to override it's validation.
@@ -73,11 +88,8 @@ export function useInputs(
 
     const el = newInputRef as HTMLInputElement;
 
-    if (el.type !== 'radio' && opts.initModelValue) {
-      state.value = opts.initModelValue;
-    }
-
     state.id = uuid();
+    state.value = opts.initModelValue || '';
     state.type = el.type;
     state.name = el.name;
     state.readonly = el.readOnly;
@@ -120,18 +132,7 @@ export function useInputs(
 
   function onInput(event: Event) {
     const target = event.target as HTMLInputElement;
-
-    console.log(target);
-    if (target.type === 'checkbox') {
-      state.value = target.checked;
-    } else if (target.type === 'radio') {
-      if (target.checked) {
-        state.value = target.value;
-      }
-    } else {
-      state.value = target.value;
-    }
-
+    state.value = resolveInputValue(target);
     state.valid = checkValidity(state.required, target.validity);
 
     if (!formContext) {

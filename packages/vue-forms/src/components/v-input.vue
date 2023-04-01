@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
-import { useInputs } from '../use/inputs';
+import { useInputs } from '@use/inputs';
 
 export default defineComponent({
   name: 'VInput',
