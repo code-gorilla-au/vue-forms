@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { createFormContext } from '@use/forms';
+import { createFormContext } from '../use/forms';
 
 export default defineComponent({
   name: 'VForm',
