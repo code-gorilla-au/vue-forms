@@ -1,5 +1,4 @@
-<script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, h, ref, watch } from 'vue';
 import { useInputs } from '../use/inputs';
 import { computed } from 'vue';
 
@@ -47,7 +46,7 @@ export default defineComponent({
      */
     'update:validationMessage': null,
   },
-  setup(props, { emit }) {
+  setup(props, { emit, attrs }) {
     const inputRef = ref<HTMLInputElement | null>(null);
     const inputs = useInputs(inputRef, { initModelValue: props.modelValue });
 
@@ -76,6 +75,22 @@ export default defineComponent({
       },
     );
 
+    h('input', {
+      ...attrs,
+      type: props.type,
+      name: props.name,
+      value: resolveValue,
+      onInput: inputs.onInput,
+      onChange: inputs.onChange,
+      onBlur: inputs.onBlur,
+      onFocus: inputs.onFocus,
+      onInvalid: inputs.onInvalid,
+      default: () => {
+        return {
+          validationMessage: inputs.state.validationMessage,
+        };
+      },
+    });
     return {
       inputRef,
       inputs,
@@ -83,20 +98,3 @@ export default defineComponent({
     };
   },
 });
-</script>
-
-<template>
-  <input
-    ref="inputRef"
-    v-bind="$attrs"
-    :type="type"
-    :name="name"
-    :value="resolveValue"
-    @input="inputs.onInput"
-    @change="inputs.onChange"
-    @blur="inputs.onBlur"
-    @focus="inputs.onFocus"
-    @invalid="inputs.onInvalid"
-  />
-  <slot :validationMessage="inputs.state.validationMessage" />
-</template>

@@ -1,5 +1,6 @@
-import vue from 'rollup-plugin-vue';
 import typescript from '@rollup/plugin-typescript';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import terser from '@rollup/plugin-terser';
 
 export default [
   {
@@ -12,7 +13,8 @@ export default [
       typescript({
         tsconfig: 'tsconfig.json',
       }),
-      vue(),
+      nodeResolve(),
+      terser(),
     ],
   },
   {
@@ -25,7 +27,8 @@ export default [
       typescript({
         tsconfig: 'tsconfig.json',
       }),
-      vue(),
+      nodeResolve(),
+      terser(),
     ],
   },
 ];

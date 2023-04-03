@@ -33,6 +33,8 @@
         "uuid": "^9.0.0"
     },
     "devDependencies": {
+        "@rollup/plugin-node-resolve": "^15.0.1",
+        "@rollup/plugin-terser": "^0.4.0",
         "@rollup/plugin-typescript": "^11.0.0",
         "@types/uuid": "^9",
         "rollup": "^3.20.2"
