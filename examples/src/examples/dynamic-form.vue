@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
-import { VForm, VInput } from '@vue-forms/vue-forms/src/index';
+import { VForm, VInput } from '@vue-forms/vue-forms';
 import { v4 as uuid } from 'uuid';
 
 interface userForm {

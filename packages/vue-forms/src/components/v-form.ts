@@ -1,5 +1,5 @@
-import { defineComponent, h, PropType } from 'vue';
-import { createFormContext } from '../use/forms';
+import { defineComponent, h, PropType, provide } from 'vue';
+import { KEY_V_FORM_CONTEXT, useFormApi } from '../use/forms';
 
 export default defineComponent({
   name: 'VForm',
@@ -19,7 +19,8 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const api = createFormContext(props.initFormData);
+    const api = useFormApi(props.initFormData);
+    provide(KEY_V_FORM_CONTEXT, api);
 
     return () => {
       return h('form', {

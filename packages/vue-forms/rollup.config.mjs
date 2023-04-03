@@ -4,6 +4,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 export default [
   {
     input: 'src/index.ts',
+    external: ['vue'],
     output: {
       format: 'esm',
       file: 'dist/index.mjs',
@@ -17,6 +18,7 @@ export default [
   },
   {
     input: 'src/index.ts',
+    external: ['vue'],
     output: {
       format: 'cjs',
       file: 'dist/index.cjs',

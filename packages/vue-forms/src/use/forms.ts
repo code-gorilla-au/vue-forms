@@ -1,11 +1,4 @@
-import {
-  inject,
-  provide,
-  reactive,
-  readonly,
-  computed,
-  ComputedRef,
-} from 'vue';
+import { inject, reactive, readonly, computed, ComputedRef } from 'vue';
 
 export interface VFormData {
   [key: string]: string | number;
@@ -77,7 +70,7 @@ function evaluateNodeValidity(node: VFormNode) {
   return node.valid;
 }
 
-function useFormApi(initFormData = {}): VFormContextApi {
+export function useFormApi(initFormData = {}): VFormContextApi {
   if (typeof initFormData !== 'object') {
     throw new Error('initFormData is not valid');
   }
@@ -132,17 +125,7 @@ function useFormApi(initFormData = {}): VFormContextApi {
   };
 }
 
-const KEY_V_FORM_CONTEXT = Symbol('--v-form-context');
-
-/**
- *
- * @param ctx provide form context to child inputs
- */
-export function createFormContext(initFormData: object = {}) {
-  const api = useFormApi(initFormData);
-  provide(KEY_V_FORM_CONTEXT, api);
-  return api;
-}
+export const KEY_V_FORM_CONTEXT = Symbol('--v-form-context');
 
 export function useFormContext(): VFormContextApi | undefined {
   return inject(KEY_V_FORM_CONTEXT, undefined);
