@@ -18,7 +18,7 @@
     "scripts": {
         "test": "test",
         "build": "rollup -c",
-        "publishLocal": "yalc publish"
+        "publishLocal": "yalc publish --push"
     },
     "repository": {
         "type": "git",

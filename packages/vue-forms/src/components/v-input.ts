@@ -46,7 +46,7 @@ export default defineComponent({
      */
     'update:validationMessage': null,
   },
-  setup(props, { emit, attrs }) {
+  setup(props, { emit, attrs, slots }) {
     const inputRef = ref<HTMLInputElement | null>(null);
     const inputs = useInputs(inputRef, { initModelValue: props.modelValue });
 
@@ -75,26 +75,31 @@ export default defineComponent({
       },
     );
 
-    h('input', {
-      ...attrs,
-      type: props.type,
-      name: props.name,
-      value: resolveValue,
-      onInput: inputs.onInput,
-      onChange: inputs.onChange,
-      onBlur: inputs.onBlur,
-      onFocus: inputs.onFocus,
-      onInvalid: inputs.onInvalid,
-      default: () => {
-        return {
-          validationMessage: inputs.state.validationMessage,
-        };
-      },
-    });
-    return {
-      inputRef,
-      inputs,
-      resolveValue,
+    return () => {
+      return h(
+        'input',
+        {
+          ...attrs,
+          type: props.type,
+          name: props.name,
+          value: resolveValue,
+          onInput: inputs.onInput,
+          onChange: inputs.onChange,
+          onBlur: inputs.onBlur,
+          onFocus: inputs.onFocus,
+          onInvalid: inputs.onInvalid,
+        },
+        {
+          default: () => {
+            return (
+              slots.default &&
+              slots.default({
+                validationMessage: inputs.state.validationMessage,
+              })
+            );
+          },
+        },
+      );
     };
   },
 });

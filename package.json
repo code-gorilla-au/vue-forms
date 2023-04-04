@@ -10,8 +10,7 @@
     "lint:fix": "eslint --fix . --ext .ts",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "dev": "vite --config ./examples/vite.config.ts --host",
-    "publishLocal": "cd packages/vue-forms && npm run publishLocal && cd ../.."
+    "dev": "vite --config ./examples/vite.config.ts --host"
   },
   "repository": {
     "type": "git",

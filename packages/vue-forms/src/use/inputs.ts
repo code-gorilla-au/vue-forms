@@ -1,4 +1,4 @@
-import { onMounted, reactive, readonly, Ref, watch } from 'vue';
+import { onUpdated, reactive, readonly, Ref, watch } from 'vue';
 import { useFormContext, VFormNode } from './forms';
 import { resoleUnref, MaybeElement } from './refs';
 import { v4 as uuid } from 'uuid';
@@ -82,7 +82,9 @@ export function useInputs(
   state.dirty = state.value !== '';
 
   function syncInputRef(newInputRef: MaybeElement) {
+    console.log('version 1');
     if (!newInputRef) {
+      console.log('not registering');
       return;
     }
 
@@ -157,7 +159,7 @@ export function useInputs(
     }
   }
 
-  onMounted(() => {
+  onUpdated(() => {
     syncInputRef(inputRef.value);
   });
 

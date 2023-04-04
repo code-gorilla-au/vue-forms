@@ -113,7 +113,7 @@ export default defineComponent({
     </button>
     <pre>
         <code>
-          {{ formatCodeBlock({formData, validations, formValid}) }}
+          {{ {formData, validations, formValid} }}
         </code>
       </pre>
   </VForm>
