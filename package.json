@@ -12,7 +12,8 @@
     "coverage": "vitest run --coverage",
     "dev": "vite --config ./examples/vite.config.ts --host",
     "build": "node scripts/build.mjs",
-    "localPublish": "yarn run build && node scripts/local-publish.mjs"
+    "localPublish": "yarn run build && node scripts/local-publish.mjs",
+    "localDev": "yarn run localPublish && cd examples && yarn install && cd .. && yarn run dev"
   },
   "repository": {
     "type": "git",
