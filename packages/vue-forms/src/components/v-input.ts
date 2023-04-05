@@ -57,6 +57,15 @@ export default defineComponent({
       return props.value;
     });
 
+    const defaultSlots = computed(() => {
+      return (
+        slots.default &&
+        slots.default({
+          validationMessage: inputs.state.validationMessage,
+        })
+      );
+    });
+
     watch(
       () => {
         return inputs.state.value;
@@ -76,9 +85,8 @@ export default defineComponent({
     );
 
     return () => {
-      return h(
-        'input',
-        {
+      return [
+        h('input', {
           ...attrs,
           ref: inputRef,
           type: props.type,
@@ -89,18 +97,9 @@ export default defineComponent({
           onBlur: inputs.onBlur,
           onFocus: inputs.onFocus,
           onInvalid: inputs.onInvalid,
-        },
-        {
-          default: () => {
-            return (
-              slots.default &&
-              slots.default({
-                validationMessage: inputs.state.validationMessage,
-              })
-            );
-          },
-        },
-      );
+        }),
+        defaultSlots.value,
+      ];
     };
   },
 });
