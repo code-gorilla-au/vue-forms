@@ -362,7 +362,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@code-gorilla-au/vue-forms@workspace:packages/vue-forms":
+"@code-gorilla-au/vue-forms@workspace:*, @code-gorilla-au/vue-forms@workspace:packages/vue-forms":
   version: 0.0.0-use.local
   resolution: "@code-gorilla-au/vue-forms@workspace:packages/vue-forms"
   dependencies:
@@ -1125,17 +1125,6 @@ __metadata:
   resolution: "@vue-forms/core@workspace:packages/core"
   languageName: unknown
   linkType: soft
-
-"@vue-forms/vue-forms@file:.yalc/@vue-forms/vue-forms::locator=examples%40workspace%3Aexamples":
-  version: 0.0.1
-  resolution: "@vue-forms/vue-forms@file:.yalc/@vue-forms/vue-forms#.yalc/@vue-forms/vue-forms::hash=124fe1&locator=examples%40workspace%3Aexamples"
-  dependencies:
-    uuid: ^9.0.0
-  peerDependencies:
-    vue: ^3.2.1
-  checksum: f06b6c358b560cac09e70297fc49614dc1062241079e13efba8a3473ac498f751c5ef34893ebdba00c39b673365cef2e10639cad382fc1fa09ba783549ac589a
-  languageName: node
-  linkType: hard
 
 "@vue/babel-helper-vue-transform-on@npm:^1.0.2":
   version: 1.0.2
@@ -2461,9 +2450,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "examples@workspace:examples"
   dependencies:
+    "@code-gorilla-au/vue-forms": "workspace:*"
     "@types/uuid": ^9
     "@vitejs/plugin-vue": ^4.1.0
-    "@vue-forms/vue-forms": "file:.yalc/@vue-forms/vue-forms"
     autoprefixer: ^10.4.14
     postcss: ^8.4.21
     tailwindcss: ^3.2.7
