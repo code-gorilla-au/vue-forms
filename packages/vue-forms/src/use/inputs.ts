@@ -1,4 +1,4 @@
-import { onUpdated, reactive, readonly, Ref, watch } from 'vue';
+import { onMounted, reactive, readonly, Ref, watch } from 'vue';
 import { useFormContext, VFormNode } from './forms';
 import { resoleUnref, MaybeElement } from './refs';
 import { v4 as uuid } from 'uuid';
@@ -159,7 +159,7 @@ export function useInputs(
     }
   }
 
-  onUpdated(() => {
+  onMounted(() => {
     syncInputRef(inputRef.value);
   });
 
