@@ -16,7 +16,8 @@
     },
     "types": "dist/index.d.ts",
     "scripts": {
-        "test": "test"
+        "test": "test",
+        "build": "echo not implemented"
     },
     "repository": {
         "type": "git",

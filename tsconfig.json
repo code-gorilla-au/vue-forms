@@ -1,29 +1,23 @@
 {
-    "compilerOptions": {
-      "module": "esnext",
-      "target": "es2019",
-      "lib": ["dom"],
-      "allowJs": false,
-      "strict": true,
-      "moduleResolution": "node",
-      "declaration": false,
-      "baseUrl": ".",
-      "outDir": "dist",
-      "jsx": "preserve",
-      "noUnusedLocals": true,
-      "noUnusedParameters": true,
-      "noImplicitReturns": true,
-      "noFallthroughCasesInSwitch": true,
-      "forceConsistentCasingInFileNames": true,
-      "esModuleInterop": true,
-      "paths": {
-      },
-      "types": [
-        "node",
-        "vite/client",
-        "vitest/globals",
-      ]
-    },
-    "exclude": ["node_modules", "*.vue"],
-  }
-  
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es2019",
+    "lib": ["dom"],
+    "allowJs": false,
+    "strict": true,
+    "moduleResolution": "node",
+    "declaration": false,
+    "baseUrl": ".",
+    "outDir": "dist",
+    "jsx": "preserve",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "paths": {},
+    "types": ["node", "vite/client", "vitest/globals"]
+  },
+  "exclude": ["node_modules", "*.vue"]
+}
