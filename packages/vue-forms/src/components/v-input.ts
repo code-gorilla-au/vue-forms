@@ -91,7 +91,7 @@ export default defineComponent({
           ref: inputRef,
           type: props.type,
           name: props.name,
-          value: resolveValue,
+          value: resolveValue.value,
           onInput: inputs.onInput,
           onChange: inputs.onChange,
           onBlur: inputs.onBlur,
