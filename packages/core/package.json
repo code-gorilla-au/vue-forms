@@ -17,7 +17,8 @@
     "types": "dist/index.d.ts",
     "scripts": {
         "test": "test",
-        "build": "echo not implemented"
+        "build": "echo not implemented",
+        "publishLocal": "echo not implemented"
     },
     "repository": {
         "type": "git",

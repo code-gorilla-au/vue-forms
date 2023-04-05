@@ -10,7 +10,9 @@
     "lint:fix": "eslint --fix . --ext .ts",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "dev": "vite --config ./examples/vite.config.ts --host"
+    "dev": "vite --config ./examples/vite.config.ts --host",
+    "build": "node scripts/build.mjs",
+    "localPublish": "yarn run build && node scripts/local-publish.mjs"
   },
   "repository": {
     "type": "git",
