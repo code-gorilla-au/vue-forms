@@ -23,11 +23,15 @@ export default defineComponent({
     const api = useFormApi(props.initFormData);
     provide(KEY_V_FORM_CONTEXT, api);
 
+
+
     return () => {
       return h(
         'form',
         {
-          onSubmitStopPrevent() {
+          onSubmit(event: Event) {
+            event.preventDefault();
+            event.stopPropagation();
             emit('submit', { ...api.data });
           },
         },

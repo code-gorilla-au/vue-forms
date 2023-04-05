@@ -17,6 +17,7 @@ export default defineComponent({
   },
   setup(_, { emit }) {
     async function handleSubmit(formData: userForm) {
+      console.log('formData', formData);
       emit('formData', formData);
     }
 
@@ -106,10 +107,10 @@ export default defineComponent({
     </label>
     <button
       type="submit"
-      :disabled="!formValid"
+      :disabled="!formValid.value"
       class="rounded-lg bg-green-400 disabled:bg-slate-400 text-black font-bold p-3 my-4"
     >
-      submit form
+      submit form {{ formValid }}
     </button>
     <pre>
         <code>
