@@ -1,50 +1,50 @@
 {
-    "name": "@vue-forms/vue-forms",
-    "version": "0.0.1",
-    "description": "form authoring light weight framework",
-    "main": "dist/index.cjs",
-    "module": "dist/index.mjs",
-    "types": "dist/index.d.ts",
-    "type": "module",
-    "exports": {
-        "./package.json": "./package.json",
-        ".": {
-            "types": "./dist/index.d.ts",
-            "import": "./dist/index.mjs",
-            "require": "./dist/index.cjs"
-        },
-        "./*": "./dist/*"
+  "name": "@code-gorilla-au/vue-forms",
+  "version": "0.0.1",
+  "description": "form authoring light weight framework",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
-    "scripts": {
-        "test": "test",
-        "build": "rollup -c",
-        "publishLocal": "yalc publish --push"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/code-gorilla-au/vue-forms.git"
-    },
-    "keywords": [
-        "vue",
-        "forms",
-        "inputs",
-        "form-generation"
-    ],
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/code-gorilla-au/vue-forms/issues"
-    },
-    "homepage": "https://github.com/code-gorilla-au/vue-forms#readme",
-    "peerDependencies": {
-        "vue": "^3.2.1"
-    },
-    "dependencies": {
-        "uuid": "^9.0.0"
-    },
-    "devDependencies": {
-        "@rollup/plugin-node-resolve": "^15.0.1",
-        "@rollup/plugin-typescript": "^11.0.0",
-        "@types/uuid": "^9",
-        "rollup": "^3.20.2"
-    }
+    "./*": "./dist/*"
+  },
+  "scripts": {
+    "test": "test",
+    "build": "rollup -c",
+    "publishLocal": "yalc publish --push"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/code-gorilla-au/vue-forms.git"
+  },
+  "keywords": [
+    "vue",
+    "forms",
+    "inputs",
+    "form-generation"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/code-gorilla-au/vue-forms/issues"
+  },
+  "homepage": "https://github.com/code-gorilla-au/vue-forms#readme",
+  "peerDependencies": {
+    "vue": "^3.2.1"
+  },
+  "dependencies": {
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/uuid": "^9",
+    "rollup": "^3.20.2"
+  }
 }
