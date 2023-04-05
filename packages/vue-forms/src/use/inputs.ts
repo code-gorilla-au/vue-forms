@@ -82,9 +82,7 @@ export function useInputs(
   state.dirty = state.value !== '';
 
   function syncInputRef(newInputRef: MaybeElement) {
-    console.log('version 1');
     if (!newInputRef) {
-      console.log('not registering');
       return;
     }
 
