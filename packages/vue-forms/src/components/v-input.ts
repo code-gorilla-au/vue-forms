@@ -80,6 +80,7 @@ export default defineComponent({
         'input',
         {
           ...attrs,
+          ref: inputRef,
           type: props.type,
           name: props.name,
           value: resolveValue,
