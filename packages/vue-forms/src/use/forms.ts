@@ -103,7 +103,6 @@ export function useFormApi(initFormData = {}): VFormContextApi {
       formData[fieldName] = '';
     },
     getNode: getNode,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     updateData(id: string) {
       const node = getNode(id);
       if (!node) {
