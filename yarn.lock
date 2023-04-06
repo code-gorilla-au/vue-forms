@@ -362,7 +362,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@code-gorilla-au/vue-forms@workspace:*, @code-gorilla-au/vue-forms@workspace:packages/vue-forms":
+"@code-gorilla-au/vue-forms@workspace:packages/vue-forms":
   version: 0.0.0-use.local
   resolution: "@code-gorilla-au/vue-forms@workspace:packages/vue-forms"
   dependencies:
@@ -2484,7 +2484,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "examples@workspace:examples"
   dependencies:
-    "@code-gorilla-au/vue-forms": "workspace:*"
     "@types/uuid": ^9
     "@vitejs/plugin-vue": ^4.1.0
     autoprefixer: ^10.4.14
@@ -4317,7 +4316,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@rollup/plugin-typescript": ^11.0.0
     "@testing-library/vue": ^7.0.0
     "@typescript-eslint/eslint-plugin": ^5.56.0
     "@typescript-eslint/parser": ^5.56.0
@@ -4329,7 +4327,6 @@ __metadata:
     eslint-plugin-tsdoc: ^0.2.17
     eslint-plugin-vue: ^9.9.0
     prettier: ^2.8.6
-    rollup: ^3.20.2
     typescript: ^5.0.2
     vite: ^4.2.1
     vitest: ^0.29.7
