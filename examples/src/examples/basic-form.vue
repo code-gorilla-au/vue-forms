@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { VForm, VInput } from '@vue-forms/vue-forms';
+import { VForm, VInput } from '@code-gorilla-au/vue-forms';
 
 interface userForm {
   firstName: string;
