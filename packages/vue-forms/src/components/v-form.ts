@@ -23,6 +23,8 @@ export default defineComponent({
     const api = useFormApi(props.initFormData);
     provide(KEY_V_FORM_CONTEXT, api);
 
+    console.log('version 2');
+
 
 
     return () => {
