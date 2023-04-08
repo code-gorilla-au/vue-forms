@@ -1,3 +1,5 @@
+import { logger } from './logger';
+
 export interface DispatcherOptions {
   debug?: boolean;
 }
@@ -21,6 +23,7 @@ export interface DispatcherState {
 
 export function dispatcher(opts: DispatcherOptions = { debug: false }) {
   const state: DispatcherState = {};
+  const log = logger({ debug: opts.debug ?? false });
 
   return {
     topics() {
@@ -29,9 +32,11 @@ export function dispatcher(opts: DispatcherOptions = { debug: false }) {
 
     subscribe(topic: DispatchEventTopic, fn: DispatchFunction) {
       if (!state[topic]) {
+        log.log(`registering new topic: ${topic}`);
         state[topic] = [fn];
         return;
       }
+      log.log(`adding subscriber for topic: ${topic}`);
       state[topic] = [...state[topic], fn];
     },
 
@@ -41,8 +46,10 @@ export function dispatcher(opts: DispatcherOptions = { debug: false }) {
           state[topic].forEach((fn) => {
             fn(opts, payload);
           });
+          log.log(`event dispatched for topic: ${topic}`);
           resolve(null);
         } catch (error) {
+          log.error(`${topic} dispatch error `, error);
           reject(error);
         }
       });

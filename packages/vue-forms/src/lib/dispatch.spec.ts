@@ -2,7 +2,7 @@ import { dispatcher } from './dispatch';
 
 describe('dispatcher', () => {
   it('should register topic', () => {
-    const d = dispatcher();
+    const d = dispatcher({ debug: true });
     d.subscribe('hello', () => {
       return;
     });
