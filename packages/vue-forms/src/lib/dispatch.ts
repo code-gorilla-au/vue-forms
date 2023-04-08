@@ -3,8 +3,6 @@ export interface DispatcherOptions {
 }
 
 export type DispatchEventTopic = string;
-export const LOG_DEBUG = 'log.debug';
-export const LOG_WARN = 'log.warn';
 
 export type DispatchFunction = (
   opts: DispatcherOptions,
