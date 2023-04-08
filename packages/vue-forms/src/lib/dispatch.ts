@@ -13,12 +13,8 @@ export type DispatchFunction = (
 
 export interface DispatchEventPayload {
   id: string;
-  [key: string]: string | number | Date | object;
-}
-
-export interface EventPayload {
   timestamp: number;
-  payload: DispatchEventPayload;
+  [key: string]: string | number | Date | object;
 }
 
 export interface DispatcherState {
@@ -35,7 +31,7 @@ export function dispatcher(opts: DispatcherOptions = { debug: false }) {
 
     subscribe(topic: DispatchEventTopic, fn: DispatchFunction) {
       if (!state[topic]) {
-        state[topic] = [];
+        state[topic] = [fn];
         return;
       }
       state[topic] = [...state[topic], fn];
