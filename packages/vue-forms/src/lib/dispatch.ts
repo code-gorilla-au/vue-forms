@@ -29,6 +29,10 @@ export function dispatcher(opts: DispatcherOptions = { debug: false }) {
   const state: DispatcherState = {};
 
   return {
+    topics() {
+      return Object.keys(state);
+    },
+
     subscribe(topic: DispatchEventTopic, fn: DispatchFunction) {
       if (!state[topic]) {
         state[topic] = [];
