@@ -7,19 +7,19 @@ export function logger({ debug }: LoggerOptions) {
       if (!debug) {
         return;
       }
-      console.log(args);
+      console.log(...args);
     },
     warn(...args: unknown[]) {
       if (!debug) {
         return;
       }
-      console.warn(args);
+      console.warn(...args);
     },
     error(...args: unknown[]) {
       if (!debug) {
         return;
       }
-      console.error(args);
+      console.error(...args);
     },
   };
 }
