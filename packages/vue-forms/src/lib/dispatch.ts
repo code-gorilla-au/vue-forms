@@ -22,8 +22,8 @@ export interface DispatcherState {
 }
 
 export function dispatcher(opts: DispatcherOptions = { debug: false }) {
-  const state: DispatcherState = {};
   const log = logger({ debug: opts.debug ?? false });
+  const state: DispatcherState = {};
 
   return {
     topics() {
