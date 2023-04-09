@@ -30,6 +30,7 @@
   "homepage": "https://github.com/code-gorilla-au/vue-forms#readme",
   "devDependencies": {
     "@testing-library/vue": "^7.0.0",
+    "@types/jsdom": "^21",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
@@ -39,6 +40,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-tsdoc": "^0.2.17",
     "eslint-plugin-vue": "^9.9.0",
+    "jsdom": "^21.1.1",
     "prettier": "^2.8.6",
     "typescript": "^5.0.2",
     "vite": "^4.2.1",
