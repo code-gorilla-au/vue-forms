@@ -37,7 +37,7 @@ export function composableWrapper<T>(fn: () => T) {
 
   return {
     result: component.wrapper(),
-    unmount: () => {
+    unmount() {
       tmpApp.unmount();
     },
   };
