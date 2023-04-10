@@ -79,8 +79,6 @@ export function useInputs(
     value: '',
   });
 
-  state.dirty = state.value !== '';
-
   function syncInputRef(newInputRef: MaybeElement) {
     if (!newInputRef) {
       return;
@@ -90,6 +88,7 @@ export function useInputs(
 
     state.id = uuid();
     state.value = opts.initModelValue || '';
+    state.dirty = state.value !== '';
     state.type = el.type;
     state.name = el.name;
     state.readonly = el.readOnly;

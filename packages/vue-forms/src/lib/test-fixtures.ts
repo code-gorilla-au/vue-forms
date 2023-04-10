@@ -1,26 +1,27 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { createApp, h } from 'vue';
+import { ComponentPublicInstance, createApp, defineComponent, h } from 'vue';
 
-interface WrapperComponent<T> {
+interface WrapperComponent<T> extends ComponentPublicInstance {
   setup(): {
     wrapper: () => T;
   };
-  render(): void;
+  wrapper: () => T;
 }
 
 export function composableWrapper<T>(fn: () => T) {
-  const child: WrapperComponent<T> = {
+  const child = defineComponent({
     setup() {
+      const result = fn();
       function wrapper() {
-        return fn();
+        return result;
       }
       return {
         wrapper,
       };
     },
-    render() { },
-  };
+    render() { }
+  });
 
   const app = {
     render() {
@@ -29,7 +30,6 @@ export function composableWrapper<T>(fn: () => T) {
   };
 
   const root = document.createElement('div');
-  root.setAttribute('id', 'root');
   const tmpApp = createApp(app);
   const vm = tmpApp.mount(root);
 
@@ -38,8 +38,13 @@ export function composableWrapper<T>(fn: () => T) {
   return {
     result: component.wrapper(),
     unmount: () => {
-      document.removeChild(root);
       tmpApp.unmount();
     },
   };
+}
+
+export function flushPromises() {
+  return new Promise((resolve) => {
+    setTimeout(resolve);
+  });
 }
