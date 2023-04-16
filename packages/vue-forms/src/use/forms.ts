@@ -1,4 +1,11 @@
-import { inject, reactive, readonly, computed, ComputedRef } from 'vue';
+import {
+  inject,
+  provide,
+  reactive,
+  readonly,
+  computed,
+  ComputedRef,
+} from 'vue';
 
 export interface VFormData {
   [key: string]: string | number;
@@ -124,7 +131,13 @@ export function useFormApi(initFormData = {}): VFormContextApi {
   };
 }
 
-export const KEY_V_FORM_CONTEXT = Symbol('--v-form-context');
+const KEY_V_FORM_CONTEXT = Symbol('--v-form-context');
+
+export function createFormContext(initFormData = {}): VFormContextApi {
+  const api = useFormApi(initFormData);
+  provide(KEY_V_FORM_CONTEXT, api);
+  return api;
+}
 
 export function useFormContext(): VFormContextApi | undefined {
   return inject(KEY_V_FORM_CONTEXT, undefined);

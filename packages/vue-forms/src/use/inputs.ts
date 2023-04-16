@@ -65,12 +65,6 @@ export function useInputs(
 ) {
   const formContext = useFormContext();
 
-  if (!formContext) {
-    throw new Error(
-      'Form context is required, ensure v-input is used within v-form',
-    );
-  }
-
   const state = reactive<VFormNode>({
     id: '',
     name: '',

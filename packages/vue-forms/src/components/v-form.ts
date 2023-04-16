@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { defineComponent, h, PropType, provide } from 'vue';
-import { KEY_V_FORM_CONTEXT, useFormApi } from '../use/forms';
+import { defineComponent, h, PropType } from 'vue';
+import { createFormContext } from '../use/forms';
 
 export default defineComponent({
   name: 'VForm',
@@ -20,8 +20,7 @@ export default defineComponent({
     },
   },
   setup(props, { emit, slots }) {
-    const api = useFormApi(props.initFormData);
-    provide(KEY_V_FORM_CONTEXT, api);
+    const api = createFormContext(props.initFormData);
 
     return () => {
       return h(
