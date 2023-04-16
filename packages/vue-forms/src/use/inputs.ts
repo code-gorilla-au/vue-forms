@@ -65,6 +65,12 @@ export function useInputs(
 ) {
   const formContext = useFormContext();
 
+  if (!formContext) {
+    throw new Error(
+      'Form context is required, ensure v-input is used within v-form',
+    );
+  }
+
   const state = reactive<VFormNode>({
     id: '',
     name: '',
@@ -124,9 +130,11 @@ export function useInputs(
     state.valid = false;
     state.validationMessage = target.validationMessage;
 
-    if (formContext) {
-      formContext.addValidation(state.id);
+    if (!formContext) {
+      return;
     }
+
+    formContext.addValidation(state.id);
   }
 
   function onInput(event: Event) {
@@ -134,15 +142,15 @@ export function useInputs(
     state.value = resolveInputValue(target);
     state.valid = checkValidity(state.required, target.validity);
 
+    if (opts.eagerValidation) {
+      target.checkValidity();
+    }
+
     if (!formContext) {
       return;
     }
 
     formContext.updateData(state.id);
-
-    if (opts.eagerValidation) {
-      target.checkValidity();
-    }
   }
 
   function onChange(event: Event) {
@@ -151,9 +159,11 @@ export function useInputs(
 
   function focusInputRef() {
     const el = resoleUnref(inputRef);
-    if (el) {
-      (el as HTMLElement).focus();
+    if (!el) {
+      return;
     }
+
+    (el as HTMLElement).focus();
   }
 
   onMounted(() => {
