@@ -6,6 +6,7 @@ import {
   computed,
   ComputedRef,
 } from 'vue';
+import { DispatchEventTopic, dispatcher } from '../lib/dispatch';
 
 export interface VFormData {
   [key: string]: string | number;
@@ -33,6 +34,8 @@ export interface VFormNodes {
   [key: string]: VFormNode;
 }
 
+export const EVENT_UPDATE_DATA: DispatchEventTopic = 'internal.update.data';
+
 /**
  * checks if node has a valid name, otherwise returns an id
  */
@@ -47,30 +50,14 @@ export interface VFormContextApi {
   readonly formValid: ComputedRef<boolean>;
   /**
    * register an input node with the form context
-   * @param id unique id
    * @param node form node
    */
-  registerNode(id: string, node: VFormNode): void;
+  registerNode(node: VFormNode): void;
   /**
    * get input node by id
    * @param id unique id
    */
   getNode(id: string): VFormNode;
-  /**
-   * update form data with the new values from the node
-   * @param id unique id
-   */
-  updateData(id: string): void;
-  /**
-   * add validation message from the node
-   * @param id unique id
-   */
-  addValidation(id: string): void;
-  /**
-   * remove validation message
-   * @param id unique id
-   */
-  removeValidation(id: string): void;
 }
 
 function evaluateNodeValidity(node: VFormNode) {
@@ -83,8 +70,17 @@ export function useFormApi(initFormData = {}): VFormContextApi {
   }
 
   function getNode(id: string): VFormNode {
-    return formNodes[id];
+    return { ...formNodes[id] };
   }
+
+
+  const formDispatcher = dispatcher();
+  formDispatcher.subscribe(EVENT_UPDATE_DATA, (opts, payload<VFormNode>) => {
+    formNodes[payload.node.id] = node;
+    const fieldName = resolveFieldName(node);
+    formData[fieldName] = node.value;
+    formValidations[fieldName] = node.validationMessage;
+  });
 
   const formNodes = reactive<VFormNodes>({});
   const formValidations = reactive<VFormValidations>({});
@@ -100,34 +96,18 @@ export function useFormApi(initFormData = {}): VFormContextApi {
     formValid,
     validations: readonly(formValidations),
 
-    registerNode(id: string, node: VFormNode): void {
-      if (formNodes[id]) {
-        throw Error(`${id} already exists`);
+    registerNode(node: VFormNode): void {
+      if (getNode(node.id)) {
+        throw Error(`${node.id} already exists`);
       }
-      formNodes[id] = node;
+
+      formNodes[node.id] = node;
 
       const fieldName = resolveFieldName(node);
       formData[fieldName] = '';
     },
     getNode: getNode,
-    updateData(id: string) {
-      const node = getNode(id);
-      if (!node) {
-        throw Error(`${id} input not registered`);
-      }
-      const fieldName = resolveFieldName(node);
-      formData[fieldName] = node.value;
-    },
-    addValidation(id: string) {
-      const node = getNode(id);
-      const fieldName = resolveFieldName(node);
-      formValidations[fieldName] = node.validationMessage;
-    },
-    removeValidation(id: string) {
-      const node = getNode(id);
-      const fieldName = resolveFieldName(node);
-      formValidations[fieldName] = undefined;
-    },
+    dispatch: formDispatcher.dispatch,
   };
 }
 
