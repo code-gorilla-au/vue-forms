@@ -6,7 +6,13 @@ import {
   computed,
   ComputedRef,
 } from 'vue';
-import { DispatchEventTopic, dispatcher } from '../lib/dispatch';
+import {
+  DispatchEventPayload,
+  DispatchEventTopic,
+  DispatcherOptions,
+  dispatcher,
+} from '../lib/dispatch';
+import { v4 as uuid } from 'uuid';
 
 export interface VFormData {
   [key: string]: string | number;
@@ -43,6 +49,10 @@ function resolveFieldName(node: VFormNode) {
   return node.name === '' ? node.id : node.name;
 }
 
+function resolveValidationMessage(node: VFormNode) {
+  return node.validationMessage === '' ? undefined : node.validationMessage;
+}
+
 export interface VFormContextApi {
   readonly nodes: VFormNodes;
   readonly data: VFormData;
@@ -58,6 +68,8 @@ export interface VFormContextApi {
    * @param id unique id
    */
   getNode(id: string): VFormNode;
+
+  dispatch(event: DispatchEventTopic, node: VFormNode): Promise<void>;
 }
 
 function evaluateNodeValidity(node: VFormNode) {
@@ -69,22 +81,26 @@ export function useFormApi(initFormData = {}): VFormContextApi {
     throw new Error('initFormData is not valid');
   }
 
-  function getNode(id: string): VFormNode {
-    return { ...formNodes[id] };
+  function updateNodeData<T extends VFormNode>(
+    opts: DispatcherOptions,
+    event: DispatchEventPayload<T>,
+  ) {
+    formNodes[event.payload.id] = event.payload;
+    const fieldName = resolveFieldName(event.payload);
+    formData[fieldName] = event.payload.value;
+    formValidations[fieldName] = resolveValidationMessage(event.payload);
   }
 
-
-  const formDispatcher = dispatcher();
-  formDispatcher.subscribe(EVENT_UPDATE_DATA, (opts, payload<VFormNode>) => {
-    formNodes[payload.node.id] = node;
-    const fieldName = resolveFieldName(node);
-    formData[fieldName] = node.value;
-    formValidations[fieldName] = node.validationMessage;
-  });
+  const formDispatcher = dispatcher<VFormNode>();
+  formDispatcher.subscribe(EVENT_UPDATE_DATA, updateNodeData);
 
   const formNodes = reactive<VFormNodes>({});
   const formValidations = reactive<VFormValidations>({});
   const formData = reactive(JSON.parse(JSON.stringify(initFormData)));
+
+  function getNode(id: string): VFormNode {
+    return { ...formNodes[id] };
+  }
 
   const formValid = computed(() => {
     return Object.values(formNodes).every(evaluateNodeValidity);
@@ -107,7 +123,15 @@ export function useFormApi(initFormData = {}): VFormContextApi {
       formData[fieldName] = '';
     },
     getNode: getNode,
-    dispatch: formDispatcher.dispatch,
+    async dispatch(event: DispatchEventTopic, node: VFormNode) {
+      const payload = {
+        id: uuid(),
+        timestamp: Date.now(),
+        payload: node,
+      };
+      await formDispatcher.dispatch(event, payload);
+      return await Promise.resolve();
+    },
   };
 }
 

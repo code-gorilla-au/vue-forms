@@ -1,5 +1,5 @@
 import { onMounted, reactive, readonly, Ref, watch } from 'vue';
-import { useFormContext, VFormNode } from './forms';
+import { EVENT_UPDATE_DATA, useFormContext, VFormNode } from './forms';
 import { resoleUnref, MaybeElement } from './refs';
 import { v4 as uuid } from 'uuid';
 
@@ -79,7 +79,7 @@ export function useInputs(
     value: '',
   });
 
-  function syncInputRef(newInputRef: MaybeElement) {
+  async function syncInputRef(newInputRef: MaybeElement) {
     if (!newInputRef) {
       return;
     }
@@ -100,10 +100,10 @@ export function useInputs(
     }
 
     if (!formContext.getNode(state.name)) {
-      formContext.registerNode(state.id, state);
+      formContext.registerNode(state);
     }
 
-    formContext.updateData(state.id);
+    await formContext.dispatch(EVENT_UPDATE_DATA, state);
   }
 
   function onFocus() {
@@ -123,12 +123,6 @@ export function useInputs(
     const target = event.target as HTMLInputElement;
     state.valid = false;
     state.validationMessage = target.validationMessage;
-
-    if (!formContext) {
-      return;
-    }
-
-    formContext.addValidation(state.id);
   }
 
   function onInput(event: Event) {
@@ -139,12 +133,6 @@ export function useInputs(
     if (opts.eagerValidation) {
       target.checkValidity();
     }
-
-    if (!formContext) {
-      return;
-    }
-
-    formContext.updateData(state.id);
   }
 
   function onChange(event: Event) {
@@ -164,19 +152,13 @@ export function useInputs(
     syncInputRef(inputRef.value);
   });
 
-  watch(
-    () => {
-      return state.valid;
-    },
-    (isValid) => {
-      if (!isValid || !formContext) {
-        return;
-      }
+  watch(state, async (newState) => {
+    if (!formContext) {
+      return;
+    }
 
-      state.validationMessage = '';
-      formContext.removeValidation(state.id);
-    },
-  );
+    await formContext?.dispatch(EVENT_UPDATE_DATA, newState);
+  });
 
   if (opts.customValidation) {
     return {

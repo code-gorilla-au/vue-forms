@@ -8,13 +8,13 @@ export type DispatchEventTopic = string;
 
 export type DispatchFunction<T> = (
   opts: DispatcherOptions,
-  payload: DispatchEventPayload<T>,
+  event: DispatchEventPayload<T>,
 ) => void;
 
 export interface DispatchEventPayload<T> {
   id: string;
   timestamp: number;
-  [key: string]: string | T;
+  payload: T;
 }
 
 export interface DispatcherState<T> {
