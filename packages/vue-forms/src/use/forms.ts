@@ -13,6 +13,7 @@ import {
   dispatcher,
 } from '../lib/dispatch';
 import { v4 as uuid } from 'uuid';
+import { logger } from '../lib/logger';
 
 export interface VFormData {
   [key: string]: string | number;
@@ -81,6 +82,8 @@ export function useFormApi(initFormData = {}): VFormContextApi {
     throw new Error('initFormData is not valid');
   }
 
+  const log = logger({ debug: true });
+
   function updateNodeData<T extends VFormNode>(
     opts: DispatcherOptions,
     event: DispatchEventPayload<T>,
@@ -117,6 +120,8 @@ export function useFormApi(initFormData = {}): VFormContextApi {
         throw Error(`${node.id} already exists`);
       }
 
+      log.log(`${node.id} registered`);
+
       formNodes[node.id] = node;
 
       const fieldName = resolveFieldName(node);
@@ -129,6 +134,8 @@ export function useFormApi(initFormData = {}): VFormContextApi {
         timestamp: Date.now(),
         payload: node,
       };
+
+      log.log(`${node.id} dispatching event: ${event}: `, payload);
       await formDispatcher.dispatch(event, payload);
       return await Promise.resolve();
     },
