@@ -132,7 +132,7 @@ export function useFormApi(initFormData = {}): VFormContextApi {
       const payload = {
         id: uuid(),
         timestamp: Date.now(),
-        payload: node,
+        payload: { ...node },
       };
 
       log.log(`${node.id} dispatching event: ${event}: `, payload);
