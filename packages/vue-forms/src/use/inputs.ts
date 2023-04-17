@@ -130,6 +130,10 @@ export function useInputs(
     state.value = resolveInputValue(target);
     state.valid = checkValidity(state.required, target.validity);
 
+    if (state.valid) {
+      state.validationMessage = '';
+    }
+
     if (opts.eagerValidation) {
       target.checkValidity();
     }
@@ -157,7 +161,7 @@ export function useInputs(
       return;
     }
 
-    await formContext?.dispatch(EVENT_UPDATE_DATA, newState);
+    await formContext.dispatch(EVENT_UPDATE_DATA, newState);
   });
 
   if (opts.customValidation) {
