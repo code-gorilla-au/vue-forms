@@ -1,7 +1,7 @@
 export interface LoggerOptions {
   debug: boolean;
 }
-export function logger({ debug }: LoggerOptions) {
+export function logger({ debug }: LoggerOptions = { debug: false }) {
   return {
     log(...args: unknown[]) {
       if (!debug) {

@@ -43,17 +43,6 @@ export interface VFormNodes {
 
 export const EVENT_UPDATE_DATA: DispatchEventTopic = 'internal.update.data';
 
-/**
- * checks if node has a valid name, otherwise returns an id
- */
-function resolveFieldName(node: VFormNode) {
-  return node.name === '' ? node.id : node.name;
-}
-
-function resolveValidationMessage(node: VFormNode) {
-  return node.validationMessage === '' ? undefined : node.validationMessage;
-}
-
 export interface VFormContextApi {
   readonly nodes: VFormNodes;
   readonly data: VFormData;
@@ -73,6 +62,17 @@ export interface VFormContextApi {
   dispatch(event: DispatchEventTopic, node: VFormNode): Promise<void>;
 }
 
+/**
+ * checks if node has a valid name, otherwise returns an id
+ */
+function resolveFieldName(node: VFormNode) {
+  return node.name === '' ? node.id : node.name;
+}
+
+function resolveValidationMessage(node: VFormNode) {
+  return node.validationMessage === '' ? undefined : node.validationMessage;
+}
+
 function evaluateNodeValidity(node: VFormNode) {
   return node.valid;
 }
@@ -82,10 +82,14 @@ export function useFormApi(initFormData = {}): VFormContextApi {
     throw new Error('initFormData is not valid');
   }
 
-  const log = logger({ debug: true });
+  const formNodes = reactive<VFormNodes>({});
+  const formValidations = reactive<VFormValidations>({});
+  const formData = reactive(JSON.parse(JSON.stringify(initFormData)));
+
+  const log = logger();
 
   function updateNodeData<T extends VFormNode>(
-    opts: DispatcherOptions,
+    _: DispatcherOptions,
     event: DispatchEventPayload<T>,
   ) {
     formNodes[event.payload.id] = event.payload;
@@ -96,10 +100,6 @@ export function useFormApi(initFormData = {}): VFormContextApi {
 
   const formDispatcher = dispatcher<VFormNode>();
   formDispatcher.subscribe(EVENT_UPDATE_DATA, updateNodeData);
-
-  const formNodes = reactive<VFormNodes>({});
-  const formValidations = reactive<VFormValidations>({});
-  const formData = reactive(JSON.parse(JSON.stringify(initFormData)));
 
   function getNode(id: string): VFormNode {
     return { ...formNodes[id] };
@@ -117,7 +117,8 @@ export function useFormApi(initFormData = {}): VFormContextApi {
 
     registerNode(node: VFormNode): void {
       if (getNode(node.id)) {
-        throw Error(`${node.id} already exists`);
+        log.error(`${node.id} already exists`);
+        return;
       }
 
       log.log(`${node.id} registered`);
@@ -135,7 +136,6 @@ export function useFormApi(initFormData = {}): VFormContextApi {
         payload: { ...node },
       };
 
-      log.log(`${node.id} dispatching event: ${event}: `, payload);
       await formDispatcher.dispatch(event, payload);
       return await Promise.resolve();
     },
