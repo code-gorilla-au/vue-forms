@@ -362,7 +362,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@code-gorilla-au/vue-forms@workspace:*, @code-gorilla-au/vue-forms@workspace:packages/vue-forms":
+"@code-gorilla-au/vue-forms@workspace:^, @code-gorilla-au/vue-forms@workspace:packages/vue-forms":
   version: 0.0.0-use.local
   resolution: "@code-gorilla-au/vue-forms@workspace:packages/vue-forms"
   dependencies:
@@ -1164,12 +1164,6 @@ __metadata:
   checksum: cbe69f3996d8ef71990fc7e85c615d8544661bd49c38fe653ed29f72aa6fec9221d5e3dc2e312c1bf19a6280399d4bf0510ad88b84ab776974c2603807ba07d7
   languageName: node
   linkType: hard
-
-"@vue-forms/core@workspace:packages/core":
-  version: 0.0.0-use.local
-  resolution: "@vue-forms/core@workspace:packages/core"
-  languageName: unknown
-  linkType: soft
 
 "@vue/babel-helper-vue-transform-on@npm:^1.0.2":
   version: 1.0.2
@@ -2614,7 +2608,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "examples@workspace:examples"
   dependencies:
-    "@code-gorilla-au/vue-forms": "workspace:*"
+    "@code-gorilla-au/vue-forms": "workspace:^"
     "@types/uuid": ^9
     "@vitejs/plugin-vue": ^4.1.0
     autoprefixer: ^10.4.14
