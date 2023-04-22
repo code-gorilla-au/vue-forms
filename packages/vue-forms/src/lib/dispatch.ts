@@ -6,31 +6,31 @@ export interface DispatcherOptions {
 
 export type DispatchEventTopic = string;
 
-export type DispatchFunction = (
+export type DispatchFunction<T> = (
   opts: DispatcherOptions,
-  payload: DispatchEventPayload,
+  event: DispatchEventPayload<T>,
 ) => void;
 
-export interface DispatchEventPayload {
+export interface DispatchEventPayload<T> {
   id: string;
   timestamp: number;
-  [key: string]: string | number | Date | object;
+  payload: T;
 }
 
-export interface DispatcherState {
-  [key: DispatchEventTopic]: DispatchFunction[];
+export interface DispatcherState<T> {
+  [key: DispatchEventTopic]: DispatchFunction<T>[];
 }
 
-export function dispatcher(opts: DispatcherOptions = { debug: false }) {
+export function dispatcher<T>(opts: DispatcherOptions = { debug: false }) {
   const log = logger({ debug: opts.debug ?? false });
-  const state: DispatcherState = {};
+  const state: DispatcherState<T> = {};
 
   return {
     topics() {
       return Object.keys(state);
     },
 
-    subscribe(topic: DispatchEventTopic, fn: DispatchFunction) {
+    subscribe(topic: DispatchEventTopic, fn: DispatchFunction<T>) {
       if (!state[topic]) {
         log.log(`registering new topic: ${topic}`);
         state[topic] = [fn];
@@ -40,7 +40,10 @@ export function dispatcher(opts: DispatcherOptions = { debug: false }) {
       state[topic] = [...state[topic], fn];
     },
 
-    async dispatch(topic: DispatchEventTopic, payload: DispatchEventPayload) {
+    async dispatch(
+      topic: DispatchEventTopic,
+      payload: DispatchEventPayload<T>,
+    ) {
       return new Promise((resolve, reject) => {
         try {
           state[topic].forEach((fn) => {
