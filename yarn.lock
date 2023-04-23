@@ -362,6 +362,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@code-gorilla-au/vue-forms-ui@workspace:packages/vue-forms-ui":
+  version: 0.0.0-use.local
+  resolution: "@code-gorilla-au/vue-forms-ui@workspace:packages/vue-forms-ui"
+  dependencies:
+    "@rollup/plugin-node-resolve": ^15.0.2
+    "@rollup/plugin-terser": ^0.4.1
+    "@rollup/plugin-typescript": ^11.1.0
+    rollup: ^3.20.7
+  peerDependencies:
+    vue: ^3.2.1
+  languageName: unknown
+  linkType: soft
+
 "@code-gorilla-au/vue-forms@^0.0.2, @code-gorilla-au/vue-forms@workspace:packages/vue-forms":
   version: 0.0.0-use.local
   resolution: "@code-gorilla-au/vue-forms@workspace:packages/vue-forms"
@@ -730,7 +743,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-node-resolve@npm:^15.0.1":
+"@rollup/plugin-node-resolve@npm:^15.0.1, @rollup/plugin-node-resolve@npm:^15.0.2":
   version: 15.0.2
   resolution: "@rollup/plugin-node-resolve@npm:15.0.2"
   dependencies:
@@ -749,7 +762,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-terser@npm:^0.4.0":
+"@rollup/plugin-terser@npm:^0.4.0, @rollup/plugin-terser@npm:^0.4.1":
   version: 0.4.1
   resolution: "@rollup/plugin-terser@npm:0.4.1"
   dependencies:
@@ -765,7 +778,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-typescript@npm:^11.0.0":
+"@rollup/plugin-typescript@npm:^11.0.0, @rollup/plugin-typescript@npm:^11.1.0":
   version: 11.1.0
   resolution: "@rollup/plugin-typescript@npm:11.1.0"
   dependencies:
@@ -4495,6 +4508,20 @@ __metadata:
   bin:
     rollup: dist/bin/rollup
   checksum: fa30f1e1d214b8c62e631d3c181a75d61bc9c20fca38220d6f938bb3bf734a874e407cd641c90f550dc2b127df5029dfb3108be08934a654f1f40b50f368b0c2
+  languageName: node
+  linkType: hard
+
+"rollup@npm:^3.20.7":
+  version: 3.20.7
+  resolution: "rollup@npm:3.20.7"
+  dependencies:
+    fsevents: ~2.3.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    rollup: dist/bin/rollup
+  checksum: 443f26aa6e42b94b4b137fbc3a07c78254cafc4ae53e0547bf5a94337b0658ca100d4e1c7e24870e399e5c7068a419cc0d367bfd35f4b1552d0b5e6d3482c517
   languageName: node
   linkType: hard
 
