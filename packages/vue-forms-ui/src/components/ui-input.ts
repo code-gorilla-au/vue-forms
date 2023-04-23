@@ -1,10 +1,21 @@
-import { defineComponent, h } from 'vue';
+import { PropType, defineComponent, h } from 'vue';
+import { InputStyling } from '../lib/types';
 import { VInput } from '@code-gorilla-au/vue-forms';
 
 export default defineComponent({
   name: 'UIInput',
   components: { VInput },
   inheritAttrs: false,
+  emits: {
+    /**
+     * update model value
+     */
+    'update:modelValue': null,
+    /**
+     * input validation message
+     */
+    'update:validationMessage': null,
+  },
   props: {
     /**
      * Id for input
@@ -22,7 +33,8 @@ export default defineComponent({
     },
     /**
      * type of input
-     */ type: {
+     */
+    type: {
       type: String,
       required: false,
       default: 'text',
@@ -49,19 +61,49 @@ export default defineComponent({
       type: String,
       required: false,
     },
+    /**
+     * provide optional class styling
+     */
+    styling: {
+      type: Object as PropType<InputStyling>,
+      required: false,
+      default: () => ({}),
+    },
   },
   setup(props, ctx) {
     return () => {
-      return h('label', { for: props.id }, [
-        h('span', { innerHTML: props.label }),
-        h(VInput, {
-          type: props.type,
-          name: props.name,
-          modelValue: props.modelValue,
-          value: props.value,
-          ...ctx.attrs,
-        }),
-      ]);
+      return h(
+        'label',
+        {
+          for: props.id,
+          class: ['ui-input-container', props?.styling?.container],
+        },
+        [
+          h('span', {
+            innerHTML: props.label,
+            class: ['ui-input-label', props?.styling?.label],
+          }),
+          h(
+            VInput,
+            {
+              ...ctx.attrs,
+              class: ['ui-input', props?.styling?.input],
+              type: props.type,
+              name: props.name,
+              modelValue: props.modelValue,
+              value: props.value,
+            },
+            {
+              default({ validationMessage }: { validationMessage: string }) {
+                return h('p', {
+                  innerText: validationMessage,
+                  class: ['ui-input-validation', props?.styling?.validation],
+                });
+              },
+            },
+          ),
+        ],
+      );
     };
   },
 });
