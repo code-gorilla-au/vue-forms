@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue';
+import { defineComponent, h } from 'vue';
 import { VInput } from '@code-gorilla-au/vue-forms';
 
 export default defineComponent({
@@ -20,12 +20,48 @@ export default defineComponent({
       type: String,
       required: false,
     },
+    /**
+     * type of input
+     */ type: {
+      type: String,
+      required: false,
+      default: 'text',
+    },
+    /**
+     * name of the input
+     */
+    name: {
+      type: String,
+      required: true,
+    },
+    /**
+     * model value
+     */
+    modelValue: {
+      type: String,
+      required: false,
+      default: undefined,
+    },
+    /**
+     * value used for input type 'radio'
+     */
+    value: {
+      type: String,
+      required: false,
+    },
   },
-  template: `
-  <label :for="id">
-    <span v-show="label">{{ label }}</span>
-    <VInput :id="id" v-bind="$attrs" #default="{ validationMessage }" >
-      <p v-show="validationMessage">{{ validationMessage }}</p>
-    </VInput>
-  </label>`,
+  setup(props, ctx) {
+    return () => {
+      return h('label', { for: props.id }, [
+        h('span', { innerHTML: props.label }),
+        h(VInput, {
+          type: props.type,
+          name: props.name,
+          modelValue: props.modelValue,
+          value: props.value,
+          ...ctx.attrs,
+        }),
+      ]);
+    };
+  },
 });
