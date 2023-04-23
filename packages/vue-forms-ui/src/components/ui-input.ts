@@ -6,10 +6,16 @@ export default defineComponent({
   components: { VInput },
   inheritAttrs: false,
   props: {
+    /**
+     * Id for input
+     */
     id: {
       type: String,
       required: true,
     },
+    /**
+     * label for input
+     */
     label: {
       type: String,
       required: false,
@@ -18,8 +24,8 @@ export default defineComponent({
   template: `
   <label :for="id">
     <span v-show="label">{{ label }}</span>
-    <VInput :id="id" #default="{ validationMessage }" >
-      <p v-show=""></p>
+    <VInput :id="id" v-bind="$attrs" #default="{ validationMessage }" >
+      <p v-show="validationMessage">{{ validationMessage }}</p>
     </VInput>
   </label>`,
 });
