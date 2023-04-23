@@ -29,17 +29,21 @@
     "vue",
     "forms",
     "inputs",
-    "form-generation"
+    "form-generation",
+    "ui"
   ],
   "license": "MIT",
   "peerDependencies": {
     "vue": "^3.2.1"
   },
   "packageManager": "yarn@3.5.0",
-  "dependencies": {
+  "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.0.2",
     "@rollup/plugin-terser": "^0.4.1",
     "@rollup/plugin-typescript": "^11.1.0",
     "rollup": "^3.20.7"
+  },
+  "dependencies": {
+    "@code-gorilla-au/vue-forms": "workspace:^"
   }
 }
