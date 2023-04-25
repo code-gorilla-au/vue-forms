@@ -1,36 +1,32 @@
 :root {
     --ui-colour-primary: purple;
-    --ui-colour-shades: slate;
     --ui-colour-secondary: blue;
 
 }
 
 .ui-input-container {
+    position: relative;
     display: flex;
     flex-direction: column;
 }
-.ui-input-container:focus {
-    border: 1rem solid;
-}
 .ui-input-label {
+    position: absolute;
     color: var(--ui-colour-primary);
     font-size: smaller;
     padding-left: 0.5rem;
-    background-color: whitesmoke;
-    border-radius: 0.5rem 0.5rem 0rem 0rem;
+    padding-top: 0.1rem;
 }
 .ui-input {
     background-color: whitesmoke;
     color: black;
-    padding-left: 0.5rem;
-    padding-bottom: 0.3rem;
-    border-radius: 0rem 0rem 0.5rem 0.5rem;
     width: 100%;
+    border-radius: 0.3rem;
+    padding: 1.2rem 0.5rem 0.2rem 0.5rem;
 }
 .ui-input:focus {
     outline: none;
 }
 .ui-input-validation {
     font-size: x-small;
-    padding-left: 0.3rem;
+    padding-left: 0.5rem;
 }
