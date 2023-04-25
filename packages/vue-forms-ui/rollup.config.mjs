@@ -1,4 +1,5 @@
 import typescript from '@rollup/plugin-typescript';
+import postcss from 'rollup-plugin-postcss';
 import terser from '@rollup/plugin-terser';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 
@@ -11,6 +12,7 @@ export default [
       file: 'dist/index.mjs',
     },
     plugins: [
+      postcss(),
       typescript({
         tsconfig: 'tsconfig.json',
       }),
@@ -26,6 +28,7 @@ export default [
       file: 'dist/index.cjs',
     },
     plugins: [
+      postcss(),
       typescript({
         tsconfig: 'tsconfig.json',
       }),

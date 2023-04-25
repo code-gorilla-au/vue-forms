@@ -41,7 +41,9 @@
     "@rollup/plugin-node-resolve": "^15.0.2",
     "@rollup/plugin-terser": "^0.4.1",
     "@rollup/plugin-typescript": "^11.1.0",
-    "rollup": "^3.20.7"
+    "postcss": "^8.4.23",
+    "rollup": "^3.20.7",
+    "rollup-plugin-postcss": "^4.0.2"
   },
   "dependencies": {
     "@code-gorilla-au/vue-forms": "workspace:^"

@@ -13,18 +13,7 @@ export default defineComponent({
 
 <template>
   <div>
-    <UIInput
-      id="singleinput"
-      name="singleInput"
-      label="hello"
-      type="email"
-      :styling="{
-        container: 'inline-flex flex-col',
-        label: 'text-white',
-        input: 'text-black',
-        validation: 'text-white',
-      }"
-    />
+    <UIInput id="singleinput" name="singleInput" label="hello" type="email" />
   </div>
 </template>
 

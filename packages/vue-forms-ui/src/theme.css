@@ -1,0 +1,36 @@
+:root {
+    --ui-colour-primary: purple;
+    --ui-colour-shades: slate;
+    --ui-colour-secondary: blue;
+
+}
+
+.ui-input-container {
+    display: flex;
+    flex-direction: column;
+}
+.ui-input-container:focus {
+    border: 1rem solid;
+}
+.ui-input-label {
+    color: var(--ui-colour-primary);
+    font-size: smaller;
+    padding-left: 0.5rem;
+    background-color: whitesmoke;
+    border-radius: 0.5rem 0.5rem 0rem 0rem;
+}
+.ui-input {
+    background-color: whitesmoke;
+    color: black;
+    padding-left: 0.5rem;
+    padding-bottom: 0.3rem;
+    border-radius: 0rem 0rem 0.5rem 0.5rem;
+    width: 100%;
+}
+.ui-input:focus {
+    outline: none;
+}
+.ui-input-validation {
+    font-size: x-small;
+    padding-left: 0.3rem;
+}
