@@ -1,4 +1,4 @@
-import { defineComponent, PropType, h } from 'vue';
+import { defineComponent, PropType, h, computed } from 'vue';
 import { InputStyling } from '../lib/types';
 import { VInput } from '@code-gorilla-au/vue-forms';
 
@@ -48,6 +48,10 @@ export default defineComponent({
   },
   components: { VInput },
   setup(props, ctx) {
+    const defaultSlot = computed(() => {
+      return ctx.slots.default && ctx.slots.default();
+    });
+
     return () => {
       return h(
         'label',
@@ -74,6 +78,7 @@ export default defineComponent({
               },
             },
           ),
+          defaultSlot.value,
         ],
       );
     };
