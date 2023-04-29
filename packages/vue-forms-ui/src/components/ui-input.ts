@@ -76,10 +76,10 @@ export default defineComponent({
         'label',
         {
           class: ['ui-input-container', props?.styling?.container],
+          for: props.id,
         },
         [
           h('span', {
-            for: props.id,
             innerHTML: props.label,
             class: ['ui-input-label', props?.styling?.label],
           }),

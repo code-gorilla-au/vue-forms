@@ -1,10 +1,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { UIInput } from '@code-gorilla-au/vue-forms-ui';
+import { UIInput, UICheckbox } from '@code-gorilla-au/vue-forms-ui';
 
 export default defineComponent({
   name: 'BasicForm',
-  components: { UIInput },
+  components: { UIInput, UICheckbox },
   setup() {
     return {};
   },
@@ -14,6 +14,9 @@ export default defineComponent({
 <template>
   <div>
     <UIInput id="singleinput" name="singleInput" label="hello" type="email" />
+    <UICheckbox id="checkboxInput" name="checkboxInput">
+      <p>hello</p>
+    </UICheckbox>
   </div>
 </template>
 
