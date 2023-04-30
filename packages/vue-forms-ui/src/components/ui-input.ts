@@ -87,6 +87,7 @@ export default defineComponent({
             VInput,
             {
               ...ctx.attrs,
+              id: props.id,
               class: ['ui-input', props?.styling?.input],
               type: props.type,
               name: props.name,

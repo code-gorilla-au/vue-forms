@@ -64,17 +64,24 @@ export default defineComponent({
             VInput,
             {
               ...ctx.attrs,
-              class: ['ui-checkbox', props?.styling?.input],
+              id: props.id,
+              class: ['ui-checkbox-input', props?.styling?.input],
               type: 'checkbox',
               name: props.name,
               modelValue: props.modelValue,
             },
             {
               default({ validationMessage }: { validationMessage: string }) {
-                return h('p', {
-                  innerText: validationMessage,
-                  class: ['ui-checkbox-validation', props?.styling?.validation],
-                });
+                return [
+                  h('span', { class: 'ui-checkbox-box' }),
+                  h('p', {
+                    innerText: validationMessage,
+                    class: [
+                      'ui-checkbox-validation',
+                      props?.styling?.validation,
+                    ],
+                  }),
+                ];
               },
             },
           ),
