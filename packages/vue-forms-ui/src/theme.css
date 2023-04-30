@@ -1,7 +1,8 @@
 :root {
-    --ui-colour-primary: purple;
-    --ui-colour-secondary: blue;
-
+    --ui-colour-input-label: purple;
+    --ui-colour-input-text: black;
+    --ui-colour-input-background: whitesmoke;
+    --ui-input-border-radius: 0.3rem;
 }
 
 .ui-input-container {
@@ -11,16 +12,16 @@
 }
 .ui-input-label {
     position: absolute;
-    color: var(--ui-colour-primary);
+    color: var(--ui-colour-input-label);
     font-size: smaller;
     padding-left: 0.5rem;
     padding-top: 0.1rem;
 }
 .ui-input {
-    background-color: whitesmoke;
-    color: black;
+    background-color: var(--ui-colour-input-background);
+    color: var(--ui-colour-input-text);
     width: 100%;
-    border-radius: 0.3rem;
+    border-radius: var(--ui-input-border-radius);
     padding: 1.2rem 0.5rem 0.2rem 0.5rem;
 }
 .ui-input:focus {
