@@ -1,4 +1,4 @@
-import { defineComponent, PropType, h, computed } from 'vue';
+import { defineComponent, PropType, h, computed, ref } from 'vue';
 import { InputStyling } from '../lib/types';
 import { VInput } from '@code-gorilla-au/vue-forms';
 
@@ -52,40 +52,59 @@ export default defineComponent({
       return ctx.slots.default && ctx.slots.default();
     });
 
+    const validationMessage = ref('');
+
+    function updateValidationMessage(msg: string) {
+      validationMessage.value = msg;
+    }
+
+    const validationSlot = computed(() => {
+      if (validationMessage.value === '') {
+        return;
+      }
+      return h('p', {
+        innerText: validationMessage.value,
+        class: ['ui-checkbox-validation', props?.styling?.validation],
+      });
+    });
+
     return () => {
       return h(
         'label',
         {
-          class: ['ui-checkbox-container', props?.styling?.container],
+          class: ['', props?.styling?.container],
           for: props.id,
         },
         [
           h(
-            VInput,
+            'div',
             {
-              ...ctx.attrs,
-              id: props.id,
-              class: ['ui-checkbox-input', props?.styling?.input],
-              type: 'checkbox',
-              name: props.name,
-              modelValue: props.modelValue,
+              class: 'ui-checkbox-container',
             },
-            {
-              default({ validationMessage }: { validationMessage: string }) {
-                return [
-                  h('span', { class: 'ui-checkbox-box' }),
-                  h('p', {
-                    innerText: validationMessage,
-                    class: [
-                      'ui-checkbox-validation',
-                      props?.styling?.validation,
-                    ],
-                  }),
-                ];
-              },
-            },
+            [
+              h(
+                VInput,
+                {
+                  ...ctx.attrs,
+                  id: props.id,
+                  class: ['ui-checkbox-input', props?.styling?.input],
+                  type: 'checkbox',
+                  name: props.name,
+                  modelValue: props.modelValue,
+                  'onUpdate:validationMessage': updateValidationMessage,
+                },
+                {
+                  default() {
+                    return [
+                      h('span', { class: 'ui-checkbox-box' }),
+                      defaultSlot.value,
+                    ];
+                  },
+                },
+              ),
+            ],
           ),
-          defaultSlot.value,
+          validationSlot.value,
         ],
       );
     };

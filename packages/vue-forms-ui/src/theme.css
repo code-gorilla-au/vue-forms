@@ -1,4 +1,5 @@
 :root {
+    --ui-validation-font-size: x-small;
     --ui-colour-input-label: purple;
     --ui-colour-input-text: black;
     --ui-colour-input-background: whitesmoke;
@@ -30,8 +31,12 @@
     outline: none;
 }
 .ui-input-validation {
-    font-size: x-small;
+    font-size: var(--ui-validation-font-size);
     padding-left: 0.5rem;
+}
+
+.ui-checkbox-validation {
+    font-size: var(--ui-validation-font-size);
 }
 
 .ui-checkbox-container {

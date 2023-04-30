@@ -13,8 +13,14 @@ export default defineComponent({
 
 <template>
   <div>
-    <UIInput id="singleinput" name="singleInput" label="hello" type="email" />
-    <UICheckbox id="checkboxInput" name="checkboxInput">
+    <UIInput
+      id="singleinput"
+      name="singleInput"
+      label="hello"
+      type="email"
+      required
+    />
+    <UICheckbox id="checkboxInput" name="checkboxInput" required>
       <p>hello</p>
     </UICheckbox>
   </div>
