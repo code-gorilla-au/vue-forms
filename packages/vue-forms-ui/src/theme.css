@@ -63,6 +63,21 @@
 }  
 .ui-checkbox-input:checked + .ui-checkbox-box:before {
 	background-color: var(--ui-checkbox-box);
-}    
-  
-  
+}  
+
+.ui-radio-input {
+    position: absolute;
+    opacity: 0;
+}
+.ui-radio-input + .ui-radio-button:before {
+    content: '';
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: text-top;
+    width: 20px;
+    height: 20px;
+    background: var(--ui-checkbox-box-background);
+}
+.ui-radio-input:checked + .ui-radio-button:before {
+	background-color: var(--ui-checkbox-box);
+}  
