@@ -4,6 +4,7 @@ import { VInput } from '@code-gorilla-au/vue-forms';
 
 export default defineComponent({
   name: 'UICheckbox',
+  inheritAttrs: false,
   emits: {
     /**
      * update model value
@@ -72,14 +73,14 @@ export default defineComponent({
       return h(
         'label',
         {
-          class: ['', props?.styling?.container],
+          class: ['', ctx.attrs.class],
           for: props.id,
         },
         [
           h(
             'div',
             {
-              class: 'ui-checkbox-container',
+              class: ['ui-checkbox-container', props?.styling?.container],
             },
             [
               h(

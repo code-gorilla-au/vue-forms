@@ -75,7 +75,11 @@ export default defineComponent({
       return h(
         'label',
         {
-          class: ['ui-input-container', props?.styling?.container],
+          class: [
+            'ui-input-container',
+            ctx.attrs.class,
+            props?.styling?.container,
+          ],
           for: props.id,
         },
         [
