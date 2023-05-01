@@ -7,7 +7,7 @@
     --ui-checkbox-box: purple;
     --ui-checkbox-box-background: var(--ui-colour-input-background);
     --ui-radio-background: var(--ui-colour-input-background);
-    --ui-radio-checked: var(--ui-checkbox-box);
+    --ui-radio-button: var(--ui-checkbox-box);
 }
 
 .ui-input-container {
@@ -98,5 +98,5 @@
     background: var(--ui-radio-background);
 }
 .ui-radio-input:checked + .ui-radio-button:before {
-	background-color: var(--ui-checkbox-box);
+	background-color: var(--ui-radio-button);
 }  
