@@ -6,6 +6,8 @@
     --ui-input-border-radius: 0.3rem;
     --ui-checkbox-box: purple;
     --ui-checkbox-box-background: var(--ui-colour-input-background);
+    --ui-radio-background: var(--ui-colour-input-background);
+    --ui-radio-checked: var(--ui-checkbox-box);
 }
 
 .ui-input-container {
@@ -92,8 +94,8 @@
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    border: 2px solid white;
-    background: var(--ui-checkbox-box-background);
+    border: 2px solid var(--ui-radio-background);
+    background: var(--ui-radio-background);
 }
 .ui-radio-input:checked + .ui-radio-button:before {
 	background-color: var(--ui-checkbox-box);
