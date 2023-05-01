@@ -43,6 +43,11 @@
 .ui-checkbox-container {
     position: relative;
     display: inline-flex;
+    flex-direction: column;
+}
+.ui-checkbox-inner-container {
+    position: relative;
+    display: inline-flex;
 }
 .ui-checkbox-input {
     position: absolute;
@@ -69,6 +74,11 @@
 .ui-radio-container {
     position: relative;
     display: inline-flex;
+    flex-direction: column;
+}
+.ui-radio-inner-container {
+    position: relative;
+    display: inline-flex;
 }
 .ui-radio-input {
     position: absolute;
@@ -79,8 +89,10 @@
     margin-right: 10px;
     display: inline-block;
     vertical-align: text-top;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid white;
     background: var(--ui-checkbox-box-background);
 }
 .ui-radio-input:checked + .ui-radio-button:before {

@@ -85,7 +85,7 @@ export default defineComponent({
           h(
             'div',
             {
-              class: ['ui-radio-container', props?.styling?.container],
+              class: ['ui-radio-inner-container', props?.styling?.container],
             },
             [
               h(

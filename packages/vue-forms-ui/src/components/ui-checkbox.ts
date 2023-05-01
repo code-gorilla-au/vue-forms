@@ -80,7 +80,7 @@ export default defineComponent({
           h(
             'div',
             {
-              class: ['ui-checkbox-container', props?.styling?.container],
+              class: ['ui-checkbox-inner-container', props?.styling?.container],
             },
             [
               h(
