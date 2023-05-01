@@ -73,7 +73,7 @@ export default defineComponent({
       return h(
         'label',
         {
-          class: ['', ctx.attrs.class],
+          class: ['ui-checkbox-container', ctx.attrs.class],
           for: props.id,
         },
         [

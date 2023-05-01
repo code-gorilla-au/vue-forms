@@ -12,6 +12,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 .ui-input-label {
     position: absolute;
@@ -65,6 +66,10 @@
 	background-color: var(--ui-checkbox-box);
 }  
 
+.ui-radio-container {
+    position: relative;
+    display: inline-flex;
+}
 .ui-radio-input {
     position: absolute;
     opacity: 0;

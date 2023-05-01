@@ -17,7 +17,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <UIForm #default="formProps">
+  <UIForm class="flex flex-col" #default="formProps">
     <UIInput
       id="singleInput"
       name="singleInput"
@@ -25,11 +25,12 @@ export default defineComponent({
       type="email"
       required
     />
-    <UICheckbox id="checkboxInput" name="checkboxInput" required>
+    <UICheckbox class="my-2" id="checkboxInput" name="checkboxInput" required>
       <p>This is a checkbox</p>
     </UICheckbox>
 
     <UIRadio
+      class="my-2"
       id="singleUiRadio"
       name="singleUiRadio"
       value="radio value"

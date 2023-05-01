@@ -78,7 +78,7 @@ export default defineComponent({
       return h(
         'label',
         {
-          class: ['', ctx.attrs.class],
+          class: ['ui-radio-container', ctx.attrs.class],
           for: props.id,
         },
         [
