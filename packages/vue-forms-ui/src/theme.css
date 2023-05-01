@@ -60,10 +60,10 @@
     margin-right: 10px;
     display: inline-block;
     vertical-align: text-top;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     background: var(--ui-checkbox-box-background);
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+    border: 2px solid var(--ui-checkbox-box-background);
 }
 
 .ui-checkbox-input:hover + .ui-checkbox-box:before {
