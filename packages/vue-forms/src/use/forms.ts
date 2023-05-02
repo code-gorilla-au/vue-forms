@@ -35,6 +35,7 @@ export interface VFormNode {
   valid: boolean;
   validationMessage: string;
   value: string | boolean | object;
+  namespace?: string;
 }
 
 export interface VFormNodes {
