@@ -2,7 +2,6 @@
 
 import { render } from '@testing-library/vue';
 import VList from './v-list';
-import VInput from './v-input';
 
 describe('VList', () => {
   it('adding VList', () => {
@@ -11,9 +10,9 @@ describe('VList', () => {
         namespace: 'list',
       },
       slots: {
-        default: VInput,
+        default: 'VInput',
       },
     });
-    expect(html()).toEqual('<input type="text">');
+    expect(html()).toEqual('VInput');
   });
 });

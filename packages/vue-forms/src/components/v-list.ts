@@ -1,4 +1,5 @@
 import { Fragment, defineComponent, h } from 'vue';
+import { createListContext } from '../use/lists';
 
 export default defineComponent({
   name: 'VList',
@@ -8,8 +9,9 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props, { slots, expose }) {
-    expose({ namespace: props.namespace });
+  setup(props, { slots }) {
+    createListContext({ namespace: props.namespace });
+
     return () => {
       return h(Fragment, slots.default && slots.default());
     };
