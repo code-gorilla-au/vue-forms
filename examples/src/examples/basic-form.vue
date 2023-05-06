@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { VForm, VInput } from '@code-gorilla-au/vue-forms';
+import { VForm, VInput, VList } from '@code-gorilla-au/vue-forms';
 
 interface userForm {
   firstName: string;
@@ -8,7 +8,7 @@ interface userForm {
 
 export default defineComponent({
   name: 'BasicForm',
-  components: { VForm, VInput },
+  components: { VForm, VInput, VList },
   emits: {
     /**
      * form data
@@ -16,6 +16,7 @@ export default defineComponent({
     formData: null,
   },
   setup(_, { emit }) {
+    const subjectPreferences = ['first', 'second', 'third'];
     async function handleSubmit(formData: userForm) {
       console.log('formData', formData);
       emit('formData', formData);
@@ -28,6 +29,7 @@ export default defineComponent({
     return {
       handleSubmit,
       formatCodeBlock,
+      subjectPreferences,
     };
   },
 });
@@ -105,6 +107,25 @@ export default defineComponent({
         <span class="absolute mt-8 text-xs">{{ validationMessage }}</span>
       </VInput>
     </label>
+    <VList namespace="list">
+      <label
+        v-for="subject in subjectPreferences"
+        :key="subject"
+        :for="`${subject}-list-preference`"
+        class="flex flex-col mb-2"
+      >
+        {{ subject }} preference
+        <VInput
+          #default="{ validationMessage }"
+          :id="`${subject}-list-preference`"
+          class="text-black"
+          name="preference"
+        >
+          <p class="text-xs">{{ validationMessage }}</p>
+        </VInput>
+      </label>
+    </VList>
+
     <button
       type="submit"
       :disabled="!formValid.value"

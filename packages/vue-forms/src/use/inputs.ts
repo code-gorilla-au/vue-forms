@@ -2,6 +2,7 @@ import { onMounted, reactive, readonly, Ref, watch } from 'vue';
 import { EVENT_UPDATE_DATA, useFormContext, VFormNode } from './forms';
 import { resoleUnref, MaybeElement } from './refs';
 import { v4 as uuid } from 'uuid';
+import { useListContext } from './lists';
 
 export interface UseInputOpts {
   initModelValue?: string;
@@ -77,6 +78,7 @@ export function useInputs(
     valid: true,
     validationMessage: '',
     value: '',
+    namespace: undefined,
   });
 
   async function syncInputRef(newInputRef: MaybeElement) {
@@ -94,6 +96,11 @@ export function useInputs(
     state.readonly = el.readOnly;
     state.required = el.required;
     state.valid = checkValidity(state.required, el.validity);
+
+    const listContext = useListContext();
+    if (listContext) {
+      state.namespace = listContext.namespace;
+    }
 
     if (!formContext) {
       return;

@@ -8,9 +8,17 @@ const packages = readdirSync(context.__packagesDir);
 const results = await Promise.allSettled(
   packages.map(async (pkg) => {
     const path = join(context.__packagesDir, pkg);
-    const { stderr } = await asyncExec(`cd ${path} && yarn run build`);
+    const { stderr, stdout, error } = await asyncExec(
+      `cd ${path} && yarn run build`,
+    );
+    if (error) {
+      console.log(`${pkg}: ${error}`);
+    }
     if (stderr) {
       console.log(`${pkg}: ${stderr}`);
+    }
+    if (stdout) {
+      console.log(`${pkg}: ${stdout}`);
     }
     return `${pkg} built`;
   }),
