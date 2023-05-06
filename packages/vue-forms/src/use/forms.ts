@@ -15,8 +15,13 @@ import {
 import { v4 as uuid } from 'uuid';
 import { logger } from '../lib/logger';
 
+export interface VFormDataList {
+  __id: string;
+  [key: string]: string | object | number;
+}
+
 export interface VFormData {
-  [key: string]: string | number;
+  [key: string]: string | number | VFormDataList[];
 }
 
 export interface VFormValidations {
@@ -95,8 +100,30 @@ export function useFormApi(initFormData = {}): VFormContextApi {
   ) {
     formNodes[event.payload.id] = event.payload;
     const fieldName = resolveFieldName(event.payload);
-    formData[fieldName] = event.payload.value;
-    formValidations[fieldName] = resolveValidationMessage(event.payload);
+    const validationMessage = resolveValidationMessage(event.payload);
+
+    if (!event.payload.namespace) {
+      formData[fieldName] = event.payload.value;
+      formValidations[fieldName] = validationMessage;
+      return;
+    }
+
+    const namespacePayload = {
+      __id: event.payload.id,
+      [fieldName]: event.payload.value,
+    };
+
+    if (!formData[event.payload.namespace]) {
+      formData[event.payload.namespace] = [namespacePayload];
+      return;
+    }
+
+    const list = formData[event.payload.namespace] as VFormDataList[];
+    const idx = list.findIndex((item: VFormDataList) => {
+      return item.__id === event.payload.id;
+    });
+
+    formData[event.payload.namespace].splice(idx, 1, namespacePayload);
   }
 
   const formDispatcher = dispatcher<VFormNode>();
