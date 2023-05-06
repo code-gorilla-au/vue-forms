@@ -114,14 +114,18 @@ export function useFormApi(initFormData = {}): VFormContextApi {
     };
 
     if (!formData[event.payload.namespace]) {
-      formData[event.payload.namespace] = [namespacePayload];
-      return;
+      formData[event.payload.namespace] = [];
     }
 
     const list = formData[event.payload.namespace] as VFormDataList[];
     const idx = list.findIndex((item: VFormDataList) => {
-      return item.__id === event.payload.id;
+      return item.__id === namespacePayload.__id;
     });
+
+    if (idx === -1) {
+      formData[event.payload.namespace].push(namespacePayload);
+      return;
+    }
 
     formData[event.payload.namespace].splice(idx, 1, namespacePayload);
   }
