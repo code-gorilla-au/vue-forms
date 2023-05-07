@@ -39,12 +39,48 @@ describe('parse expression', () => {
       },
     ]);
   });
+  it('should return rule: not with arg: input, with extra spaces', () => {
+    expect(val.parseExpression('input value', ' not : input ')).toEqual([
+      {
+        rule: 'not',
+        value: 'input value',
+        ruleArgs: ['input'],
+      },
+    ]);
+  });
+  it('should return rule: not with arg: input, wrong token', () => {
+    expect(val.parseExpression('input value', ' not.input ')).toEqual([
+      {
+        rule: 'not',
+        value: 'input value',
+        ruleArgs: ['input'],
+      },
+    ]);
+  });
+  it('should return rule: not with arg: input , with duplicated token', () => {
+    expect(val.parseExpression('input value', 'not::input')).toEqual([
+      {
+        rule: 'not',
+        value: 'input value',
+        ruleArgs: [],
+      },
+    ]);
+  });
   it('should return rule: not with arg: input, value', () => {
     expect(val.parseExpression('input value', 'not:input,value')).toEqual([
       {
         rule: 'not',
         value: 'input value',
         ruleArgs: ['input', 'value'],
+      },
+    ]);
+  });
+  it('should return rule: not with arg: input, value, with duplicated token', () => {
+    expect(val.parseExpression('input value', 'not:input,,value')).toEqual([
+      {
+        rule: 'not',
+        value: 'input value',
+        ruleArgs: ['input', '', 'value'],
       },
     ]);
   });
