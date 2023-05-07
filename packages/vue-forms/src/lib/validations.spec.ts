@@ -14,3 +14,15 @@ describe('email', () => {
     expect(val.ruleEmail('mu@m.collide')).toBeFalsy();
   });
 });
+
+describe('not', () => {
+  it('should not return true if input contains arg', () => {
+    expect(val.ruleNot('value of the input', 'the')).toBeTruthy();
+  });
+  it('should not return false if input does not contains arg', () => {
+    expect(val.ruleNot('value of the input', 'ash')).toBeFalsy();
+  });
+  it('should not return true if input contains multiple args', () => {
+    expect(val.ruleNot('value of the input', 'value', 'input')).toBeTruthy();
+  });
+});

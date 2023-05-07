@@ -63,3 +63,24 @@ export function getRuleRepository(): RulesRepository {
     },
   };
 }
+
+export function validations() {
+  const repo = getRuleRepository();
+
+  return {
+    parse(inputValue: string, expression: string) {
+      const rules = parseExpression(inputValue, expression);
+
+      for (let i = 0; i < rules.length; i += 1) {
+        const rule = rules[i];
+        const ex = repo[rule.rule];
+
+        if (!ex.handler(rule.value, ...rule.ruleArgs)) {
+          return ex.validationMessage;
+        }
+      }
+
+      return undefined;
+    },
+  };
+}
