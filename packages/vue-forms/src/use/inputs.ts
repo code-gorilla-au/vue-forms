@@ -89,7 +89,15 @@ export function useInputs(
       return;
     }
 
-    state.valid = el.checkValidity();
+    if (opts.eagerValidation) {
+      // fires invalid event
+      el.checkValidity();
+    }
+
+    state.valid = checkValidity(state.required, el.validity);
+    if (state.valid) {
+      state.validationMessage = '';
+    }
 
     if (!formContext || typeof state.value !== 'string') {
       return;
@@ -134,14 +142,7 @@ export function useInputs(
       formContext.registerNode(state);
     }
 
-    if (opts?.validationRules && state.dirty) {
-      const msg = formContext.validate(state.value, opts.validationRules);
-      if (msg) {
-        state.valid = false;
-        state.validationMessage = msg;
-      }
-    }
-
+    validationHandler(el);
     await formContext.dispatch(EVENT_UPDATE_DATA, state);
   }
 
@@ -169,17 +170,8 @@ export function useInputs(
   function onInput(event: Event) {
     const target = event.target as HTMLInputElement;
     state.value = resolveInputValue(target);
-    // state.valid = checkValidity(state.required, target.validity);
 
     validationHandler(target);
-
-    if (state.valid) {
-      state.validationMessage = '';
-    }
-
-    if (opts.eagerValidation) {
-      target.checkValidity();
-    }
   }
 
   function onChange(event: Event) {
