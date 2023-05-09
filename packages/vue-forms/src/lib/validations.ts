@@ -1,4 +1,4 @@
-export interface ValidationRule {
+export interface RuleArgument {
   rule: string;
   value: string;
   ruleArgs: string[];
@@ -19,9 +19,11 @@ const TOKEN_RULE_SEPARATOR = '|';
 const TOKEN_VALUES_SEPARATOR = ':';
 const TOKEN_ARGS_SEPARATOR = ',';
 
-const RULE_NAME_EMAIL = 'email';
-const RULE_NAME_NOT = 'not';
-const RULE_NAME_RULE_NOT_FOUND = 'ruleNotFound';
+export const RULE_NAME_EMAIL = 'email';
+export const RULE_NAME_NOT = 'not';
+export const RULE_NAME_IS = 'is';
+export const RULE_NAME_PREFIX = 'prefix';
+export const RULE_NAME_RULE_NOT_FOUND = 'ruleNotFound';
 
 const rules: RulesRepository = {
   [RULE_NAME_EMAIL]: {
@@ -31,6 +33,14 @@ const rules: RulesRepository = {
   [RULE_NAME_NOT]: {
     handler: ruleNot,
     validationMessage: 'Not allowed',
+  },
+  [RULE_NAME_IS]: {
+    handler: ruleIs,
+    validationMessage: 'Does not contain value',
+  },
+  [RULE_NAME_PREFIX]: {
+    handler: ruleIs,
+    validationMessage: 'Does not contain prefix',
   },
   [RULE_NAME_RULE_NOT_FOUND]: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -79,6 +89,28 @@ export function ruleNot(value: string, ...args: string[]): boolean {
 }
 
 /**
+ * rule to ensure the input value does contain the supplied arguments
+ * @param value input value to validate against
+ * @param args arguments provided to the rule.
+ */
+export function ruleIs(value: string, ...args: string[]): boolean {
+  return args.some((arg) => {
+    return !value.includes(arg);
+  });
+}
+
+/**
+ * rule to ensure the input value starts with the prefix
+ * @param value input value to validate against
+ * @param args arguments provided to the rule.
+ */
+export function rulePrefix(value: string, ...args: string[]): boolean {
+  return args.some((arg) => {
+    return value.startsWith(arg);
+  });
+}
+
+/**
  * parse the expression and generate the rules to run against the input value.
  * @param value input value
  * @param expression list of rules and arguments to validate against the input
@@ -86,7 +118,7 @@ export function ruleNot(value: string, ...args: string[]): boolean {
 export function parseExpression(
   value: string,
   expression: string,
-): ValidationRule[] {
+): RuleArgument[] {
   const rules = expression.split(TOKEN_RULE_SEPARATOR);
 
   return rules.map((ruleExp) => {
@@ -164,15 +196,15 @@ export function validations() {
       const rules = parseExpression(inputValue, expression);
 
       for (let i = 0; i < rules.length; i += 1) {
-        const rule = rules[i];
+        const ruleArg = rules[i];
 
-        const ex = repo.get(rule.rule);
-        if (!ex) {
+        const rule = repo.get(ruleArg.rule);
+        if (!rule) {
           continue;
         }
 
-        if (!ex.handler(rule.value, ...rule.ruleArgs)) {
-          return ex.validationMessage;
+        if (!rule.handler(ruleArg.value, ...ruleArg.ruleArgs)) {
+          return rule.validationMessage;
         }
       }
 

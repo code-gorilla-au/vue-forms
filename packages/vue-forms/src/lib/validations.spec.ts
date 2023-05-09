@@ -27,6 +27,29 @@ describe('rules', () => {
       expect(val.ruleNot('value of the input', 'value', 'input')).toBeTruthy();
     });
   });
+
+  describe('is', () => {
+    it('should return false if input contains arg', () => {
+      expect(val.ruleIs('value of the input', 'the')).toBeFalsy();
+    });
+    it('should return true if input does not contain arg', () => {
+      expect(val.ruleIs('value of the input', 'gone')).toBeTruthy();
+    });
+  });
+
+  describe('prefix', () => {
+    it('should return true if input contains arg', () => {
+      expect(val.rulePrefix('should have prefix', 'should')).toBeTruthy();
+    });
+    it('should return true if input contains one of the args', () => {
+      expect(
+        val.rulePrefix('should have prefix', 'gall', 'should'),
+      ).toBeTruthy();
+    });
+    it('should return false if input does contain the args', () => {
+      expect(val.rulePrefix('should have prefix', 'flex', 'wink')).toBeFalsy();
+    });
+  });
 });
 
 describe('parse expression', () => {
@@ -51,9 +74,9 @@ describe('parse expression', () => {
   it('should return rule: not with arg: input, wrong token', () => {
     expect(val.parseExpression('input value', ' not.input ')).toEqual([
       {
-        rule: 'not',
+        rule: 'not.input',
         value: 'input value',
-        ruleArgs: ['input'],
+        ruleArgs: [],
       },
     ]);
   });
@@ -99,5 +122,22 @@ describe('parse expression', () => {
         },
       ],
     );
+  });
+});
+
+describe('validations', () => {
+  describe('rules', () => {
+    it('should have default rules', () => {
+      const list = val.validations();
+      [
+        val.RULE_NAME_EMAIL,
+        val.RULE_NAME_IS,
+        val.RULE_NAME_NOT,
+        val.RULE_NAME_PREFIX,
+        val.RULE_NAME_RULE_NOT_FOUND,
+      ].forEach((rule) => {
+        list.availableRules().includes(rule);
+      });
+    });
   });
 });
