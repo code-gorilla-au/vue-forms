@@ -23,6 +23,7 @@ export const RULE_NAME_EMAIL = 'email';
 export const RULE_NAME_NOT = 'not';
 export const RULE_NAME_IS = 'is';
 export const RULE_NAME_PREFIX = 'prefix';
+export const RULE_NAME_SUFFIX = 'suffix';
 export const RULE_NAME_RULE_NOT_FOUND = 'ruleNotFound';
 
 const rules: RulesRepository = {
@@ -39,8 +40,12 @@ const rules: RulesRepository = {
     validationMessage: 'Does not contain value',
   },
   [RULE_NAME_PREFIX]: {
-    handler: ruleIs,
+    handler: rulePrefix,
     validationMessage: 'Does not contain prefix',
+  },
+  [RULE_NAME_SUFFIX]: {
+    handler: ruleSuffix,
+    validationMessage: 'Does not contain suffix',
   },
   [RULE_NAME_RULE_NOT_FOUND]: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -107,6 +112,17 @@ export function ruleIs(value: string, ...args: string[]): boolean {
 export function rulePrefix(value: string, ...args: string[]): boolean {
   return args.some((arg) => {
     return value.startsWith(arg);
+  });
+}
+
+/**
+ * rule to ensure the input value ends with the prefix
+ * @param value input value to validate against
+ * @param args arguments provided to the rule.
+ */
+export function ruleSuffix(value: string, ...args: string[]): boolean {
+  return args.some((arg) => {
+    return value.endsWith(arg);
   });
 }
 

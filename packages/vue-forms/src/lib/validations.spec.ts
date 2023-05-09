@@ -50,6 +50,20 @@ describe('rules', () => {
       expect(val.rulePrefix('should have prefix', 'flex', 'wink')).toBeFalsy();
     });
   });
+
+  describe('suffix', () => {
+    it('should return true if input contains arg', () => {
+      expect(val.ruleSuffix('should have suffix', 'suffix')).toBeTruthy();
+    });
+    it('should return true if input contains arg', () => {
+      expect(
+        val.ruleSuffix('should have suffix', 'host', 'suffix'),
+      ).toBeTruthy();
+    });
+    it('should return false if input does not contain arg', () => {
+      expect(val.ruleSuffix('should have suffix', 'host', 'gone')).toBeFalsy();
+    });
+  });
 });
 
 describe('parse expression', () => {
@@ -135,6 +149,7 @@ describe('validations', () => {
         val.RULE_NAME_NOT,
         val.RULE_NAME_PREFIX,
         val.RULE_NAME_RULE_NOT_FOUND,
+        val.RULE_NAME_SUFFIX,
       ].forEach((rule) => {
         list.availableRules().includes(rule);
       });
