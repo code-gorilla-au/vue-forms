@@ -6,6 +6,7 @@ import { useListContext } from './lists';
 
 export interface UseInputOpts {
   initModelValue?: string;
+  validationRules?: string;
   customValidation?: boolean;
   eagerValidation?: boolean;
 }
@@ -60,11 +61,13 @@ export function useInputs(
   inputRef: Ref<MaybeElement>,
   opts: UseInputOpts = {
     initModelValue: undefined,
+    validationRules: undefined,
     customValidation: false,
     eagerValidation: false,
   },
 ) {
   const formContext = useFormContext();
+  const listContext = useListContext();
 
   const state = reactive<VFormNode>({
     id: '',
@@ -97,7 +100,6 @@ export function useInputs(
     state.required = el.required;
     state.valid = checkValidity(state.required, el.validity);
 
-    const listContext = useListContext();
     if (listContext) {
       state.namespace = listContext.namespace;
     }
@@ -108,6 +110,14 @@ export function useInputs(
 
     if (!formContext.getNode(state.name)) {
       formContext.registerNode(state);
+    }
+
+    if (opts.validationRules && state.dirty) {
+      const msg = formContext.validate(state.value, opts.validationRules);
+      if (msg) {
+        state.valid = false;
+        state.validationMessage = msg;
+      }
     }
 
     await formContext.dispatch(EVENT_UPDATE_DATA, state);
