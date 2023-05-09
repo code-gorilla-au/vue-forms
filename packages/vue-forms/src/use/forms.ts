@@ -14,6 +14,7 @@ import {
 } from '../lib/dispatch';
 import { v4 as uuid } from 'uuid';
 import { logger } from '../lib/logger';
+import { validations } from '../lib/validations';
 
 export interface VFormDataList {
   __id: string;
@@ -65,7 +66,19 @@ export interface VFormContextApi {
    */
   getNode(id: string): VFormNode;
 
+  /**
+   * dispatch event with form node
+   * @param event event
+   * @param node input node
+   */
   dispatch(event: DispatchEventTopic, node: VFormNode): Promise<void>;
+
+  /**
+   * validate input based on default rules engine
+   * @param inputValue input value
+   * @param expression validation rules
+   */
+  validate(inputValue: string, expression: string): string | undefined;
 }
 
 /**
@@ -93,6 +106,7 @@ export function useFormApi(initFormData = {}): VFormContextApi {
   const formData = reactive(JSON.parse(JSON.stringify(initFormData)));
 
   const log = logger();
+  const validationRules = validations();
 
   function updateNodeData<T extends VFormNode>(
     _: DispatcherOptions,
@@ -161,6 +175,7 @@ export function useFormApi(initFormData = {}): VFormContextApi {
       formData[fieldName] = '';
     },
     getNode: getNode,
+    validate: validationRules.evaluate,
     async dispatch(event: DispatchEventTopic, node: VFormNode) {
       const payload = {
         id: uuid(),
