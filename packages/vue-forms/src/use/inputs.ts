@@ -112,7 +112,7 @@ export function useInputs(
       formContext.registerNode(state);
     }
 
-    if (opts.validationRules && state.dirty) {
+    if (opts?.validationRules && state.dirty) {
       const msg = formContext.validate(state.value, opts.validationRules);
       if (msg) {
         state.valid = false;

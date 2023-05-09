@@ -8,7 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@code-gorilla-au/vue-forms": "^0.0.2",
+    "@code-gorilla-au/vue-forms": "^0.0.3",
     "uuid": "^9.0.0",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
