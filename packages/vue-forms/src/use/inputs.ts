@@ -84,6 +84,28 @@ export function useInputs(
     namespace: undefined,
   });
 
+  function validationHandler(el: HTMLInputElement) {
+    if (opts?.customValidation) {
+      return;
+    }
+
+    state.valid = el.checkValidity();
+
+    if (!formContext || typeof state.value !== 'string') {
+      return;
+    }
+
+    if (!opts?.validationRules || !state.dirty) {
+      return;
+    }
+
+    const msg = formContext.validate(state.value, opts.validationRules);
+    if (msg) {
+      state.valid = false;
+      state.validationMessage = msg;
+    }
+  }
+
   async function syncInputRef(newInputRef: MaybeElement) {
     if (!newInputRef) {
       return;
@@ -133,7 +155,9 @@ export function useInputs(
 
     state.focused = false;
     state.dirty = target?.value !== '';
-    state.valid = target.checkValidity();
+    // state.valid = target.checkValidity();
+
+    validationHandler(target);
   }
 
   function onInvalid(event: Event) {
@@ -145,7 +169,9 @@ export function useInputs(
   function onInput(event: Event) {
     const target = event.target as HTMLInputElement;
     state.value = resolveInputValue(target);
-    state.valid = checkValidity(state.required, target.validity);
+    // state.valid = checkValidity(state.required, target.validity);
+
+    validationHandler(target);
 
     if (state.valid) {
       state.validationMessage = '';

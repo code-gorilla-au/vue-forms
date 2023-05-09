@@ -51,10 +51,23 @@ export interface VFormNodes {
 export const EVENT_UPDATE_DATA: DispatchEventTopic = 'internal.update.data';
 
 export interface VFormContextApi {
+  /**
+   * read only version of form nodes
+   */
   readonly nodes: VFormNodes;
+  /**
+   * read only version of form data
+   */
   readonly data: VFormData;
+  /**
+   * read only version of form validations
+   */
   readonly validations: VFormValidations;
-  readonly formValid: ComputedRef<boolean>;
+
+  /**
+   * Flag if the form is valid for submission
+   */
+  formValid: ComputedRef<boolean>;
   /**
    * register an input node with the form context
    * @param node form node
@@ -115,8 +128,9 @@ export function useFormApi(initFormData = {}): VFormContextApi {
     formNodes[event.payload.id] = event.payload;
     const fieldName = resolveFieldName(event.payload);
     const validationMessage = resolveValidationMessage(event.payload);
+    const namespace = event.payload.namespace;
 
-    if (!event.payload.namespace) {
+    if (!namespace) {
       formData[fieldName] = event.payload.value;
       formValidations[fieldName] = validationMessage;
       return;
@@ -127,21 +141,21 @@ export function useFormApi(initFormData = {}): VFormContextApi {
       [fieldName]: event.payload.value,
     };
 
-    if (!formData[event.payload.namespace]) {
-      formData[event.payload.namespace] = [];
+    if (!formData[namespace]) {
+      formData[namespace] = [];
     }
 
-    const list = formData[event.payload.namespace] as VFormDataList[];
+    const list = formData[namespace] as VFormDataList[];
     const idx = list.findIndex((item: VFormDataList) => {
       return item.__id === namespacePayload.__id;
     });
 
     if (idx === -1) {
-      formData[event.payload.namespace].push(namespacePayload);
+      formData[namespace].push(namespacePayload);
       return;
     }
 
-    formData[event.payload.namespace].splice(idx, 1, namespacePayload);
+    formData[namespace].splice(idx, 1, namespacePayload);
   }
 
   const formDispatcher = dispatcher<VFormNode>();
