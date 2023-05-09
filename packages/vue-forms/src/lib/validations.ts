@@ -89,7 +89,7 @@ export function ruleEmail(value: string): boolean {
  */
 export function ruleNot(value: string, ...args: string[]): boolean {
   return args.some((arg) => {
-    return value.includes(arg);
+    return !value.includes(arg);
   });
 }
 
@@ -100,7 +100,7 @@ export function ruleNot(value: string, ...args: string[]): boolean {
  */
 export function ruleIs(value: string, ...args: string[]): boolean {
   return args.some((arg) => {
-    return !value.includes(arg);
+    return value.includes(arg);
   });
 }
 
