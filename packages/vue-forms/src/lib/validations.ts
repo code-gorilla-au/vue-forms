@@ -22,6 +22,7 @@ const TOKEN_ARGS_SEPARATOR = ',';
 export const RULE_NAME_EMAIL = 'email';
 export const RULE_NAME_NOT = 'not';
 export const RULE_NAME_IS = 'is';
+export const RULE_NAME_CONTAINS = 'contains';
 export const RULE_NAME_PREFIX = 'prefix';
 export const RULE_NAME_SUFFIX = 'suffix';
 export const RULE_NAME_RULE_NOT_FOUND = 'ruleNotFound';
@@ -41,6 +42,12 @@ const rules: RulesRepository = {
   },
   [RULE_NAME_IS]: {
     handler: ruleIs,
+    validationMessage(value) {
+      return `Input does not match ${value}`;
+    },
+  },
+  [RULE_NAME_CONTAINS]: {
+    handler: ruleContains,
     validationMessage(value) {
       return `Does not contain ${value}`;
     },
@@ -106,13 +113,24 @@ export function ruleNot(value: string, ...args: string[]): boolean {
 }
 
 /**
+ * rule to ensure the input value does not contain the supplied arguments
+ * @param value input value to validate against
+ * @param args arguments provided to the rule.
+ */
+export function ruleContains(value: string, ...args: string[]): boolean {
+  return args.some((arg) => {
+    return value.includes(arg);
+  });
+}
+
+/**
  * rule to ensure the input value does contain the supplied arguments
  * @param value input value to validate against
  * @param args arguments provided to the rule.
  */
 export function ruleIs(value: string, ...args: string[]): boolean {
   return args.some((arg) => {
-    return value.includes(arg);
+    return value === arg;
   });
 }
 
