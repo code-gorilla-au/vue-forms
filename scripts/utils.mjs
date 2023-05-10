@@ -15,14 +15,13 @@ export async function asyncExec(cmd) {
   return new Promise((resolve, reject) => {
     exec(cmd, (error, stdout, stderr) => {
       if (error) {
-        reject({
+        return reject({
           error,
           stdout,
           stderr,
         });
-        return;
       }
-      resolve({
+      return resolve({
         stdout,
         stderr,
       });
