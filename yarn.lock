@@ -362,7 +362,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@code-gorilla-au/vue-forms@^0.0.3, @code-gorilla-au/vue-forms@workspace:packages/vue-forms":
+"@code-gorilla-au/vue-forms-ui@workspace:packages/vue-forms-ui":
+  version: 0.0.0-use.local
+  resolution: "@code-gorilla-au/vue-forms-ui@workspace:packages/vue-forms-ui"
+  dependencies:
+    "@code-gorilla-au/vue-forms": "workspace:^"
+    "@rollup/plugin-node-resolve": ^15.0.2
+    "@rollup/plugin-terser": ^0.4.1
+    "@rollup/plugin-typescript": ^11.1.0
+    postcss: ^8.4.23
+    rollup: ^3.20.7
+    rollup-plugin-postcss: ^4.0.2
+  peerDependencies:
+    vue: ^3.2.1
+  languageName: unknown
+  linkType: soft
+
+"@code-gorilla-au/vue-forms@^0.0.3, @code-gorilla-au/vue-forms@workspace:^, @code-gorilla-au/vue-forms@workspace:packages/vue-forms":
   version: 0.0.0-use.local
   resolution: "@code-gorilla-au/vue-forms@workspace:packages/vue-forms"
   dependencies:
