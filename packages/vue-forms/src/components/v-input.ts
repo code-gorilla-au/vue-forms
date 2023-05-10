@@ -35,6 +35,13 @@ export default defineComponent({
       type: String,
       required: false,
     },
+    /**
+     * provide validation rules based on default rules engine.
+     */
+    validationRules: {
+      type: String,
+      required: false,
+    },
   },
   emits: {
     /**
@@ -48,7 +55,10 @@ export default defineComponent({
   },
   setup(props, { emit, attrs, slots }) {
     const inputRef = ref<HTMLInputElement | null>(null);
-    const inputs = useInputs(inputRef, { initModelValue: props.modelValue });
+    const inputs = useInputs(inputRef, {
+      initModelValue: props.modelValue,
+      validationRules: props.validationRules,
+    });
 
     const resolveValue = computed(() => {
       if (!inputRef.value || inputRef.value?.type !== 'radio') {

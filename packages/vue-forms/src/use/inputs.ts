@@ -1,16 +1,21 @@
 import { onMounted, reactive, readonly, Ref, watch } from 'vue';
 import { EVENT_UPDATE_DATA, useFormContext, VFormNode } from './forms';
-import { resoleUnref, MaybeElement } from './refs';
+import { resolveUnref, MaybeElement } from './refs';
 import { v4 as uuid } from 'uuid';
 import { useListContext } from './lists';
 
 export interface UseInputOpts {
   initModelValue?: string;
+  validationRules?: string;
   customValidation?: boolean;
-  eagerValidation?: boolean;
 }
 
-function checkValidity(required: boolean, validState: ValidityState) {
+/**
+ * check initial validity without triggering input invalid event
+ * @param required input property required
+ * @param validState input property ValidityState state
+ */
+function checkInitValidity(required: boolean, validState: ValidityState) {
   if (required) {
     return (
       validState.valid && !validState.typeMismatch && !validState.valueMissing
@@ -19,6 +24,11 @@ function checkValidity(required: boolean, validState: ValidityState) {
   return validState.valid && !validState.typeMismatch;
 }
 
+/**
+ * resolve input value based on input
+ * @param node html input element
+ * @returns
+ */
 function resolveInputValue(node: HTMLInputElement) {
   if (node.type === 'checkbox') {
     return node.checked;
@@ -60,11 +70,12 @@ export function useInputs(
   inputRef: Ref<MaybeElement>,
   opts: UseInputOpts = {
     initModelValue: undefined,
+    validationRules: undefined,
     customValidation: false,
-    eagerValidation: false,
   },
 ) {
   const formContext = useFormContext();
+  const listContext = useListContext();
 
   const state = reactive<VFormNode>({
     id: '',
@@ -81,6 +92,35 @@ export function useInputs(
     namespace: undefined,
   });
 
+  /**
+   * run validation rules based on input options
+   * @param el input ref
+   */
+  function runValidationRules(el: HTMLInputElement) {
+    state.valid = checkInitValidity(state.required, el.validity);
+    if (state.valid) {
+      state.validationMessage = '';
+    }
+
+    if (opts?.customValidation || !opts?.validationRules) {
+      return;
+    }
+
+    if (!formContext || typeof state.value !== 'string') {
+      return;
+    }
+
+    const msg = formContext.validate(state.value, opts.validationRules);
+    if (msg) {
+      state.valid = false;
+      state.validationMessage = msg;
+    }
+  }
+
+  /**
+   * sync input state and register node with form
+   * @param newInputRef input ref
+   */
   async function syncInputRef(newInputRef: MaybeElement) {
     if (!newInputRef) {
       return;
@@ -95,9 +135,8 @@ export function useInputs(
     state.name = el.name;
     state.readonly = el.readOnly;
     state.required = el.required;
-    state.valid = checkValidity(state.required, el.validity);
+    runValidationRules(el);
 
-    const listContext = useListContext();
     if (listContext) {
       state.namespace = listContext.namespace;
     }
@@ -109,8 +148,6 @@ export function useInputs(
     if (!formContext.getNode(state.name)) {
       formContext.registerNode(state);
     }
-
-    await formContext.dispatch(EVENT_UPDATE_DATA, state);
   }
 
   function onFocus() {
@@ -123,7 +160,13 @@ export function useInputs(
 
     state.focused = false;
     state.dirty = target?.value !== '';
+
+    if (opts?.customValidation) {
+      return;
+    }
+    // run native validation against input
     state.valid = target.checkValidity();
+    runValidationRules(target);
   }
 
   function onInvalid(event: Event) {
@@ -135,15 +178,8 @@ export function useInputs(
   function onInput(event: Event) {
     const target = event.target as HTMLInputElement;
     state.value = resolveInputValue(target);
-    state.valid = checkValidity(state.required, target.validity);
 
-    if (state.valid) {
-      state.validationMessage = '';
-    }
-
-    if (opts.eagerValidation) {
-      target.checkValidity();
-    }
+    runValidationRules(target);
   }
 
   function onChange(event: Event) {
@@ -151,7 +187,7 @@ export function useInputs(
   }
 
   function focusInputRef() {
-    const el = resoleUnref(inputRef);
+    const el = resolveUnref(inputRef);
     if (!el) {
       return;
     }

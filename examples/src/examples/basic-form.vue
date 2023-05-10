@@ -50,6 +50,7 @@ export default defineComponent({
         name="firstName"
         placeholder="required"
         required
+        validationRules="not:special"
       >
         <p class="text-xs">{{ validationMessage }}</p>
       </VInput>
