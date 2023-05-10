@@ -10,6 +10,11 @@ export interface UseInputOpts {
   customValidation?: boolean;
 }
 
+/**
+ * check initial validity without triggering input invalid event
+ * @param required input property required
+ * @param validState input property ValidityState state
+ */
 function checkInitValidity(required: boolean, validState: ValidityState) {
   if (required) {
     return (
@@ -19,6 +24,11 @@ function checkInitValidity(required: boolean, validState: ValidityState) {
   return validState.valid && !validState.typeMismatch;
 }
 
+/**
+ * resolve input value based on input
+ * @param node html input element
+ * @returns
+ */
 function resolveInputValue(node: HTMLInputElement) {
   if (node.type === 'checkbox') {
     return node.checked;
@@ -107,6 +117,10 @@ export function useInputs(
     }
   }
 
+  /**
+   * sync input state and register node with form
+   * @param newInputRef input ref
+   */
   async function syncInputRef(newInputRef: MaybeElement) {
     if (!newInputRef) {
       return;
