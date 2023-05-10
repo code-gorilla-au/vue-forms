@@ -17,7 +17,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <UIForm class="flex flex-col" #default="formProps">
+  <UIForm class="flex flex-col w-full max-w-lg" #default="formProps">
     <UIInput
       id="singleInput"
       name="singleInput"
