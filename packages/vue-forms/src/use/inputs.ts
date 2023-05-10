@@ -82,6 +82,10 @@ export function useInputs(
     namespace: undefined,
   });
 
+  /**
+   * run validation rules based on input options
+   * @param el input ref
+   */
   function runValidationRules(el: HTMLInputElement) {
     state.valid = checkInitValidity(state.required, el.validity);
     if (state.valid) {
