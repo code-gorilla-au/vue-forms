@@ -1,6 +1,6 @@
 import { onMounted, reactive, readonly, Ref, watch } from 'vue';
 import { EVENT_UPDATE_DATA, useFormContext, VFormNode } from './forms';
-import { resoleUnref, MaybeElement } from './refs';
+import { resolveUnref, MaybeElement } from './refs';
 import { v4 as uuid } from 'uuid';
 import { useListContext } from './lists';
 
@@ -8,10 +8,9 @@ export interface UseInputOpts {
   initModelValue?: string;
   validationRules?: string;
   customValidation?: boolean;
-  eagerValidation?: boolean;
 }
 
-function checkValidity(required: boolean, validState: ValidityState) {
+function checkInitValidity(required: boolean, validState: ValidityState) {
   if (required) {
     return (
       validState.valid && !validState.typeMismatch && !validState.valueMissing
@@ -63,7 +62,6 @@ export function useInputs(
     initModelValue: undefined,
     validationRules: undefined,
     customValidation: false,
-    eagerValidation: false,
   },
 ) {
   const formContext = useFormContext();
@@ -84,26 +82,17 @@ export function useInputs(
     namespace: undefined,
   });
 
-  function validationHandler(el: HTMLInputElement) {
-    if (opts?.customValidation) {
-      return;
-    }
-
-    if (opts.eagerValidation) {
-      // fires invalid event
-      el.checkValidity();
-    }
-
-    state.valid = checkValidity(state.required, el.validity);
+  function runValidationRules(el: HTMLInputElement) {
+    state.valid = checkInitValidity(state.required, el.validity);
     if (state.valid) {
       state.validationMessage = '';
     }
 
-    if (!formContext || typeof state.value !== 'string') {
+    if (opts?.customValidation || !opts?.validationRules) {
       return;
     }
 
-    if (!opts?.validationRules || !state.dirty) {
+    if (!formContext || typeof state.value !== 'string') {
       return;
     }
 
@@ -128,7 +117,7 @@ export function useInputs(
     state.name = el.name;
     state.readonly = el.readOnly;
     state.required = el.required;
-    state.valid = checkValidity(state.required, el.validity);
+    runValidationRules(el);
 
     if (listContext) {
       state.namespace = listContext.namespace;
@@ -141,9 +130,6 @@ export function useInputs(
     if (!formContext.getNode(state.name)) {
       formContext.registerNode(state);
     }
-
-    validationHandler(el);
-    await formContext.dispatch(EVENT_UPDATE_DATA, state);
   }
 
   function onFocus() {
@@ -156,9 +142,9 @@ export function useInputs(
 
     state.focused = false;
     state.dirty = target?.value !== '';
-    // state.valid = target.checkValidity();
+    state.valid = target.checkValidity();
 
-    validationHandler(target);
+    runValidationRules(target);
   }
 
   function onInvalid(event: Event) {
@@ -171,7 +157,7 @@ export function useInputs(
     const target = event.target as HTMLInputElement;
     state.value = resolveInputValue(target);
 
-    validationHandler(target);
+    runValidationRules(target);
   }
 
   function onChange(event: Event) {
@@ -179,7 +165,7 @@ export function useInputs(
   }
 
   function focusInputRef() {
-    const el = resoleUnref(inputRef);
+    const el = resolveUnref(inputRef);
     if (!el) {
       return;
     }

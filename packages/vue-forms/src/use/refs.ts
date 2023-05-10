@@ -15,7 +15,7 @@ export type MaybeElement =
 
 export type VueInstance = ComponentPublicInstance;
 
-export function resoleUnref<T>(ref: MaybeRef<T>): T {
+export function resolveUnref<T>(ref: MaybeRef<T>): T {
   const rawEl = unref(ref);
   return (rawEl as VueInstance)?.$el ?? rawEl;
 }
