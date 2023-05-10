@@ -8,7 +8,7 @@ export type RuleFunction = (value: string, ...args: string[]) => boolean;
 
 export interface Rule {
   handler: RuleFunction;
-  validationMessage: string;
+  validationMessage(value: string): string;
 }
 
 export interface RulesRepository {
@@ -29,30 +29,42 @@ export const RULE_NAME_RULE_NOT_FOUND = 'ruleNotFound';
 const rules: RulesRepository = {
   [RULE_NAME_EMAIL]: {
     handler: ruleEmail,
-    validationMessage: 'Email must be valid',
+    validationMessage() {
+      return 'Email must be valid';
+    },
   },
   [RULE_NAME_NOT]: {
     handler: ruleNot,
-    validationMessage: 'Not allowed',
+    validationMessage(value) {
+      return `${value} is not allowed`;
+    },
   },
   [RULE_NAME_IS]: {
     handler: ruleIs,
-    validationMessage: 'Does not contain value',
+    validationMessage(value) {
+      return `Does not contain ${value}`;
+    },
   },
   [RULE_NAME_PREFIX]: {
     handler: rulePrefix,
-    validationMessage: 'Does not contain prefix',
+    validationMessage(value) {
+      return `Does not contain prefix ${value}`;
+    },
   },
   [RULE_NAME_SUFFIX]: {
     handler: ruleSuffix,
-    validationMessage: 'Does not contain suffix',
+    validationMessage(value) {
+      return `Does not contain suffix ${value}`;
+    },
   },
   [RULE_NAME_RULE_NOT_FOUND]: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     handler(_value: string, ..._args: string[]) {
       return false;
     },
-    validationMessage: 'Rule not found',
+    validationMessage() {
+      return 'Rule not found';
+    },
   },
 };
 Object.freeze(rules);
@@ -220,7 +232,7 @@ export function validations() {
         }
 
         if (!rule.handler(ruleArg.value, ...ruleArg.ruleArgs)) {
-          return rule.validationMessage;
+          return rule.validationMessage(ruleArg.value);
         }
       }
 
