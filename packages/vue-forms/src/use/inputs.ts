@@ -160,8 +160,12 @@ export function useInputs(
 
     state.focused = false;
     state.dirty = target?.value !== '';
-    state.valid = target.checkValidity();
 
+    if (opts?.customValidation) {
+      return;
+    }
+    // run native validation against input
+    state.valid = target.checkValidity();
     runValidationRules(target);
   }
 
