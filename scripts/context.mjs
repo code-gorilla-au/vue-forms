@@ -8,5 +8,6 @@ const __rootDir = dirname(__dirname);
 export const context = {
   __rootDir,
   __packagesDir: join(__rootDir, 'packages'),
+  __packageName: 'package.json',
 };
 Object.freeze(context);
