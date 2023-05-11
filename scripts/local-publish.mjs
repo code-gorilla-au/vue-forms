@@ -15,9 +15,14 @@ const results = await Promise.allSettled(
     if (!existsSync(packagePath)) {
       return `${pkg} skipping`;
     }
-    const { stdout, stderr } = await asyncExec(
+    const { stdout, stderr, error } = await asyncExec(
       `cd ${path} && yarn run publishLocal`,
     );
+
+    if (error) {
+      console.log(`${pkg}: ${error}`);
+    }
+
     if (stderr) {
       console.log(`${pkg}: ${stderr}`);
     }
