@@ -10,8 +10,8 @@ const packages = readdirSync(context.__packagesDir);
 const results = await Promise.allSettled(
   packages.map(async (pkg) => {
     const path = join(context.__packagesDir, pkg);
-    const packagePath = `${path}/${context.__packageName}`;
 
+    const packagePath = join(path, context.__packageName);
     if (!existsSync(packagePath)) {
       return `${pkg} skipping`;
     }
