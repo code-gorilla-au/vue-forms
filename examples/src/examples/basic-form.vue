@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { VForm, VInput, VList } from '@code-gorilla-au/vue-forms';
+import { VForm, VInput, VList, VSelect } from '@code-gorilla-au/vue-forms';
 
 interface userForm {
   firstName: string;
@@ -8,7 +8,7 @@ interface userForm {
 
 export default defineComponent({
   name: 'BasicForm',
-  components: { VForm, VInput, VList },
+  components: { VForm, VInput, VList, VSelect },
   emits: {
     /**
      * form data
@@ -54,6 +54,23 @@ export default defineComponent({
       >
         <p class="text-xs">{{ validationMessage }}</p>
       </VInput>
+    </label>
+    <label for="dropDownId" class="flex flex-col">
+      Dropdown options
+      <VSelect
+        class="text-black"
+        id="dropDownId"
+        name="dropDown"
+        validationRules="not:apple"
+      >
+        <option selected disabled value="">-- Select option --</option>
+        <option value="apple">apple</option>
+        <option value="banana">banana</option>
+
+        <template #validation="{ validationMessage }">
+          <p>{{ validationMessage }}</p>
+        </template>
+      </VSelect>
     </label>
     <label for="lastNameId" class="flex flex-col mb-2">
       Last name
