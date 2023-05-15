@@ -109,7 +109,7 @@ function evaluateNodeValidity(node: VFormNode) {
   return node.valid;
 }
 
-export function useFormApi(initFormData = {}): VFormContextApi {
+function useFormApi(initFormData = {}): VFormContextApi {
   if (typeof initFormData !== 'object') {
     throw new Error('initFormData is not valid');
   }
