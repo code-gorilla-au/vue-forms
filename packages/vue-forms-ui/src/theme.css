@@ -4,6 +4,7 @@
     --ui-colour-input-text: black;
     --ui-colour-input-background: whitesmoke;
     --ui-input-border-radius: 0.3rem;
+    --ui-input-padding: 1.2rem 0.5rem 0.2rem 0.5rem;
     --ui-checkbox-box: purple;
     --ui-checkbox-box-background: var(--ui-colour-input-background);
     --ui-radio-background: var(--ui-colour-input-background);
@@ -28,7 +29,7 @@
     color: var(--ui-colour-input-text);
     width: 100%;
     border-radius: var(--ui-input-border-radius);
-    padding: 1.2rem 0.5rem 0.2rem 0.5rem;
+    padding: var(--ui-input-padding);
 }
 .ui-input:focus {
     outline: none;
@@ -100,3 +101,26 @@
 .ui-radio-input:checked + .ui-radio-button:before {
 	background-color: var(--ui-radio-button);
 }  
+
+.ui-select-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.ui-select-label {
+    position: absolute;
+    color: var(--ui-colour-input-label);
+    font-size: smaller;
+    padding-left: 0.5rem;
+    padding-top: 0.1rem;
+}
+
+.ui-select {
+    background-color: var(--ui-colour-input-background);
+    color: var(--ui-colour-input-text);
+    width: 100%;
+    border-radius: var(--ui-input-border-radius);
+    padding: var(--ui-input-padding);
+}
