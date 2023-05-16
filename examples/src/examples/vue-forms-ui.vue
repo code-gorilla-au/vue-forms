@@ -39,7 +39,12 @@ export default defineComponent({
     >
       This is a radio
     </UIRadio>
-    <UISelect id="selectInput" name="selectInput" label="select fruit">
+    <UISelect
+      id="selectInput"
+      name="selectInput"
+      label="select fruit"
+      validationRules="not:apple"
+    >
       <option value="" disabled selected>-- Select fruit --</option>
       <option value="apple">apple</option>
       <option value="banana">banana</option>

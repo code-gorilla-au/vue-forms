@@ -39,6 +39,13 @@ export default defineComponent({
       default: undefined,
     },
     /**
+     * provide validation rules based on default rules engine.
+     */
+    validationRules: {
+      type: String,
+      required: false,
+    },
+    /**
      * provide optional class styling
      */
     styling: {
