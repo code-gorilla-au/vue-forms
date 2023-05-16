@@ -11,6 +11,7 @@
     --ui-radio-button: var(--ui-checkbox-box);
 }
 
+/* input */
 .ui-input-container {
     position: relative;
     display: flex;
@@ -39,6 +40,7 @@
     padding-left: 0.5rem;
 }
 
+/* Checkbox */
 .ui-checkbox-validation {
     font-size: var(--ui-validation-font-size);
 }
@@ -74,6 +76,7 @@
 	background-color: var(--ui-checkbox-box);
 }  
 
+/* Radio */
 .ui-radio-container {
     position: relative;
     display: inline-flex;
@@ -102,6 +105,7 @@
 	background-color: var(--ui-radio-button);
 }  
 
+/* Select */
 .ui-select-container {
     position: relative;
     display: flex;
@@ -123,4 +127,9 @@
     width: 100%;
     border-radius: var(--ui-input-border-radius);
     padding: var(--ui-input-padding);
+}
+
+.ui-select-validation {
+    font-size: var(--ui-validation-font-size);
+    padding-left: 0.5rem;
 }

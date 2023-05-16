@@ -104,6 +104,7 @@ export default defineComponent({
               class: ['ui-select', props?.styling?.input],
               name: props.name,
               modelValue: props.modelValue,
+              validationRules: props.validationRules,
             },
             {
               default() {

@@ -44,6 +44,9 @@ export default defineComponent({
       name="selectInput"
       label="select fruit"
       validationRules="not:apple"
+      :styling="{
+        label: 'text-green-500',
+      }"
     >
       <option value="" disabled selected>-- Select fruit --</option>
       <option value="apple">apple</option>
@@ -57,4 +60,4 @@ export default defineComponent({
   </UIForm>
 </template>
 
-<style scoped></style>
+<style></style>
