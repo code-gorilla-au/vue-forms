@@ -5,11 +5,12 @@ import {
   UICheckbox,
   UIForm,
   UIRadio,
+  UISelect,
 } from '@code-gorilla-au/vue-forms-ui';
 
 export default defineComponent({
   name: 'BasicForm',
-  components: { UIInput, UICheckbox, UIForm, UIRadio },
+  components: { UIInput, UICheckbox, UIForm, UIRadio, UISelect },
   setup() {
     return {};
   },
@@ -38,6 +39,11 @@ export default defineComponent({
     >
       This is a radio
     </UIRadio>
+    <UISelect id="selectInput" name="selectInput" label="select fruit">
+      <option value="" disabled selected>-- Select fruit --</option>
+      <option value="apple">apple</option>
+      <option value="banana">banana</option>
+    </UISelect>
     <pre>
       <code>
         {{ formProps }}
