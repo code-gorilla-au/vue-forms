@@ -28,14 +28,30 @@ describe('rules', () => {
     });
   });
 
+  describe('contains', () => {
+    it('should return true if input contains arg', () => {
+      expect(val.ruleContains('value of the input', 'the')).toBeTruthy();
+    });
+    it('should return false if input does not contains arg', () => {
+      expect(val.ruleContains('value of the input', 'ash')).toBeFalsy();
+    });
+    it('should return true if input contains multiple args', () => {
+      expect(
+        val.ruleContains('value of the input', 'value', 'input'),
+      ).toBeTruthy();
+    });
+  });
+
   describe('is', () => {
-    it('should return true if input contains arg', () => {
-      expect(val.ruleIs('value of the input', 'the')).toBeTruthy();
+    it('should return true if input is arg', () => {
+      expect(
+        val.ruleIs('value of the input', 'value of the input'),
+      ).toBeTruthy();
     });
-    it('should return true if input contains arg', () => {
-      expect(val.ruleIs('value of the input', 'the', 'gone')).toBeTruthy();
+    it('should return true if input is arg', () => {
+      expect(val.ruleIs('gone', 'the', 'gone')).toBeTruthy();
     });
-    it('should return false if input does not contain arg', () => {
+    it('should return false if input is not arg', () => {
       expect(val.ruleIs('value of the input', 'gone')).toBeFalsy();
     });
   });
@@ -168,7 +184,11 @@ describe('validations', () => {
       expect(result).toBeUndefined();
     });
     it('is', () => {
-      const result = ex.evaluate('is rule', 'is:rule');
+      const result = ex.evaluate('rule', 'is:rule');
+      expect(result).toBeUndefined();
+    });
+    it('contains', () => {
+      const result = ex.evaluate('has rule', 'contains:rule');
       expect(result).toBeUndefined();
     });
     it('not', () => {

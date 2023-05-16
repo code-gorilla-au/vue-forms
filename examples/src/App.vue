@@ -34,16 +34,4 @@ export default defineComponent({
   </div>
 </template>
 
-<style scoped>
-.test-form {
-  display: flex;
-  flex-direction: column;
-  width: 400px;
-}
-code {
-  background-color: black;
-  display: block;
-  padding: 1rem;
-  margin: 1rem 0rem;
-}
-</style>
+<style scoped></style>
