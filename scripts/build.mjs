@@ -16,11 +16,12 @@ const results = await Promise.allSettled(
       return `${pkg} skipping`;
     }
 
+    console.log(`building ${pkg}`);
     const { stderr, stdout, error } = await asyncExec(
       `cd ${path} && yarn run build`,
     );
     if (error) {
-      console.log(`${pkg}: ${error}`);
+      console.error(`${pkg}: ${error}`);
     }
     if (stderr) {
       console.log(`${pkg}: ${stderr}`);
@@ -33,7 +34,7 @@ const results = await Promise.allSettled(
 );
 
 results.forEach((result) => {
-  if (result.reason) {
+  if (result?.reason) {
     console.error(result.reason);
     return;
   }

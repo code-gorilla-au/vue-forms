@@ -26,6 +26,8 @@ export default defineComponent({
       <router-link class="px-4" to="/"> home</router-link>
       |
       <router-link class="px-4" to="/dynamic"> dynamic</router-link>
+      |
+      <router-link class="px-4" to="/vue-forms-ui">vue-forms-ui</router-link>
     </nav>
 
     <RouterView />

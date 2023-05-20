@@ -13,18 +13,23 @@ import { exec } from 'node:child_process';
  */
 export async function asyncExec(cmd) {
   return new Promise((resolve, reject) => {
-    exec(cmd, (error, stdout, stderr) => {
-      if (error) {
-        return reject({
-          error,
+    try {
+      exec(cmd, (error, stdout, stderr) => {
+        if (error) {
+          return reject({
+            error,
+            stdout,
+            stderr,
+          });
+        }
+        return resolve({
           stdout,
           stderr,
         });
-      }
-      return resolve({
-        stdout,
-        stderr,
       });
-    });
+    } catch (error) {
+      console.error(error);
+      return Promise.reject(error);
+    }
   });
 }
